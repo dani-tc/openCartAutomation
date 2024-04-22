@@ -2,9 +2,7 @@ package tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -65,7 +63,7 @@ public class testTemplate {
         shoppingCartPage cartPage = new shoppingCartPage(driver);
 
         Screen screen = new Screen();
-        Pattern image = new Pattern("C:\\Users\\estcastr2\\Desktop\\OpenCart\\openCartAutomation\\src\\resources\\cloudflare.png");
+        Pattern image = new Pattern("C:\\Users\\sanrocha\\Documents\\Project\\openCartAutomation\\src\\resources\\cloudflare.png");
 
         screen.wait(image, 5);
         screen.click(image);

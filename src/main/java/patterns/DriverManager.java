@@ -16,7 +16,7 @@ public class DriverManager {
         EDGE
     }
 
-    private DriverManager() {}
+    public DriverManager() {}
 
     public static WebDriver getDriver(BrowserType type) {
         if (driver == null) {
