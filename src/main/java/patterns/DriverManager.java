@@ -23,7 +23,7 @@ public class DriverManager {
             switch (type) {
                 case CHROME:
                     ChromeOptions chromeOptions = new ChromeOptions();
-                    chromeOptions.addArguments("-start-maximized -disable-notifications -disable-infobars");
+                    chromeOptions.addArguments("-start-maximized");
                     driver = new ChromeDriver(chromeOptions);
                     break;
                 case FIREFOX:
@@ -33,7 +33,7 @@ public class DriverManager {
                     break;
                 case EDGE:
                     EdgeOptions edgeOptions = new EdgeOptions();
-                    edgeOptions.addArguments("start-maximized");
+                    edgeOptions.addArguments("start-maximized -disable-notifications -disable-infobars");
                     driver = new EdgeDriver(edgeOptions);
                     break;
             }
