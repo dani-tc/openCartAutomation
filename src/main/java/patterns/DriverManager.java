@@ -23,7 +23,7 @@ public class DriverManager {
             switch (type) {
                 case CHROME:
                     ChromeOptions chromeOptions = new ChromeOptions();
-                    chromeOptions.addArguments("start-maximized");
+                    chromeOptions.addArguments("-start-maximized -disable-notifications -disable-infobars");
                     driver = new ChromeDriver(chromeOptions);
                     break;
                 case FIREFOX:

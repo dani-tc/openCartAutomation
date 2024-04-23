@@ -41,7 +41,7 @@ public class testTemplate {
     @Test
     public void test1() {
         driver.get("https://demo.opencart.com/");
-        shoppingCartPage cartPage = new shoppingCartPage(driver);
+        ShoppingCartPage cartPage = new ShoppingCartPage(driver);
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(60));
         explicitWait.until(ExpectedConditions.elementToBeClickable(cartPage.getNavShoppingCart()));
         cartPage.clickNavShoppingCart();
@@ -60,7 +60,7 @@ public class testTemplate {
     @Test
     public void test2() throws FindFailed {
         driver.get("https://demo.opencart.com/");
-        shoppingCartPage cartPage = new shoppingCartPage(driver);
+        ShoppingCartPage cartPage = new ShoppingCartPage(driver);
 
         Screen screen = new Screen();
         Pattern image = new Pattern("C:\\Users\\sanrocha\\Documents\\Project\\openCartAutomation\\src\\resources\\cloudflare.png");
