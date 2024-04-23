@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Account Creation and Save Information">
+    <parameter name="email" value="daniel4@example.com"/>
+    <parameter name="password" value="Demo"/>
+    <test name="VerifyUserCanSaveInformation">
+        <classes>
+    <!-- <class name="tests.VerifyUsersCanSaveShippingInformation"/> -->
+            <class name="tests.VerifyUsersCanDeleteShippingInformation"/>
+        </classes>
+</test> <!-- Test -->
+</suite> <!-- Suite -->
