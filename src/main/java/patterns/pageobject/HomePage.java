@@ -47,7 +47,7 @@ public class HomePage extends homePageHeader {
 
     public void addProductToCart() {
         
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(60));
         explicitWait.until(ExpectedConditions.elementToBeClickable(products.get(1)));
         int MAX_ATTEMPTS = 10;
         explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -55,11 +55,11 @@ public class HomePage extends homePageHeader {
             try{
             products.get(1).click();
             explicitWait.until(ExpectedConditions.visibilityOf(alert));
-            try {
-            Thread.sleep(1000);
-            } catch (InterruptedException e) {
-            e.printStackTrace();
-            }
+                try {
+                Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                e.printStackTrace();
+                }
             break;
             } catch (Exception e){
                 System.out.println("Attempt " + (attempt + 1) + " failed");

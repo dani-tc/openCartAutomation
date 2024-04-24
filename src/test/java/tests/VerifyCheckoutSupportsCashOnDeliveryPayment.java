@@ -45,8 +45,8 @@ public class VerifyCheckoutSupportsCashOnDeliveryPayment {
     }
 
     @Test
-    @Parameters({"firstName","lastName","address","postcode","city","state","password"})
-    public void CashOnDeliveryPaymentAllowed(String firstName, String lastName, String address, String postcode, String city, String state, String password) throws FindFailed {
+    @Parameters({"firstName","lastName","address","postcode","city","country","state","password"})
+    public void CashOnDeliveryPaymentAllowed(String firstName, String lastName, String address, String postcode, String city, String country, String state, String password) throws FindFailed {
 
         final int MAX_ATTEMPTS = 20;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
@@ -61,7 +61,7 @@ public class VerifyCheckoutSupportsCashOnDeliveryPayment {
                 homePage.openCartPage();
                 Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/2-loadCheckoutPage.png");
                 
-                checkoutPage.registerCredentials(firstName, lastName, address, postcode, city, state, password);
+                checkoutPage.registerCredentials(firstName, lastName, address, postcode, city, country, state, password);
                 Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/3-cashOnValidation.png");
 
                 break;

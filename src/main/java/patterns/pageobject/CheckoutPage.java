@@ -43,6 +43,10 @@ public class CheckoutPage extends homePageHeader {
     @FindBy(css ="#input-payment-postcode")
     private WebElement postcodeInput;
 
+    //Countries Dropdown
+    @FindBy(css ="#input-payment-country")
+    private WebElement countriesDrop;
+
     //State Dropdown
     @FindBy(css ="#input-payment-zone")
     private WebElement stateDrop;
@@ -79,7 +83,7 @@ public class CheckoutPage extends homePageHeader {
         this.driver = driver;
     }
 
-    public void registerCredentials(String firstName, String lastName, String address, String postcode, String city, String state, String password) {
+    public void registerCredentials(String firstName, String lastName, String address, String postcode, String city, String country, String state, String password) {
 
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
         explicitWait.until(ExpectedConditions.visibilityOf(title));
@@ -89,10 +93,18 @@ public class CheckoutPage extends homePageHeader {
         firstNameInput.sendKeys(firstName);
         lastNameInput.sendKeys(lastName);
         emailInput.sendKeys(randomEmail);
+
+        Select countries = new Select(countriesDrop);
+        countries.selectByVisibleText(country);
+
         addressInput.sendKeys(address);
         postcodeInput.sendKeys(postcode);
         cityInput.sendKeys(city);
-        stateDrop.sendKeys(state);
+ 
+        explicitWait.until(ExpectedConditions.textToBePresentInElement(stateDrop, state));
+        Select states = new Select(stateDrop);
+        states.selectByVisibleText(state);
+
         passwordInput.sendKeys(password);
         
         explicitWait.until(ExpectedConditions.elementToBeClickable(policyCheckbox));
@@ -102,7 +114,6 @@ public class CheckoutPage extends homePageHeader {
             .perform();
 
         clickContinueBtn();
-
         explicitWait.until(ExpectedConditions.visibilityOf(alert));
 
         explicitWait.until(ExpectedConditions.elementToBeClickable(shippingMethodDropdown));
@@ -117,7 +128,6 @@ public class CheckoutPage extends homePageHeader {
 
         WebElement selectedOption = payment.getFirstSelectedOption();
         String selectedValue = selectedOption.getAttribute("value");
-
         assertEquals(selectedValue, "cod", "Selected value is not 'cod'");
         
     }
@@ -127,7 +137,7 @@ public class CheckoutPage extends homePageHeader {
         StringBuilder email = new StringBuilder();
         Random random = new Random();
 
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 16; i++) {
             int index = random.nextInt(allowedChars.length());
             char randomChar = allowedChars.charAt(index);
             email.append(randomChar);
