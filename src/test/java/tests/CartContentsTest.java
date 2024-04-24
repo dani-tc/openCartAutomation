@@ -54,8 +54,8 @@ public class CartContentsTest {
 
         final int MAX_ATTEMPTS = 20;
         Screen screen = new Screen();
-        Pattern image = new Pattern(
-                "C:\\Users\\sanrocha\\Documents\\Project\\openCartAutomation\\src\\resources\\cloudflare.png");
+        String pathYourSystem = System.getProperty("user.dir") + "\\";
+        Pattern image = new Pattern(pathYourSystem+"src\\resources\\cloudflare.png");
 
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
