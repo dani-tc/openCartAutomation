@@ -1,5 +1,7 @@
 package tests;
 
+import utilities.Utils;
+
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
@@ -53,11 +55,14 @@ public class VerifyCheckoutSupportsCashOnDeliveryPayment {
                 HomePage homePage = new HomePage(driver);
                 CheckoutPage checkoutPage = new CheckoutPage(driver);
                 
-                homePage.openProductPage();
+                homePage.addProductToCart();
+                Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/1-addProductToCart.png");
 
                 homePage.openCartPage();
+                Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/2-loadCheckoutPage.png");
                 
                 checkoutPage.registerCredentials(firstName, lastName, address, postcode, city, state, password);
+                Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/3-cashOnValidation.png");
 
                 break;
             } catch (Exception e) {

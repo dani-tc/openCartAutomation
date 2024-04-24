@@ -1,9 +1,11 @@
 package patterns.pageobject;
 
+import static org.testng.Assert.assertEquals;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.*;
@@ -57,6 +59,18 @@ public class CheckoutPage extends homePageHeader {
     @FindBy(css ="#button-register")
     private WebElement continueButton;
 
+    //Shipping Method Dropdown
+    @FindBy(css = "#input-shipping-method")
+    private WebElement shippingMethodDropdown;
+
+    //Payment Method Dropdown
+    @FindBy(css = "#input-payment-method")
+    private WebElement paymentMethodDropdown;
+
+    //Alert Popup
+    @FindBy(css ="div#alert div.alert-success")
+    private WebElement alert;
+
     private WebDriver driver;
 
     // Constructor
@@ -68,7 +82,7 @@ public class CheckoutPage extends homePageHeader {
     public void registerCredentials(String firstName, String lastName, String address, String postcode, String city, String state, String password) {
 
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#checkout-register")));
+        explicitWait.until(ExpectedConditions.visibilityOf(title));
         
         String randomEmail = generateRandomEmail();
         
@@ -87,13 +101,24 @@ public class CheckoutPage extends homePageHeader {
             .click(policyCheckbox)
             .perform();
 
-        explicitWait.until(ExpectedConditions.elementToBeClickable(continueButton));
-        new Actions (driver)
-            .moveToElement(continueButton)
-            .click(continueButton)
-            .perform();
+        clickContinueBtn();
 
-        explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#alert div.alert-success")));
+        explicitWait.until(ExpectedConditions.visibilityOf(alert));
+
+        explicitWait.until(ExpectedConditions.elementToBeClickable(shippingMethodDropdown));
+        Select shipping = new Select(shippingMethodDropdown);
+        shipping.selectByValue("flat.flat");
+        explicitWait.until(ExpectedConditions.visibilityOf(alert));
+
+        explicitWait.until(ExpectedConditions.elementToBeClickable(paymentMethodDropdown));
+        Select payment = new Select(paymentMethodDropdown);
+        payment.selectByValue("cod");
+        explicitWait.until(ExpectedConditions.visibilityOf(alert));
+
+        WebElement selectedOption = payment.getFirstSelectedOption();
+        String selectedValue = selectedOption.getAttribute("value");
+
+        assertEquals(selectedValue, "cod", "Selected value is not 'cod'");
         
     }
 
@@ -102,7 +127,7 @@ public class CheckoutPage extends homePageHeader {
         StringBuilder email = new StringBuilder();
         Random random = new Random();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 13; i++) {
             int index = random.nextInt(allowedChars.length());
             char randomChar = allowedChars.charAt(index);
             email.append(randomChar);
@@ -110,6 +135,33 @@ public class CheckoutPage extends homePageHeader {
 
         email.append("@testing.com");
         return email.toString();
+    }
+
+    public void clickContinueBtn() {
+        
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(continueButton));
+        int MAX_ATTEMPTS = 10;
+        explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
+            try{
+            continueButton.click();
+            explicitWait.until(ExpectedConditions.visibilityOf(alert));
+            try {
+                Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                e.printStackTrace();
+                }
+            break;
+            } catch (Exception e){
+                System.out.println("Attempt " + (attempt + 1) + " failed");
+                if (attempt == MAX_ATTEMPTS - 1) {
+                    // If this was the last attempt, rethrow the exception
+                    throw e;
+                }
+            }
+        }
+
     }
 
 }

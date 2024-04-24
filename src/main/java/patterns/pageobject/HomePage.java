@@ -7,14 +7,19 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.*;
 
 import java.time.Duration;
+import java.util.List;
 
 
 public class HomePage extends homePageHeader {
     
 
+    /* //MacBook product
+    @FindBy(css ="div.product-thumb button[aria-label='Add to Cart']")
+    private WebElement macBook; */
+
     //MacBook product
     @FindBy(css ="div.product-thumb button[aria-label='Add to Cart']")
-    private WebElement macBook;
+    private List<WebElement> products;
 
     //Cart Button
     @FindBy(css ="div#header-cart button.btn-inverse")
@@ -25,7 +30,7 @@ public class HomePage extends homePageHeader {
     private WebElement checkoutBtn;
 
     //Alert Popup
-    @FindBy(className ="alert-success")
+    @FindBy(css ="div#alert div.alert-success")
     private WebElement alert;
 
     //Cart Dropdown
@@ -40,20 +45,21 @@ public class HomePage extends homePageHeader {
         this.driver = driver;
     }
 
-    public void openProductPage() {
+    public void addProductToCart() {
+        
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        explicitWait.until(ExpectedConditions.elementToBeClickable(macBook));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(products.get(1)));
         int MAX_ATTEMPTS = 10;
         explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
             try{
-            macBook.click();
-            explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.className("alert-success")));
+            products.get(1).click();
+            explicitWait.until(ExpectedConditions.visibilityOf(alert));
             try {
-                Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                e.printStackTrace();
-                }
+            Thread.sleep(1000);
+            } catch (InterruptedException e) {
+            e.printStackTrace();
+            }
             break;
             } catch (Exception e){
                 System.out.println("Attempt " + (attempt + 1) + " failed");
@@ -75,7 +81,7 @@ public class HomePage extends homePageHeader {
         for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
             try{
             cartBtn.click();
-            explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.d-grid ul.dropdown-menu-right")));
+            explicitWait.until(ExpectedConditions.visibilityOf(cartDropdown));
             try {
                 Thread.sleep(1000);
                 } catch (InterruptedException e) {
