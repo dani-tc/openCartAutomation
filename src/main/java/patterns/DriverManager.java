@@ -16,7 +16,7 @@ public class DriverManager {
         EDGE
     }
 
-    private DriverManager() {}
+    public DriverManager() {}
 
     public static WebDriver getDriver(BrowserType type) {
         if (driver == null) {
@@ -33,7 +33,7 @@ public class DriverManager {
                     break;
                 case EDGE:
                     EdgeOptions edgeOptions = new EdgeOptions();
-                    edgeOptions.addArguments("start-maximized");
+                    edgeOptions.addArguments("start-maximized -disable-notifications -disable-infobars");
                     driver = new EdgeDriver(edgeOptions);
                     break;
             }

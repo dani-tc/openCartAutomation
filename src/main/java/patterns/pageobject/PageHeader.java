@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 
-public abstract class homePageHeader {
+public abstract class PageHeader {
     private WebDriver driver;
 
     //NavBar MyAccount dropdown
@@ -140,7 +140,7 @@ public abstract class homePageHeader {
     private WebElement showAllMp3;
 
     // Constructor
-    public homePageHeader(WebDriver driver){
+    public PageHeader(WebDriver driver){
         this.driver = driver;
         //this.driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with desired browser (CHROME, EDGE, FIREFOX)
         PageFactory.initElements(driver, this);
@@ -260,6 +260,10 @@ public abstract class homePageHeader {
 
     public void goToAllMP3s(){
         showAllMp3.click();
+    }
+
+    public WebDriver getDriver(){
+        return driver;
     }
 
 }
