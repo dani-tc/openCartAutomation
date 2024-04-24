@@ -63,5 +63,28 @@ public class ProductsPage{
             }
         }
     }
-    
+
+    public WebElement getProductItem() {
+        return productItem;
+    }
+
+    public WebElement getAddToCart() {
+        return addToCart;
+    }
+
+    public WebElement getProductQuantity() {
+        return productQuantity;
+    }
+
+    public WebElement getFooter() {
+        return footer;
+    }
+
+    public WebElement getHeader() {
+        return header;
+    }
+
+    public WebElement getConfirmProductAdded() {
+        return confirmProductAdded;
+    }    
 }
