@@ -16,7 +16,7 @@ public class DriverManager {
         EDGE
     }
 
-    private DriverManager() {}
+    public DriverManager() {}
 
     public static WebDriver getDriver(BrowserType type) {
         if (driver == null) {
@@ -24,6 +24,7 @@ public class DriverManager {
                 case CHROME:
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("start-maximized");
+                    chromeOptions.addArguments("--disable-notifications");
                     driver = new ChromeDriver(chromeOptions);
                     break;
                 case FIREFOX:

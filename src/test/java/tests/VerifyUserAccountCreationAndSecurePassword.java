@@ -1,9 +1,7 @@
 package tests;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
@@ -22,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 
-public class VerifyUsersCanSaveShippingInformation {
+public class VerifyUserAccountCreationAndSecurePassword {
     private WebDriver driver = null;
     Screen screen = new Screen();
     String pathYourSystem = System.getProperty("user.dir") + "\\";
@@ -45,39 +43,24 @@ public class VerifyUsersCanSaveShippingInformation {
         driver.manage().addCookie(new Cookie("currency","USD"));
     }
 
-
     @Test
-    @Parameters({"email","password","firstName","lastName","address1","city","postalCode","countryValue","regionValue"})
-    public void UsersCanSaveShippingInformation(String email, String password,String firstName, String lastName,String address1,String city, String postalCode,String countryValue, String regionValue) throws FindFailed {
+    @Parameters({"firstName","lastName","email","password"})
+    public void UsersCanCreateAccountWithSecurePassword(String firstName, String lastName, String email, String password) throws FindFailed {
         final int MAX_ATTEMPTS = 20;
-        boolean passedLogin = false;
-        boolean passedCreateAddress = false;
-        int trySelectRegion = 0;
-        int numberOfAddress = 0;
+        addressBookPage addressBook = new addressBookPage(driver);
+        boolean passedCreateAccount = false;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
-                addressBookPage addressBook = new addressBookPage(driver);
-                addressBook.clickNavMyAccountDropdown();
-                if(passedLogin){
-                    addressBook.clickNavMyAccountOption();
-                }else{
-                    addressBook.clickNavLogin();
-                    passedLogin = addressBook.login(email,password);
-                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/SaveShippingInformationResults/1-loginSuccessful.png");
+                if(!passedCreateAccount){
+                    addressBook.clickNavMyAccountDropdown();
+                    addressBook.clickNavRegister();
+                    addressBook.fillRegister(firstName,lastName,email,password);
+                    Assert.assertEquals(addressBook.getPasswordInput().getText(),"");
+                    Utils.takeSnapShot(driver, "src/resources/AccountCreation_and_SecurePassword/1-registerData.png");
+                    passedCreateAccount = addressBook.register();
+                    Utils.takeSnapShot(driver, "src/resources/AccountCreation_and_SecurePassword/2-accountCreated.png");
                 }
-                if(passedCreateAddress) {
-                    addressBook.clickAddressBookLink();
-                }else{
-                    addressBook.clickAddressBookLink();
-                    numberOfAddress = addressBook.getAllAddressesLength().size();
-                    while(!passedCreateAddress && trySelectRegion<5){
-                        passedCreateAddress = addressBook.createNewAddress(firstName, lastName, address1, city, postalCode, countryValue, regionValue);
-                        trySelectRegion = trySelectRegion + 1;
-                    }
-                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/SaveShippingInformationResults/2-createNewAddress.png");
-                }
-                int newNumberOfAddress = addressBook.getAllAddressesLength().size();
-                Assert.assertEquals(newNumberOfAddress,(numberOfAddress+1));
+                Assert.assertEquals(addressBook.getAccountCreatedMessage().getText(),"Your Account Has Been Created!");
                 break;  // if successful, break the loop
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -91,6 +74,7 @@ public class VerifyUsersCanSaveShippingInformation {
             }
         }
     }
+
     @AfterTest
     public void afterTest(){
         //driver.quit();

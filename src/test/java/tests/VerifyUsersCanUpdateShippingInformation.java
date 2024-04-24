@@ -1,11 +1,6 @@
 package tests;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
@@ -15,14 +10,13 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patterns.DriverManager;
-import patterns.pageobject.*;
+import patterns.pageobject.addressBookPage;
 import utilities.Utils;
-
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Date;
 
-public class VerifyUsersCanSaveShippingInformation {
+
+public class VerifyUsersCanUpdateShippingInformation {
     private WebDriver driver = null;
     Screen screen = new Screen();
     String pathYourSystem = System.getProperty("user.dir") + "\\";
@@ -47,13 +41,12 @@ public class VerifyUsersCanSaveShippingInformation {
 
 
     @Test
-    @Parameters({"email","password","firstName","lastName","address1","city","postalCode","countryValue","regionValue"})
-    public void UsersCanSaveShippingInformation(String email, String password,String firstName, String lastName,String address1,String city, String postalCode,String countryValue, String regionValue) throws FindFailed {
+    @Parameters({"email","password","firstNameUpdate","lastNameUpdate","address1Update","cityUpdate","postalCodeUpdate","countryValueUpdate","regionValueUpdate"})
+    public void UsersCanUpdateShippingInformation(String email, String password,String firstNameUpdate, String lastNameUpdate,String address1Update,String cityUpdate, String postalCodeUpdate,String countryValueUpdate, String regionValueUpdate) throws FindFailed {
         final int MAX_ATTEMPTS = 20;
         boolean passedLogin = false;
-        boolean passedCreateAddress = false;
-        int trySelectRegion = 0;
-        int numberOfAddress = 0;
+        boolean passedUpdate = false;
+        int tryRegionSelect =0;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
                 addressBookPage addressBook = new addressBookPage(driver);
@@ -63,21 +56,25 @@ public class VerifyUsersCanSaveShippingInformation {
                 }else{
                     addressBook.clickNavLogin();
                     passedLogin = addressBook.login(email,password);
-                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/SaveShippingInformationResults/1-loginSuccessful.png");
+                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/UpdateShippingInformationResults/1-loginSuccessful.png");
                 }
-                if(passedCreateAddress) {
+                if(passedUpdate){
                     addressBook.clickAddressBookLink();
                 }else{
                     addressBook.clickAddressBookLink();
-                    numberOfAddress = addressBook.getAllAddressesLength().size();
-                    while(!passedCreateAddress && trySelectRegion<5){
-                        passedCreateAddress = addressBook.createNewAddress(firstName, lastName, address1, city, postalCode, countryValue, regionValue);
-                        trySelectRegion = trySelectRegion + 1;
+                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/UpdateShippingInformationResults/2-seeAddressBook.png");
+                    addressBook.editDefaultAddress();
+                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/UpdateShippingInformationResults/3-editDefaultAddress.png");
+                    while(!passedUpdate && tryRegionSelect<5){
+                        passedUpdate = addressBook.updateDefaultAddress(firstNameUpdate,lastNameUpdate,address1Update,cityUpdate,postalCodeUpdate,countryValueUpdate,regionValueUpdate);
+                        tryRegionSelect = tryRegionSelect+1;
                     }
-                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/SaveShippingInformationResults/2-createNewAddress.png");
                 }
-                int newNumberOfAddress = addressBook.getAllAddressesLength().size();
-                Assert.assertEquals(newNumberOfAddress,(numberOfAddress+1));
+                Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/UpdateShippingInformationResults/4-editedDefaultAddress.png");
+                Assert.assertEquals(addressBook.getDefaultAddress().getText(),firstNameUpdate+" "+lastNameUpdate+"\n" +
+                        address1Update+"\n" +
+                        cityUpdate+", Arauca "+postalCodeUpdate+"\n" +
+                        "Colombia");
                 break;  // if successful, break the loop
             } catch (Exception e) {
                 System.out.println(e.getMessage());
