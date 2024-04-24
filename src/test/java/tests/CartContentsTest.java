@@ -110,7 +110,6 @@ public class CartContentsTest {
         Assert.assertTrue(cartPage.getContentsTable().getText().contains("Unit Price"));
         Assert.assertTrue(cartPage.getContentsTable().getText().contains("Quantity"));
 
-
         Assert.assertTrue(cartPage.getShoppingCartSubtitle().isDisplayed());
         Assert.assertEquals(cartPage.getShoppingCartSubtitle().getText(), "What would you like to do next?");
     }
