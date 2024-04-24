@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Checkout Process" verbose="1" >
+    <parameter name="firstName" value="Raquel"/>
+    <parameter name="lastName" value="Alvarez"/>
+    <parameter name="address" value="London, UK"/>
+    <parameter name="postcode" value="20302"/>
+    <parameter name="city" value="London"/>
+    <parameter name="state" value="London"/>
+    <parameter name="password" value="12345678"/>
+    <test name="CheckoutSupportsCashOnDelivery">
+        <classes>
+          <class name="tests.VerifyCheckoutSupportsCashOnDeliveryPayment"/>
+        </classes>
+    </test>
+</suite>
