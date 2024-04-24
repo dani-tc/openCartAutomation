@@ -156,15 +156,21 @@ public abstract class PageHeader {
     }
 
     public void clickNavMyAccountDropdown(){
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(navMyAccountDropdown));
         navMyAccountDropdown.click();
     }
     public void clickNavMyAccountOption(){
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(navMyAccountDropdown));
         navMyAccountOption.click();
     }
     public void clickNavRegister(){
         navRegister.click();
     }
     public void clickNavLogin(){
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(navLogin));
         navLogin.click();
     }
     public void clickNavShoppingCart(){
@@ -274,8 +280,9 @@ public abstract class PageHeader {
     public void goToAllMP3s(){
         showAllMp3.click();
     }
-
+  
     public WebDriver getDriver(){
         return driver;
     }
+
 }
