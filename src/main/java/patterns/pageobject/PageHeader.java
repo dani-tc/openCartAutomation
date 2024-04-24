@@ -149,8 +149,8 @@ public abstract class PageHeader {
 
     // Constructor
     public PageHeader(WebDriver driver){
-        //this.driver = driver;
-        this.driver = DriverManager.getDriver(DriverManager.BrowserType.CHROME); // replace with desired browser (CHROME, EDGE, FIREFOX)
+        this.driver = driver;
+        //this.driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with desired browser (CHROME, EDGE, FIREFOX)
         PageFactory.initElements(driver, this);
     }
     public void clickNavMyAccountDropdown(){

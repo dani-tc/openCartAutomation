@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 //import patterns.DriverManager;
 
 
-public class shoppingCartPage extends PageHeader {
+public class ShoppingCartPage extends PageHeader {
     //Shopping Cart page title
     @FindBy(css="#content h1")
     private WebElement shoppingCartTitle;
@@ -14,7 +14,7 @@ public class shoppingCartPage extends PageHeader {
     // Constructor
 
 
-    public shoppingCartPage(WebDriver driver) {
+    public ShoppingCartPage(WebDriver driver) {
         super(driver);
     }
 

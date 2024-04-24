@@ -24,7 +24,6 @@ public class DriverManager {
                 case CHROME:
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("start-maximized");
-                    chromeOptions.addArguments("--disable-notifications");
                     driver = new ChromeDriver(chromeOptions);
                     break;
                 case FIREFOX:
