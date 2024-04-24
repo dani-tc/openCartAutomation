@@ -161,8 +161,7 @@ public class CartContentsTest {
         Assert.assertTrue(cartPage.getPostCodeInput().isDisplayed());
         cartPage.getPostCodeInput().sendKeys("1234");
         cartPage.getPostCodeInput().sendKeys(Keys.ENTER);
-        // Postal Code Input not working
-        Assert.assertNotEquals(cartPage.getPostCodeInput().getText(), "1234");
+        Assert.assertEquals(cartPage.getPostCodeInput().getAttribute("value"), "1234");
 
         Utils.takeSnapShot(driver, "src/resources/cartContentsTest/4-checkingFilledShippingAndTaxes.png");
     }
@@ -214,8 +213,7 @@ public class CartContentsTest {
 
         Assert.assertTrue(cartPage.getGiftInput().isDisplayed());
         cartPage.getGiftInput().sendKeys("Valid Gift");
-        // Coupon Input not working
-        Assert.assertFalse(cartPage.getGiftInput().getText().contains("Valid Gift"));
+        Assert.assertTrue(cartPage.getGiftInput().getAttribute("placeholder").contains("Enter your gift"));
 
         Assert.assertEquals(cartPage.getGiftLabel().getText(), "Enter your gift certificate code here");
         Utils.takeSnapShot(driver, "src/resources/cartContentsTest/8-checkingFilledGiftInput.png");
