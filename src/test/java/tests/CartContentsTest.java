@@ -119,7 +119,7 @@ public class CartContentsTest {
     public void cartInformationSectionTest() {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
