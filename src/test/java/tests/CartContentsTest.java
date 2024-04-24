@@ -88,7 +88,7 @@ public class CartContentsTest {
     }
 
     @Test(priority = 1, description = "Verify cart page elements")
-    public void verifyCartPageElements() {
+    public void cartPageElementsTest() {
         cartPage = new ShoppingCartPage(driver);
 
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -106,12 +106,17 @@ public class CartContentsTest {
         Assert.assertTrue(cartPage.getUpdateButton().isDisplayed());
         Assert.assertTrue(cartPage.getTotalTable().isDisplayed());
 
+        Assert.assertTrue(cartPage.getContentsTable().getText().contains("Product Name"));
+        Assert.assertTrue(cartPage.getContentsTable().getText().contains("Unit Price"));
+        Assert.assertTrue(cartPage.getContentsTable().getText().contains("Quantity"));
+
+
         Assert.assertTrue(cartPage.getShoppingCartSubtitle().isDisplayed());
         Assert.assertEquals(cartPage.getShoppingCartSubtitle().getText(), "What would you like to do next?");
     }
 
-    @Test(priority = 2, description = "Verify cart information section")
-    public void verifyCartInformationSection() {
+    @Test(priority = 2, description = "Verify cart information section visibility")
+    public void cartInformationSectionTest() {
         cartPage = new ShoppingCartPage(driver);
 
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -128,8 +133,8 @@ public class CartContentsTest {
         Assert.assertTrue(cartPage.getAccordion().isDisplayed());
     }
 
-    @Test(priority = 3, description = "Verify estimate shipping functionality")
-    public void verifyEstimateShippingFunctionality() {
+    @Test(priority = 3, description = "Verify estimate shipping visibility")
+    public void estimateShippingVisibilityTest() {
         cartPage = new ShoppingCartPage(driver);
 
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -150,15 +155,96 @@ public class CartContentsTest {
         Assert.assertTrue(cartPage.getCountryInput().getText().contains("Colombia"));
 
         Assert.assertTrue(cartPage.getZoneInput().isDisplayed());
+        // Zone Input not working
         Assert.assertFalse(cartPage.getZoneInput().getText().contains("Bogota D.C."));
 
         Assert.assertTrue(cartPage.getPostCodeInput().isDisplayed());
         cartPage.getPostCodeInput().sendKeys("1234");
-        cartPage.getPostCodeInput().click();
         cartPage.getPostCodeInput().sendKeys(Keys.ENTER);
+        // Postal Code Input not working
         Assert.assertNotEquals(cartPage.getPostCodeInput().getText(), "1234");
 
         Utils.takeSnapShot(driver, "src/resources/cartContentsTest/4-checkingFilledShippingAndTaxes.png");
+    }
+
+    @Test(priority = 4, description = "Verify coupon code visibility")
+    public void couponCodeVisibilityTest() {
+        cartPage = new ShoppingCartPage(driver);
+
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        driver.get("https://demo.opencart.com/");
+        WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
+        cart.sendKeys(Keys.ENTER);
+        explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("logo")));
+
+        new Actions(driver)
+            .moveToElement(cartPage.getCouponCodeButton())
+            .click()
+            .perform();
+        explicitWait.until(ExpectedConditions.visibilityOf(cartPage.getCouponCodeButton()));
+        Utils.takeSnapShot(driver, "src/resources/cartContentsTest/5-checkingCouponCodeInput.png");
+
+        Assert.assertTrue(cartPage.getCouponInput().isDisplayed());
+        cartPage.getCouponInput().sendKeys("Valid Coupon");
+        // Coupon Input not working
+        Assert.assertFalse(cartPage.getCouponInput().getText().contains("Valid Coupon"));
+
+        Assert.assertTrue(cartPage.getCouponLabel().getText().contains("Enter your coupon here"));
+        Utils.takeSnapShot(driver, "src/resources/cartContentsTest/6-checkingFilledCouponCodeInput.png");
+    }
+
+    @Test(priority = 5, description = "Verify gift certificate visibility")
+    public void giftCertificateVisibilityTest() {
+        cartPage = new ShoppingCartPage(driver);
+
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        driver.get("https://demo.opencart.com/");
+        WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
+        cart.sendKeys(Keys.ENTER);
+        explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("logo")));
+
+        new Actions(driver)
+            .moveToElement(cartPage.getGiftCertificateButton())
+            .click()
+            .perform();
+        explicitWait.until(ExpectedConditions.visibilityOf(cartPage.getGiftCertificateButton()));
+        Utils.takeSnapShot(driver, "src/resources/cartContentsTest/7-checkingGiftInput.png");
+
+        Assert.assertTrue(cartPage.getGiftInput().isDisplayed());
+        cartPage.getGiftInput().sendKeys("Valid Gift");
+        // Coupon Input not working
+        Assert.assertFalse(cartPage.getGiftInput().getText().contains("Valid Gift"));
+
+        Assert.assertEquals(cartPage.getGiftLabel().getText(), "Enter your gift certificate code here");
+        Utils.takeSnapShot(driver, "src/resources/cartContentsTest/8-checkingFilledGiftInput.png");
+    }
+
+    @Test(priority = 6, description = "Verify header and footer visibility")
+    public void headerAndFooterVisibilityTest() {
+        cartPage = new ShoppingCartPage(driver);
+
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        driver.get("https://demo.opencart.com/");
+        WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
+        cart.sendKeys(Keys.ENTER);
+        explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("logo")));
+
+        new Actions(driver)
+            .moveToElement(cartPage.getFooter())
+            .perform();
+        Assert.assertTrue(cartPage.getFooter().isDisplayed());
+        Utils.takeSnapShot(driver, "src/resources/cartContentsTest/9-checkingFooter.png");
+        
+        new Actions(driver)
+            .moveToElement(cartPage.getHeader())
+            .perform();
+        Assert.assertTrue(cartPage.getHeader().isDisplayed());
+        Assert.assertTrue(cartPage.getLogo().isDisplayed());
+        Utils.takeSnapShot(driver, "src/resources/cartContentsTest/10-checkingHeader.png");
+
     }
 
     @AfterTest

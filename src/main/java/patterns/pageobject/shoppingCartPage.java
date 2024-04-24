@@ -1,11 +1,8 @@
 package patterns.pageobject;
 
-import java.util.List;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 
 public class ShoppingCartPage extends PageHeader{
 
@@ -42,11 +39,32 @@ public class ShoppingCartPage extends PageHeader{
     @FindBy(css = "#input-postcode")
     private WebElement postCodeInput;
 
+    @FindBy(css = "button[data-bs-target='#collapse-coupon']")
+    private WebElement couponCodeButton;
+
+    @FindBy(css = "#input-coupon")
+    private WebElement couponInput;
+
+    @FindBy(css = "label[for='input-coupon']")
+    private WebElement couponLabel;
+
+    @FindBy(css = "button[data-bs-target='#collapse-voucher']")
+    private WebElement giftCertificateButton;
+
+    @FindBy(css = "#input-voucher")
+    private WebElement giftInput;
+
+    @FindBy(css = "label[for='input-voucher']")
+    private WebElement giftLabel;
+
     @FindBy(tagName = "footer")
     private WebElement footer;
 
     @FindBy(tagName = "header")
     private WebElement header;
+
+    @FindBy(css = "#logo")
+    private WebElement logo;
 
     public ShoppingCartPage(WebDriver driver) {
         super(driver);
@@ -104,12 +122,40 @@ public class ShoppingCartPage extends PageHeader{
         return postCodeInput;
     }
 
+    public WebElement getCouponCodeButton() {
+        return couponCodeButton;
+    }
+
+    public WebElement getCouponInput() {
+        return couponInput;
+    }
+
+    public WebElement getCouponLabel() {
+        return couponLabel;
+    }
+
+    public WebElement getGiftCertificateButton() {
+        return giftCertificateButton;
+    }
+
+    public WebElement getGiftInput() {
+        return giftInput;
+    }
+
+    public WebElement getGiftLabel() {
+        return giftLabel;
+    }
+
     public WebElement getFooter() {
         return footer;
     }
 
     public WebElement getHeader() {
         return header;
+    }
+
+    public WebElement getLogo() {
+        return logo;
     }
     
 }
