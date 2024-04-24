@@ -63,7 +63,8 @@ public class testTemplate {
         ShoppingCartPage cartPage = new ShoppingCartPage(driver);
 
         Screen screen = new Screen();
-        Pattern image = new Pattern("C:\\Users\\sanrocha\\Documents\\Project\\openCartAutomation\\src\\resources\\cloudflare.png");
+        String pathYourSystem = System.getProperty("user.dir") + "\\";
+        Pattern image = new Pattern(pathYourSystem+"src\\resources\\cloudflare.png");
 
         screen.wait(image, 5);
         screen.click(image);
