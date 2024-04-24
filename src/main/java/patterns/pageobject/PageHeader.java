@@ -1,5 +1,6 @@
 package patterns.pageobject;
-//import patterns.*;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -153,6 +154,7 @@ public abstract class PageHeader {
         //this.driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with desired browser (CHROME, EDGE, FIREFOX)
         PageFactory.initElements(driver, this);
     }
+
     public void clickNavMyAccountDropdown(){
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
         explicitWait.until(ExpectedConditions.elementToBeClickable(navMyAccountDropdown));
@@ -277,6 +279,10 @@ public abstract class PageHeader {
 
     public void goToAllMP3s(){
         showAllMp3.click();
+    }
+  
+    public WebDriver getDriver(){
+        return driver;
     }
 
 }

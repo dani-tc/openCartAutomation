@@ -25,3 +25,21 @@
 00:09:00.988 [ApplicationImpl pooled thread 72] INFO  c.b.l.BrowserStackRunExtension - testng
 00:09:00.989 [ApplicationImpl pooled thread 72] INFO  com.browserstack.utils.Helpers - null
 00:09:00.990 [ApplicationImpl pooled thread 72] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+18:52:16.182 [ApplicationImpl pooled thread 6] INFO  c.b.l.BrowserStackRunExtension - testng
+18:52:16.185 [ApplicationImpl pooled thread 6] INFO  com.browserstack.utils.Helpers - null
+18:52:16.186 [ApplicationImpl pooled thread 6] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+19:15:24.296 [ApplicationImpl pooled thread 3] INFO  c.b.l.BrowserStackRunExtension - testng
+19:15:24.298 [ApplicationImpl pooled thread 3] INFO  com.browserstack.utils.Helpers - null
+19:15:24.299 [ApplicationImpl pooled thread 3] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+19:25:04.914 [ApplicationImpl pooled thread 24] INFO  c.b.l.BrowserStackRunExtension - testng
+19:25:04.915 [ApplicationImpl pooled thread 24] INFO  com.browserstack.utils.Helpers - null
+19:25:04.915 [ApplicationImpl pooled thread 24] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+22:09:23.182 [ApplicationImpl pooled thread 86] INFO  c.b.l.BrowserStackRunExtension - testng
+22:09:23.183 [ApplicationImpl pooled thread 86] INFO  com.browserstack.utils.Helpers - null
+22:09:23.183 [ApplicationImpl pooled thread 86] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+22:12:30.138 [ApplicationImpl pooled thread 91] INFO  c.b.l.BrowserStackRunExtension - testng
+22:12:30.138 [ApplicationImpl pooled thread 91] INFO  com.browserstack.utils.Helpers - null
+22:12:30.139 [ApplicationImpl pooled thread 91] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+22:13:20.032 [ApplicationImpl pooled thread 92] INFO  c.b.l.BrowserStackRunExtension - testng
+22:13:20.032 [ApplicationImpl pooled thread 92] INFO  com.browserstack.utils.Helpers - null
+22:13:20.033 [ApplicationImpl pooled thread 92] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
