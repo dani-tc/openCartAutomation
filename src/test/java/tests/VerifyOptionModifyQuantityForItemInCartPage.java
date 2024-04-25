@@ -13,7 +13,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import patterns.DriverManager;
 import patterns.pageobject.HomePage;
-import patterns.pageobject.shoppingCartPage;
+import patterns.pageobject.ShoppingCartPage;
 import utilities.Utils;
 
 import java.text.SimpleDateFormat;
@@ -46,7 +46,7 @@ public class VerifyOptionModifyQuantityForItemInCartPage {
     public void eclat_303() {
         manageCaptcha();
 
-        shoppingCartPage header = new shoppingCartPage(driver);
+        ShoppingCartPage header = new ShoppingCartPage(driver);
         HomePage home = new HomePage(driver);
 
         driver.navigate().refresh();

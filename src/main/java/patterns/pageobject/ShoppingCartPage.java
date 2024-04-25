@@ -70,7 +70,7 @@ public class ShoppingCartPage extends PageHeader{
     private WebElement productImage;
 
     @FindBy(xpath = "//td[@class='text-start']/a")
-    private WebElement productName;
+    private WebElement productNameLink;
 
     @FindBy(xpath = "//td[@class='text-start' and contains(text(),'SAM1')]")
     private WebElement productModel;
@@ -190,8 +190,8 @@ public class ShoppingCartPage extends PageHeader{
         return productImage;
     }
 
-    public WebElement getProductName() {
-        return productName;
+    public WebElement getProductNameLink() {
+        return productNameLink;
     }
 
     public WebElement getProductModel() {

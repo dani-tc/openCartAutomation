@@ -149,6 +149,6 @@ public class VerifyEachProductHasAddToCartButton {
 
     @AfterTest
     public void afterTest(){
-        //DriverManager.quitDriver();
+        DriverManager.quitDriver();
     }
 }

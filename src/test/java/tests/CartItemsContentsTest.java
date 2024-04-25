@@ -132,7 +132,7 @@ public class CartItemsContentsTest {
     public void productNameTest(String productRef) {
         cartPage = new ShoppingCartPage(driver);
 
-        WebElement productNameLink = cartPage.getProductName();
+        WebElement productNameLink = cartPage.getProductNameLink();
         // Not Displaying
         Assert.assertFalse(productNameLink.isDisplayed(), "Product name link is not displayed");
 

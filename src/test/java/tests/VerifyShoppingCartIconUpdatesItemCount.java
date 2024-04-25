@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import patterns.DriverManager;
 import patterns.pageobject.MonitorsPage;
-import patterns.pageobject.shoppingCartPage;
+import patterns.pageobject.ShoppingCartPage;
 import utilities.Utils;
 
 import java.text.SimpleDateFormat;
@@ -50,7 +50,7 @@ public class VerifyShoppingCartIconUpdatesItemCount {
         driver.navigate().refresh();
         manageCaptcha();
 
-        shoppingCartPage header = new shoppingCartPage(driver);
+        ShoppingCartPage header = new ShoppingCartPage(driver);
         MonitorsPage monitorsPage = new MonitorsPage(driver);
         WebElement components = header.getComponents();
         WebElement monitors = header.getMonitors();

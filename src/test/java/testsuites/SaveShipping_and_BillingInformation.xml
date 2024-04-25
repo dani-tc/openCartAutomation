@@ -8,8 +8,8 @@
     <parameter name="address1Update" value="Street 3"/>
     <parameter name="cityUpdate" value="Bogota"/>
     <parameter name="postalCodeUpdate" value="25001"/>
-    <parameter name="countryValueUpdate" value="47"/>
-    <parameter name="regionValueUpdate" value="722"/>
+    <parameter name="countryValueUpdate" value="13"/>
+    <parameter name="regionValueUpdate" value="193"/>
     <test name="Verify users can update saved Shipping Information">
         <classes>
             <class name="tests.VerifyUsersCanUpdateShippingInformation"/>
@@ -29,8 +29,8 @@
     <parameter name="address1" value="Street 1"/>
     <parameter name="city" value="Rio"/>
     <parameter name="postalCode" value="9001"/>
-    <parameter name="countryValue" value="30"/>
-    <parameter name="regionValue" value="440"/>
+    <parameter name="countryValue" value="222"/>
+    <parameter name="regionValue" value="3513"/>
     <test name="Verify users can save Shipping Information">
         <classes>
             <class name="tests.VerifyUsersCanSaveShippingInformation"/>

@@ -16,6 +16,7 @@ import utilities.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class VerifyUserAccountCreationAndSecurePassword {
     private WebDriver driver = null;
@@ -25,12 +26,12 @@ public class VerifyUserAccountCreationAndSecurePassword {
 
     @BeforeTest
     public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.CHROME); // replace with your desired browser
+        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
         //Login as admin to unlock functionalities
         Date today = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         String formatedDate = format.format(today);
-        driver.get("https://demo.opencart.com/index.php");
+        driver.get("https://demo.opencart.com/");
         driver.manage().addCookie(new Cookie("OCSESSID","11c0f931cf"+formatedDate+"ec"));
         driver.manage().addCookie(new Cookie("_ga","GA1.1.2123778129.1713796835"));
         driver.manage().addCookie(new Cookie("_ga_X8G0BRFSDF","GS1.1.1713796835.1.0.1713796835.0.0.0"));
@@ -46,12 +47,15 @@ public class VerifyUserAccountCreationAndSecurePassword {
         final int MAX_ATTEMPTS = 20;
         AddressBookPage addressBook = new AddressBookPage(driver);
         boolean passedCreateAccount = false;
+        Random rand = new Random();
+        int randomNumberEmail = rand.nextInt(100);
+        String randomEmail = randomNumberEmail+email+randomNumberEmail;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
                 if(!passedCreateAccount){
                     addressBook.clickNavMyAccountDropdown();
                     addressBook.clickNavRegister();
-                    addressBook.fillRegister(firstName,lastName,email,password);
+                    addressBook.fillRegister(firstName,lastName,randomEmail,password);
                     Assert.assertEquals(addressBook.getPasswordInput().getText(),"");
                     Utils.takeSnapShot(driver, "src/resources/AccountCreation_and_SecurePassword/1-registerData.png");
                     passedCreateAccount = addressBook.register();

@@ -10,6 +10,7 @@ import patterns.DriverManager;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class AddressBookPage extends AccountPage {
     //Create new address
@@ -58,12 +59,14 @@ public class AddressBookPage extends AccountPage {
     @FindBy(tagName="body")
     private WebElement body;
 
+
+
     private WebDriver driver;
 
     // Constructor
     public AddressBookPage(WebDriver driver) {
         super(driver);
-        this.driver = DriverManager.getDriver(DriverManager.BrowserType.CHROME); // replace with desired browser (CHROME, EDGE, FIREFOX)
+        this.driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with desired browser (CHROME, EDGE, FIREFOX)
         PageFactory.initElements(driver, this);
     }
 
@@ -72,7 +75,6 @@ public class AddressBookPage extends AccountPage {
         explicitWait.until(ExpectedConditions.visibilityOf(accountCreatedMessage));
         return accountCreatedMessage;
     }
-
 
     public void deleteAddress (){
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -123,7 +125,7 @@ public class AddressBookPage extends AccountPage {
                 driver.findElement(By.cssSelector("#input-zone option[value='" + regionValue + "']")).click();
                 explicitWait.until(ExpectedConditions.elementToBeSelected(By.cssSelector("#input-zone option[value='"+regionValue+"']")));
                 body.click();
-                new Actions(driver)
+                new Actions (driver)
                         .moveToElement(getContinueButton())
                         .perform();
                 explicitWait.until(ExpectedConditions.elementToBeClickable(getContinueButton()));
@@ -181,5 +183,4 @@ public class AddressBookPage extends AccountPage {
         }
     }
 }
-
 

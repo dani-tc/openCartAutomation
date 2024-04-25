@@ -52,7 +52,7 @@ public class VerifyUserCanAddProductsToShoppingCart {
         driver.navigate().refresh();
         manageCaptcha();
 
-        shoppingCartPage header = new shoppingCartPage(driver);
+        ShoppingCartPage header = new ShoppingCartPage(driver);
         MonitorsPage monitorsPage = new MonitorsPage(driver);
         WebElement components = header.getComponents();
         WebElement monitors = header.getMonitors();

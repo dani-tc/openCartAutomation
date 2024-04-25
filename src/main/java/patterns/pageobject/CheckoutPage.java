@@ -1,6 +1,8 @@
 package patterns.pageobject;
 
 import static org.testng.Assert.assertEquals;
+
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -75,6 +77,14 @@ public class CheckoutPage extends PageHeader {
     @FindBy(css ="div#alert div.alert-success")
     private WebElement alert;
 
+    //Existing Payment Address label
+    @FindBy(css ="#input-payment-existing + label")
+    private WebElement existingPaymentAddress;
+
+    //Existing Shipping Address label
+    @FindBy(css ="#input-shipping-existing + label")
+    private WebElement existingShippingAddress;
+
     //Confirm Order Button
     @FindBy(css ="#button-confirm")
     private WebElement orderButton;
@@ -99,6 +109,13 @@ public class CheckoutPage extends PageHeader {
         this.driver = driver;
     }
 
+    public WebElement getExistingPaymentAddress() {
+        return existingPaymentAddress;
+    }
+
+    public WebElement getExistingShippingAddress() {
+        return existingShippingAddress;
+    }
     public WebElement getpaymentMethodDropdown() {
         return paymentMethodDropdown;
     }
