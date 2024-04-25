@@ -56,7 +56,7 @@ public class VerifyUsersCanSaveShippingInformation {
         int numberOfAddress = 0;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
-                addressBookPage addressBook = new addressBookPage(driver);
+                AddressBookPage addressBook = new AddressBookPage(driver);
                 addressBook.clickNavMyAccountDropdown();
                 if(passedLogin){
                     addressBook.clickNavMyAccountOption();

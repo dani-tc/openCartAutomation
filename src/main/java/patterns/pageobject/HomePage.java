@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.util.List;
 
 
-public class HomePage extends homePageHeader {
+public class HomePage extends PageHeader {
     
 
     /* //MacBook product

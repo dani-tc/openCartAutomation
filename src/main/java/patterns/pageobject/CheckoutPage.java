@@ -8,12 +8,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.*;
 
 import java.time.Duration;
 import java.util.Random;
 
-public class CheckoutPage extends homePageHeader {
+public class CheckoutPage extends PageHeader {
 
     //First Name Field
     @FindBy(css ="#checkout-register")

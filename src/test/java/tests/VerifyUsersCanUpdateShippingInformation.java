@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patterns.DriverManager;
+import patterns.pageobject.AddressBookPage;
 import patterns.pageobject.addressBookPage;
 import utilities.Utils;
 import java.text.SimpleDateFormat;
@@ -49,7 +50,7 @@ public class VerifyUsersCanUpdateShippingInformation {
         int tryRegionSelect =0;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
-                addressBookPage addressBook = new addressBookPage(driver);
+                AddressBookPage addressBook = new AddressBookPage(driver);
                 addressBook.clickNavMyAccountDropdown();
                 if(passedLogin){
                     addressBook.clickNavMyAccountOption();
