@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import patterns.DriverManager;
 import patterns.pageobject.MonitorsPage;
 import patterns.pageobject.shoppingCartPage;
+import utilities.Utils;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -44,7 +45,7 @@ public class VerifyShoppingCartIconUpdatesItemCount {
     }
 
     @Test
-    public void eclat_275() throws FindFailed {
+    public void eclat_275() {
         manageCaptcha();
         driver.navigate().refresh();
         manageCaptcha();
@@ -72,6 +73,8 @@ public class VerifyShoppingCartIconUpdatesItemCount {
         sleep(1000);
 
         Assert.assertEquals("1",itemsButton.getText().charAt(0)+"");
+
+        Utils.takeSnapShot(driver, "src/resources/VerifyShoppingCartIconUpdatesItemCount/eclat_275.png");
 
     }
 

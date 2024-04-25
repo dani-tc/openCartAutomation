@@ -3,11 +3,9 @@ package patterns.pageobject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 
-
-public class shoppingCartPage extends homePageHeader{
+public class shoppingCartPage extends PageHeader {
     //Shopping Cart page title
     @FindBy(css="#content h1")
     private WebElement shoppingCartTitle;
@@ -20,8 +18,13 @@ public class shoppingCartPage extends homePageHeader{
     @FindBy(css=".img-thumbnail")
     private WebElement productName;
 
-    // Constructor
+    //Name of product displayed on shopping cart
+    @FindBy(css="input[name=\"quantity\"]")
+    private WebElement quantityInput;
 
+
+
+    // Constructor
 
     public shoppingCartPage(WebDriver driver) {
         super(driver);
@@ -31,4 +34,5 @@ public class shoppingCartPage extends homePageHeader{
     public WebElement getCartPageTitle (){return shoppingCartTitle;}
     public WebElement getShoppingCartLink(){return shoppingCartLink;}
     public WebElement getProductName(){return productName;}
+    public WebElement getQuantityInput(){return quantityInput;}
 }

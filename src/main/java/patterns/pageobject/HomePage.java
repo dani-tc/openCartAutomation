@@ -4,7 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
 
-public class HomePage extends homePageHeader{
+public class HomePage extends PageHeader{
 
     @FindBy(css=".row:nth-child(4) .col:nth-child(1) button:nth-child(1)")
     private WebElement addToCartButtonMacbook;
@@ -17,6 +17,8 @@ public class HomePage extends homePageHeader{
 
     @FindBy(css=".row:nth-child(4) .col:nth-child(4) button:nth-child(1)")
     private WebElement addToCartButtonCanon;
+
+
 
 
     public HomePage(WebDriver driver) {

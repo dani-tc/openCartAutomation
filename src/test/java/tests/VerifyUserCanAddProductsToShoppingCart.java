@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import patterns.DriverManager;
 
 import patterns.pageobject.*;
+import utilities.Utils;
 
 import java.time.Duration;
 import java.text.SimpleDateFormat;
@@ -45,7 +46,7 @@ public class VerifyUserCanAddProductsToShoppingCart {
     }
 
     @Test
-    public void eclat_273() throws FindFailed {
+    public void eclat_273(){
         manageCaptcha();
 
         driver.navigate().refresh();
@@ -72,7 +73,7 @@ public class VerifyUserCanAddProductsToShoppingCart {
         new Actions(driver)
                 .moveToElement(addToCartButton)
                 .perform();
-        addToCartButton.sendKeys(Keys.ENTER);              //Simulate click on "add to cart" button
+        addToCartButton.click();              //Simulate click on "add to cart" button
 
         String title = productTitle.getText();             //let's save the name of product for later assertions
 
@@ -91,6 +92,8 @@ public class VerifyUserCanAddProductsToShoppingCart {
         manageCaptcha();
 
         Assert.assertEquals(title,productName.getAttribute("title"));
+
+        Utils.takeSnapShot(driver, "src/resources/VerifyUserCanAddProductsToShoppingCart/eclat_273.png");
     }
 
     public void manageCaptcha(){

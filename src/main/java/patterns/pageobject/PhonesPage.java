@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class PhonesPage extends homePageHeader{
+public class PhonesPage extends PageHeader {
 
     @FindBy(css="#content .col:nth-child(1) button:nth-child(1)")
     private WebElement addToCartButtonHtc;

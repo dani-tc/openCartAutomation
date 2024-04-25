@@ -1,7 +1,6 @@
 package tests;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,7 +12,9 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import patterns.DriverManager;
+import patterns.pageobject.HomePage;
 import patterns.pageobject.shoppingCartPage;
+import utilities.Utils;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -44,14 +45,15 @@ public class VerifyOptionModifyQuantityForItemInCartPage {
     @Test
     public void eclat_303() {
         manageCaptcha();
+
         shoppingCartPage header = new shoppingCartPage(driver);
-        WebElement closeButton = header.getCloseButton();
+        HomePage home = new HomePage(driver);
 
         driver.navigate().refresh();
         manageCaptcha();
 
-        WebElement macbook = driver.findElement(By.cssSelector(".row:nth-child(4) .col:nth-child(1) button:nth-child(1)"));
-        WebElement iphone = driver.findElement(By.cssSelector(".row:nth-child(4) .col:nth-child(2) button:nth-child(1)"));
+        WebElement macbook = home.getAddToCartButtonMacbook();
+        WebElement iphone = home.getAddToCartButtonIphone();
         new Actions(driver)
                 .moveToElement(macbook)
                 .perform();
@@ -59,9 +61,13 @@ public class VerifyOptionModifyQuantityForItemInCartPage {
         macbook.click();
         iphone.click();
 
+        WebElement closeButton = header.getCloseButton();
+
         //let's wait until label advertisement appears on upper-right corner
         String closeButtonSelector = closeButton.toString().split(": ")[2].replace("'","");
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(8));
+
+        //We need to wait twice because we added two items.
         explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(closeButtonSelector)));
         explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(closeButtonSelector)));
         closeButton.click();
@@ -72,8 +78,12 @@ public class VerifyOptionModifyQuantityForItemInCartPage {
                 .perform();
         cartLink.click();
 
-        WebElement quantityInput = driver.findElement(By.cssSelector("input[name=\"quantity\"]"));
+        WebElement quantityInput = header.getQuantityInput();
         Assert.assertTrue(quantityInput.isEnabled());
+
+        Utils.takeSnapShot(driver, "src/resources/VerifyOptionModifyQuantityForItemInCartPage/eclat_303.png");
+
+
     }
 
 
@@ -116,6 +126,6 @@ public class VerifyOptionModifyQuantityForItemInCartPage {
 
     @AfterTest
     public void afterTest(){
-        //DriverManager.quitDriver();
+        DriverManager.quitDriver();
     }
 }

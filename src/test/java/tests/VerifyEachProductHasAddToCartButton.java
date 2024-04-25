@@ -15,6 +15,7 @@ import patterns.DriverManager;
 import patterns.pageobject.CamerasPage;
 import patterns.pageobject.HomePage;
 import patterns.pageobject.PhonesPage;
+import utilities.Utils;
 
 
 import java.text.SimpleDateFormat;
@@ -105,6 +106,8 @@ public class VerifyEachProductHasAddToCartButton {
 
         Assert.assertTrue(canonButton.isEnabled());
         Assert.assertTrue(nykonButton.isEnabled());
+
+        Utils.takeSnapShot(driver, "src/resources/VerifyEachProductHasAddToCartButton/eclat_274.png");
     }
 
     public void manageCaptcha(){
