@@ -102,6 +102,10 @@ public class CheckoutPage extends PageHeader {
         this.driver = driver;
     }
 
+    public WebElement getpaymentMethodDropdown() {
+        return paymentMethodDropdown;
+    }
+
     public void registerCredentials(String firstName, String lastName, String address, String postcode, String city, String country, String state, String password) {
 
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
