@@ -60,13 +60,13 @@ public class VerifyUsersCanAutoFillCheckoutInformation {
                 }else{
                     accountPage.clickNavLogin();
                     passedLogin = accountPage.login(email,password);
-                    Utils.takeSnapShot(driver, "src/resources/AutoFill_in_CheckoutResults/AutoFillShippingInformationResults/1-loginSuccessful.png");
+                    Utils.takeSnapShot(driver, "src/resources/AutoFill_in_CheckoutResults/AutoFill_InformationResults/1-loginSuccessful.png");
                 }
                 accountPage.returnToHome();
                 homePage.addProductToCart();
-                Utils.takeSnapShot(driver, "src/resources/AutoFill_in_CheckoutResults/AutoFillShippingInformationResults/2-addProductToCart.png");
+                Utils.takeSnapShot(driver, "src/resources/AutoFill_in_CheckoutResults/AutoFill_InformationResults/2-addProductToCart.png");
                 homePage.openCartPage();
-                Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/3-loadCheckoutPage.png");
+                Utils.takeSnapShot(driver, "src/resources/AutoFill_in_CheckoutResults/AutoFill_InformationResults/3-loadCheckoutPage.png");
                 Assert.assertEquals(checkoutPage.getExistingPaymentAddress().getText(),"I want to use an existing address");
                 Assert.assertEquals(checkoutPage.getExistingShippingAddress().getText(),"I want to use an existing address");
 
