@@ -49,7 +49,7 @@ public class HomePage extends PageHeader {
         
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(60));
         explicitWait.until(ExpectedConditions.elementToBeClickable(products.get(1)));
-        int MAX_ATTEMPTS = 10;
+        int MAX_ATTEMPTS = 5;
         explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
             try{
@@ -77,7 +77,7 @@ public class HomePage extends PageHeader {
 
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
         explicitWait.until(ExpectedConditions.elementToBeClickable(cartBtn));
-        int MAX_ATTEMPTS = 10;
+        int MAX_ATTEMPTS = 5;
         explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
             try{
@@ -88,20 +88,22 @@ public class HomePage extends PageHeader {
                 } catch (InterruptedException e) {
                 e.printStackTrace();
                 }
+            explicitWait.until(ExpectedConditions.elementToBeClickable(checkoutBtn));
+            new Actions(driver)
+                .moveToElement(checkoutBtn)
+                .click(checkoutBtn)
+                .perform();
             break;
             } catch (Exception e){
                 System.out.println("Attempt " + (attempt + 1) + " failed");
+                driver.navigate().refresh();
+                addProductToCart();
                 if (attempt == MAX_ATTEMPTS - 1) {
                     // If this was the last attempt, rethrow the exception
                     throw e;
                 }
             }
         }
-        explicitWait.until(ExpectedConditions.elementToBeClickable(checkoutBtn));
-        new Actions(driver)
-            .moveToElement(checkoutBtn)
-            .click(checkoutBtn)
-            .perform();
 
     }
 

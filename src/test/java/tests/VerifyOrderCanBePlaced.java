@@ -45,20 +45,10 @@ public class VerifyOrderCanBePlaced {
     }
 
     @Test
-    //@Parameters({"firstName","lastName","address","postcode","city","country","state","password"})
-    public void OrderCanBePlaced() throws FindFailed {
-        //String firstName, String lastName, String address, String postcode, String city, String country, String state, String password
+    @Parameters({"firstName","lastName","address","postcode","city","country","state","password"})
+    public void OrderCanBePlaced(String firstName, String lastName, String address, String postcode, String city, String country, String state, String password) throws FindFailed {
 
-        String firstName ="Michael";
-        String lastName ="Johnson";
-        String address ="Eastgate";
-        String postcode ="CF71";
-        String city ="Cowbridge";
-        String country ="United Kingdom";
-        String state ="Cardiff";
-        String password ="12345678";
-
-        final int MAX_ATTEMPTS = 20;
+        final int MAX_ATTEMPTS = 5;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
 
@@ -80,9 +70,14 @@ public class VerifyOrderCanBePlaced {
                 break;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                System.out.println("Attempt " + (attempt + 1) + " failed. Retrying...");
+                driver.navigate().refresh();
+                try {
                 screen.wait(image, 10);
                 screen.click(image);
+                } catch (Exception e1) {
+                    System.out.println("Attempt " + (attempt + 1) + " failed. Retrying...");
+                }
+                
                 if (attempt == MAX_ATTEMPTS - 1) {
                     throw e;
                 }

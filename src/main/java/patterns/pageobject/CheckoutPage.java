@@ -135,7 +135,6 @@ public class CheckoutPage extends PageHeader {
                     .perform();
         
                 clickContinueBtn();
-                explicitWait.until(ExpectedConditions.visibilityOf(alert));
         
                 explicitWait.until(ExpectedConditions.elementToBeClickable(shippingMethodDropdown));
                 Select shipping = new Select(shippingMethodDropdown);
@@ -209,6 +208,12 @@ public class CheckoutPage extends PageHeader {
         int MAX_ATTEMPTS = 5;
         for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
             try{
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
             WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
             explicitWait.until(ExpectedConditions.elementToBeClickable(paymentMethodDropdown));
             Select payment = new Select(paymentMethodDropdown);
@@ -268,17 +273,7 @@ public class CheckoutPage extends PageHeader {
                 System.out.println("Attempt " + (attempt + 1) + " failed");
                 driver.navigate().refresh();
 
-                WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
-                WebElement dropdown = explicitWait.until(ExpectedConditions.visibilityOf(shippingAddressSelector));
-                Select select = new Select(dropdown);
-                select.selectByIndex(1);
-                explicitWait.until(ExpectedConditions.visibilityOf(alert));
-
-                explicitWait.until(ExpectedConditions.elementToBeClickable(paymentMethodDropdown));
-                Select payment = new Select(paymentMethodDropdown);
-                payment.selectByValue("cod");
-                explicitWait.until(ExpectedConditions.visibilityOf(alert));
-
+                selectPaymentMethod();
                 if (attempt == MAX_ATTEMPTS - 1) {
                     // If this was the last attempt, rethrow the exception
                     throw e;
