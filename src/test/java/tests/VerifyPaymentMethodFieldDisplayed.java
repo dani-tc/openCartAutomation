@@ -12,12 +12,14 @@ import patterns.DriverManager.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
+import static org.testng.Assert.assertTrue;
+
 import org.openqa.selenium.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class VerifyCheckoutSupportsCashOnDeliveryPayment {
+public class VerifyPaymentMethodFieldDisplayed {
     
     private WebDriver driver = null;
     Screen screen = new Screen();
@@ -45,8 +47,7 @@ public class VerifyCheckoutSupportsCashOnDeliveryPayment {
     }
 
     @Test
-    @Parameters({"firstName","lastName","address","postcode","city","country","state","password"})
-    public void CashOnDeliveryPaymentAllowed(String firstName, String lastName, String address, String postcode, String city, String country, String state, String password) throws FindFailed {
+    public void PaymentFieldDisplayed() throws FindFailed {
 
         final int MAX_ATTEMPTS = 5;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
@@ -56,13 +57,11 @@ public class VerifyCheckoutSupportsCashOnDeliveryPayment {
                 CheckoutPage checkoutPage = new CheckoutPage(driver);
                 
                 homePage.addProductToCart();
-                Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/1-addProductToCart.png");
+                Utils.takeSnapShot(driver, "src/resources/PaymentMethodFieldDisplayed/1-AddProductToCart.png");
 
                 homePage.openCartPage();
-                Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/2-loadCheckoutPage.png");
-                
-                checkoutPage.registerCredentials(firstName, lastName, address, postcode, city, country, state, password);
-                Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/3-cashOnValidation.png");
+                assertTrue(checkoutPage.getpaymentMethodDropdown().isDisplayed(), "The paymentMethodDropdown element is not displayed");
+                Utils.takeSnapShot(driver, "src/resources/PaymentMethodFieldDisplayed/2-PaymentFieldDisplayed.png");
 
                 break;
             } catch (Exception e) {
@@ -80,6 +79,7 @@ public class VerifyCheckoutSupportsCashOnDeliveryPayment {
                 }
         
             }
+
         }
     }
 
@@ -89,5 +89,5 @@ public class VerifyCheckoutSupportsCashOnDeliveryPayment {
         DriverManager.quitDriver();
 
     }
-}
 
+}

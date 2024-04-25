@@ -36,6 +36,18 @@ public class HomePage extends PageHeader {
     //Cart Dropdown
     @FindBy(css ="div.d-grid ul.dropdown-menu-right")
     private WebElement cartDropdown;
+  
+    @FindBy(css=".row:nth-child(4) .col:nth-child(1) button:nth-child(1)")
+    private WebElement addToCartButtonMacbook;
+
+    @FindBy(css=".row:nth-child(4) .col:nth-child(2) button:nth-child(1)")
+    private WebElement addToCartButtonIphone;
+
+    @FindBy(css=".row:nth-child(4) .col:nth-child(3) button:nth-child(1)")
+    private WebElement addToCartButtonCinema;
+
+    @FindBy(css=".row:nth-child(4) .col:nth-child(4) button:nth-child(1)")
+    private WebElement addToCartButtonCanon;
 
     private WebDriver driver;
 
@@ -44,16 +56,22 @@ public class HomePage extends PageHeader {
         super(driver);
         this.driver = driver;
     }
+  
+    public WebElement getAddToCartButtonMacbook(){return addToCartButtonMacbook;}
+    public WebElement getAddToCartButtonIphone(){return addToCartButtonIphone;}
+    public WebElement getAddToCartButtonCinema(){return addToCartButtonCinema;}
+    public WebElement getAddToCartButtonCanon(){return addToCartButtonCanon;}
 
     public void addProductToCart() {
         
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(60));
         explicitWait.until(ExpectedConditions.elementToBeClickable(products.get(1)));
-        int MAX_ATTEMPTS = 10;
+        int MAX_ATTEMPTS = 5;
         explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
             try{
-            products.get(1).click();
+            JavascriptExecutor executor = (JavascriptExecutor) driver;
+            executor.executeScript("arguments[0].click();", products.get(1));
             explicitWait.until(ExpectedConditions.visibilityOf(alert));
                 try {
                 Thread.sleep(1000);
@@ -76,7 +94,7 @@ public class HomePage extends PageHeader {
 
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
         explicitWait.until(ExpectedConditions.elementToBeClickable(cartBtn));
-        int MAX_ATTEMPTS = 10;
+        int MAX_ATTEMPTS = 5;
         explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
             try{
@@ -87,21 +105,22 @@ public class HomePage extends PageHeader {
                 } catch (InterruptedException e) {
                 e.printStackTrace();
                 }
+            explicitWait.until(ExpectedConditions.elementToBeClickable(checkoutBtn));
+            new Actions(driver)
+                .moveToElement(checkoutBtn)
+                .click(checkoutBtn)
+                .perform();
             break;
             } catch (Exception e){
                 System.out.println("Attempt " + (attempt + 1) + " failed");
+                driver.navigate().refresh();
+                addProductToCart();
                 if (attempt == MAX_ATTEMPTS - 1) {
                     // If this was the last attempt, rethrow the exception
                     throw e;
                 }
             }
         }
-        explicitWait.until(ExpectedConditions.elementToBeClickable(checkoutBtn));
-        new Actions(driver)
-            .moveToElement(checkoutBtn)
-            .click(checkoutBtn)
-            .perform();
 
     }
-
 }

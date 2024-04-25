@@ -149,6 +149,18 @@ public abstract class PageHeader {
     //MP3 show all
     @FindBy(css="#narbar-menu ul.navbar-nav > li:nth-of-type(8) .dropdown-inner + a")
     private WebElement showAllMp3;
+  
+    //Components option on header
+    @FindBy(css=".nav-item:nth-child(3)")
+    private WebElement components;
+
+    //Monitors options, sub menu on components.
+    @FindBy(css=".nav-item:nth-child(3) li:nth-child(2)")
+    private WebElement monitors;
+
+    //Floating label that appears when something is added to cart
+    @FindBy(css=".btn-close")
+    private WebElement closeButton;
 
     // Constructor
     public PageHeader(WebDriver driver){
@@ -175,19 +187,23 @@ public abstract class PageHeader {
             tryToFound = tryToFound +1;
         }
     }
+  
     public void clickNavMyAccountOption(){
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
         explicitWait.until(ExpectedConditions.elementToBeClickable(navMyAccountDropdown));
         navMyAccountOption.click();
     }
+  
     public void clickNavRegister(){
         navRegister.click();
     }
+  
     public void clickNavLogin(){
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
         explicitWait.until(ExpectedConditions.elementToBeClickable(navLogin));
         navLogin.click();
     }
+  
     public void clickNavShoppingCart(){
         navShoppingCart.click();
     }
@@ -295,6 +311,18 @@ public abstract class PageHeader {
     public void goToAllMP3s(){
         showAllMp3.click();
     }
+  
+    public WebElement getComponents(){return components;}
+
+    public WebElement getMonitors(){return monitors;}
+
+    public WebElement getCloseButton(){return closeButton;}
+
+    public WebElement getCartDropdownButton(){return cartDropdownButton;}
+
+    public WebElement getPhonesCategory(){return phonesCategory;}
+
+    public WebElement getCamerasCategory(){return camerasCategory;}
   
     public WebDriver getDriver(){
         return driver;

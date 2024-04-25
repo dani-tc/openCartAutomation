@@ -21,8 +21,8 @@ public class ShoppingCartPage extends PageHeader{
     @FindBy(css = "button[data-bs-original-title='Update']")
     private WebElement updateButton;
 
-    @FindBy(css = "a[href='https://demo.opencart.com/index.php?route=product/product&amp;language=en-gb&amp;product_id=49']>img")
-    WebElement imageLink;
+    @FindBy(css = "button[data-bs-original-title='Remove']")
+    private WebElement removeButton;
 
     @FindBy(css = "#accordion.accordion")
     private WebElement accordion;
@@ -66,10 +66,38 @@ public class ShoppingCartPage extends PageHeader{
     @FindBy(css = "#logo")
     private WebElement logo;
 
+    @FindBy(xpath = "//td[@class='text-center']//img")
+    private WebElement productImage;
+
+    @FindBy(xpath = "//td[@class='text-start']/a")
+    private WebElement productNameLink;
+
+    @FindBy(xpath = "//td[@class='text-start' and contains(text(),'SAM1')]")
+    private WebElement productModel;
+
+    @FindBy(css = "input[name='quantity'].form-control")
+    private WebElement productQuantity;
+    
+    //Shopping Cart link
+    @FindBy(css="a[title=\"Shopping Cart\"]")
+    private WebElement shoppingCartLink;
+
+    //Name of product displayed on shopping cart
+    @FindBy(css=".img-thumbnail")
+    private WebElement productName;
+
+    //Name of product displayed on shopping cart
+    @FindBy(css="input[name=\"quantity\"]")
+    private WebElement quantityInput;
+  
     public ShoppingCartPage(WebDriver driver) {
         super(driver);
     }
-
+  
+    public WebElement getShoppingCartLink(){return shoppingCartLink;}
+    public WebElement getProductName(){return productName;}
+    public WebElement getQuantityInput(){return quantityInput;}
+  
     public String getCartPageTitleText() {
         return shoppingCartTitle.getText();
     }
@@ -98,8 +126,8 @@ public class ShoppingCartPage extends PageHeader{
         return updateButton;
     }
 
-    public WebElement getImageLink() {
-        return imageLink;
+    public WebElement getRemoveButton() {
+        return removeButton;
     }
 
     public WebElement getAccordion() {
@@ -157,5 +185,20 @@ public class ShoppingCartPage extends PageHeader{
     public WebElement getLogo() {
         return logo;
     }
-    
+
+    public WebElement getProductImage() {
+        return productImage;
+    }
+
+    public WebElement getProductNameLink() {
+        return productNameLink;
+    }
+
+    public WebElement getProductModel() {
+        return productModel;
+    }
+
+    public WebElement getProductQuantity() {
+        return productQuantity;
+    }
 }
