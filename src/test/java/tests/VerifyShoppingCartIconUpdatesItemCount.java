@@ -1,7 +1,6 @@
 package tests;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,7 +27,6 @@ public class VerifyShoppingCartIconUpdatesItemCount {
     @BeforeTest
     public void beforeTest(){
         driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
-        ChromeOptions options = new ChromeOptions();
 
         Date today = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");

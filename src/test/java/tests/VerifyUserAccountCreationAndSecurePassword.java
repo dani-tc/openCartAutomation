@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patterns.DriverManager;
-import patterns.pageobject.*;
+import patterns.pageobject.AddressBookPage;
 import utilities.Utils;
 
 import java.text.SimpleDateFormat;
