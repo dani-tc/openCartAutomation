@@ -17,7 +17,7 @@ import org.openqa.selenium.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class VerifyCheckoutSupportsCashOnDeliveryPayment {
+public class VerifyOrderCanBePlaced {
     
     private WebDriver driver = null;
     Screen screen = new Screen();
@@ -46,7 +46,7 @@ public class VerifyCheckoutSupportsCashOnDeliveryPayment {
 
     @Test
     @Parameters({"firstName","lastName","address","postcode","city","country","state","password"})
-    public void CashOnDeliveryPaymentAllowed(String firstName, String lastName, String address, String postcode, String city, String country, String state, String password) throws FindFailed {
+    public void OrderCanBePlaced(String firstName, String lastName, String address, String postcode, String city, String country, String state, String password) throws FindFailed {
 
         final int MAX_ATTEMPTS = 5;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
@@ -56,13 +56,16 @@ public class VerifyCheckoutSupportsCashOnDeliveryPayment {
                 CheckoutPage checkoutPage = new CheckoutPage(driver);
                 
                 homePage.addProductToCart();
-                Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/1-addProductToCart.png");
+                Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/1-AddProductToCart.png");
 
                 homePage.openCartPage();
-                Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/2-loadCheckoutPage.png");
+                Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/2-LoadCheckoutPage.png");
                 
                 checkoutPage.registerCredentials(firstName, lastName, address, postcode, city, country, state, password);
-                Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/3-cashOnValidation.png");
+                Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/3-CheckoutFilledValidation.png");
+
+                checkoutPage.clickConfirmOrderBtn();
+                Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/4-OrderPlacedValidation.png");
 
                 break;
             } catch (Exception e) {
@@ -80,6 +83,7 @@ public class VerifyCheckoutSupportsCashOnDeliveryPayment {
                 }
         
             }
+
         }
     }
 
