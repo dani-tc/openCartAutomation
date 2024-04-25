@@ -1,10 +1,13 @@
 package patterns.pageobject;
-//import patterns.*;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 
@@ -14,6 +17,10 @@ public abstract class PageHeader {
     //NavBar MyAccount dropdown
     @FindBy(css=".float-end ul > li:nth-of-type(2) a.dropdown-toggle")
     private WebElement navMyAccountDropdown;
+
+    //NavBar MyAccountOption
+    @FindBy(css=".float-end ul > li:nth-of-type(2) ul > li:nth-of-type(1) a")
+    private WebElement navMyAccountOption;
 
     //NavBar Register
     @FindBy(css=".float-end ul > li:nth-of-type(2) ul > li:nth-of-type(1) a")
@@ -138,7 +145,7 @@ public abstract class PageHeader {
     //MP3 show all
     @FindBy(css="#narbar-menu ul.navbar-nav > li:nth-of-type(8) .dropdown-inner + a")
     private WebElement showAllMp3;
-
+  
     //Components option on header
     @FindBy(css=".nav-item:nth-child(3)")
     private WebElement components;
@@ -158,14 +165,28 @@ public abstract class PageHeader {
         PageFactory.initElements(driver, this);
     }
 
-    public void clickNavRegister(){
+    public void clickNavMyAccountDropdown(){
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(navMyAccountDropdown));
         navMyAccountDropdown.click();
+    }
+  
+    public void clickNavMyAccountOption(){
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(navMyAccountDropdown));
+        navMyAccountOption.click();
+    }
+  
+    public void clickNavRegister(){
         navRegister.click();
     }
+  
     public void clickNavLogin(){
-        navMyAccountDropdown.click();
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(navLogin));
         navLogin.click();
     }
+  
     public void clickNavShoppingCart(){
         navShoppingCart.click();
     }
@@ -273,7 +294,7 @@ public abstract class PageHeader {
     public void goToAllMP3s(){
         showAllMp3.click();
     }
-
+  
     public WebElement getComponents(){return components;}
 
     public WebElement getMonitors(){return monitors;}
@@ -285,5 +306,9 @@ public abstract class PageHeader {
     public WebElement getPhonesCategory(){return phonesCategory;}
 
     public WebElement getCamerasCategory(){return camerasCategory;}
+  
+    public WebDriver getDriver(){
+        return driver;
+    }
 
 }

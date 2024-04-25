@@ -2,9 +2,7 @@ package tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -41,7 +39,7 @@ public class testTemplate {
     @Test
     public void test1() {
         driver.get("https://demo.opencart.com/");
-        shoppingCartPage cartPage = new shoppingCartPage(driver);
+        ShoppingCartPage cartPage = new ShoppingCartPage(driver);
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(60));
         explicitWait.until(ExpectedConditions.elementToBeClickable(cartPage.getNavShoppingCart()));
         cartPage.clickNavShoppingCart();
@@ -60,10 +58,11 @@ public class testTemplate {
     @Test
     public void test2() throws FindFailed {
         driver.get("https://demo.opencart.com/");
-        shoppingCartPage cartPage = new shoppingCartPage(driver);
+        ShoppingCartPage cartPage = new ShoppingCartPage(driver);
 
         Screen screen = new Screen();
-        Pattern image = new Pattern("C:\\Users\\estcastr2\\Desktop\\OpenCart\\openCartAutomation\\src\\resources\\cloudflare.png");
+        String pathYourSystem = System.getProperty("user.dir") + "\\";
+        Pattern image = new Pattern(pathYourSystem+"src\\resources\\cloudflare.png");
 
         screen.wait(image, 5);
         screen.click(image);
