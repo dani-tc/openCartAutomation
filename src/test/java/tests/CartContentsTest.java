@@ -32,8 +32,9 @@ public class CartContentsTest {
     private ShoppingCartPage cartPage;
 
     @BeforeTest
-    public void beforeTest() {
-        driver = DriverManager.getDriver(BrowserType.EDGE);
+    @Parameters("browserType")
+    public void beforeTest(String browserType) {
+        driver = DriverManager.getDriver(BrowserType.valueOf(browserType));
         productsPage = new ProductsPage(driver);
 
         Date today = new Date();
@@ -50,7 +51,7 @@ public class CartContentsTest {
                 "zJ9wxfXGd6JiMI3czkXFs4.kzRi6IqvPGPR1BaphLjM-1713852454-1.0.1.1-XKiVE5CVgEaZJ6pwxaPFZvAbzObkzBLWVzgfCCZoPHgWbHPgp6V.HROlod2Rr0jRzg2O5vNoDLVqbRP0JC8Gnw"));
         driver.manage().addCookie(new Cookie("currency", "USD"));
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         final int MAX_ATTEMPTS = 20;
         Screen screen = new Screen();
@@ -91,7 +92,7 @@ public class CartContentsTest {
     public void cartPageElementsTest() {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
@@ -119,7 +120,7 @@ public class CartContentsTest {
     public void cartInformationSectionTest() {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
@@ -134,10 +135,11 @@ public class CartContentsTest {
     }
 
     @Test(priority = 3, description = "Verify estimate shipping visibility")
-    public void estimateShippingVisibilityTest() {
+    @Parameters({"country", "zone", "postalCode"})
+    public void estimateShippingVisibilityTest(String country, String zone, String postalCode) {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
@@ -152,25 +154,26 @@ public class CartContentsTest {
         Utils.takeSnapShot(driver, "src/resources/cartContentsTest/3-checkingShippingAndTaxes.png");
 
         Assert.assertTrue(cartPage.getCountryInput().isDisplayed());
-        Assert.assertTrue(cartPage.getCountryInput().getText().contains("Colombia"));
+        Assert.assertTrue(cartPage.getCountryInput().getText().contains(country));
 
         Assert.assertTrue(cartPage.getZoneInput().isDisplayed());
         // Zone Input not working
-        Assert.assertFalse(cartPage.getZoneInput().getText().contains("Bogota D.C."));
+        Assert.assertFalse(cartPage.getZoneInput().getText().contains(zone));
 
         Assert.assertTrue(cartPage.getPostCodeInput().isDisplayed());
-        cartPage.getPostCodeInput().sendKeys("1234");
+        cartPage.getPostCodeInput().sendKeys(postalCode);
         cartPage.getPostCodeInput().sendKeys(Keys.ENTER);
-        Assert.assertEquals(cartPage.getPostCodeInput().getAttribute("value"), "1234");
+        Assert.assertEquals(cartPage.getPostCodeInput().getAttribute("value"), postalCode);
 
         Utils.takeSnapShot(driver, "src/resources/cartContentsTest/4-checkingFilledShippingAndTaxes.png");
     }
 
     @Test(priority = 4, description = "Verify coupon code visibility")
-    public void couponCodeVisibilityTest() {
+    @Parameters("validCoupon")
+    public void couponCodeVisibilityTest(String validCoupon) {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
@@ -185,19 +188,20 @@ public class CartContentsTest {
         Utils.takeSnapShot(driver, "src/resources/cartContentsTest/5-checkingCouponCodeInput.png");
 
         Assert.assertTrue(cartPage.getCouponInput().isDisplayed());
-        cartPage.getCouponInput().sendKeys("Valid Coupon");
+        cartPage.getCouponInput().sendKeys(validCoupon);
         // Coupon Input not working
-        Assert.assertFalse(cartPage.getCouponInput().getText().contains("Valid Coupon"));
+        Assert.assertFalse(cartPage.getCouponInput().getText().contains(validCoupon));
 
         Assert.assertTrue(cartPage.getCouponLabel().getText().contains("Enter your coupon here"));
         Utils.takeSnapShot(driver, "src/resources/cartContentsTest/6-checkingFilledCouponCodeInput.png");
     }
 
     @Test(priority = 5, description = "Verify gift certificate visibility")
-    public void giftCertificateVisibilityTest() {
+    @Parameters("validGift")
+    public void giftCertificateVisibilityTest(String validGift) {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
@@ -212,7 +216,7 @@ public class CartContentsTest {
         Utils.takeSnapShot(driver, "src/resources/cartContentsTest/7-checkingGiftInput.png");
 
         Assert.assertTrue(cartPage.getGiftInput().isDisplayed());
-        cartPage.getGiftInput().sendKeys("Valid Gift");
+        cartPage.getGiftInput().sendKeys(validGift);
         Assert.assertTrue(cartPage.getGiftInput().getAttribute("placeholder").contains("Enter your gift"));
 
         Assert.assertEquals(cartPage.getGiftLabel().getText(), "Enter your gift certificate code here");
@@ -223,7 +227,7 @@ public class CartContentsTest {
     public void headerAndFooterVisibilityTest() {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));

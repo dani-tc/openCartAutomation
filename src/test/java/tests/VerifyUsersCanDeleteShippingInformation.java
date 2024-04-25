@@ -1,9 +1,7 @@
 package tests;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
@@ -13,12 +11,11 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patterns.DriverManager;
-import patterns.pageobject.addressBookPage;
+import patterns.pageobject.AddressBookPage;
 import utilities.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class VerifyUsersCanDeleteShippingInformation {
     private WebDriver driver = null;
@@ -54,7 +51,7 @@ public class VerifyUsersCanDeleteShippingInformation {
         int tryDelete = 0;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
-                addressBookPage addressBook = new addressBookPage(driver);
+                AddressBookPage addressBook = new AddressBookPage(driver);
                 addressBook.clickNavMyAccountDropdown();
                 if(passedLogin){
                     addressBook.clickNavMyAccountOption();

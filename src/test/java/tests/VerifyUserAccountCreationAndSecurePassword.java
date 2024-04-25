@@ -2,8 +2,6 @@ package tests;
 
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
@@ -17,7 +15,6 @@ import patterns.pageobject.*;
 import utilities.Utils;
 
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Date;
 
 public class VerifyUserAccountCreationAndSecurePassword {
@@ -47,7 +44,7 @@ public class VerifyUserAccountCreationAndSecurePassword {
     @Parameters({"firstName","lastName","email","password"})
     public void UsersCanCreateAccountWithSecurePassword(String firstName, String lastName, String email, String password) throws FindFailed {
         final int MAX_ATTEMPTS = 20;
-        addressBookPage addressBook = new addressBookPage(driver);
+        AddressBookPage addressBook = new AddressBookPage(driver);
         boolean passedCreateAccount = false;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
