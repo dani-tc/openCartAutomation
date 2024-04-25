@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.util.List;
 
 
-public class HomePage extends homePageHeader {
+public class HomePage extends PageHeader {
     
 
     /* //MacBook product
@@ -53,7 +53,8 @@ public class HomePage extends homePageHeader {
         explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
             try{
-            products.get(1).click();
+            JavascriptExecutor executor = (JavascriptExecutor) driver;
+            executor.executeScript("arguments[0].click();", products.get(1));
             explicitWait.until(ExpectedConditions.visibilityOf(alert));
                 try {
                 Thread.sleep(1000);

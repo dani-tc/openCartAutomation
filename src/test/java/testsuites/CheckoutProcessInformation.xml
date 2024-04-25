@@ -14,4 +14,9 @@
           <class name="tests.VerifyCheckoutSupportsCashOnDeliveryPayment"/>
         </classes>
     </test>
+    <test name="OrderCanBePlaced">
+        <classes>
+          <class name="tests.VerifyOrderCanBePlaced"/>
+        </classes>
+    </test>
 </suite>

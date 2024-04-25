@@ -7,13 +7,16 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import dev.failsafe.internal.util.Assert;
+
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.*;
 
 import java.time.Duration;
 import java.util.Random;
 
-public class CheckoutPage extends homePageHeader {
+public class CheckoutPage extends PageHeader {
 
     //First Name Field
     @FindBy(css ="#checkout-register")
@@ -75,6 +78,22 @@ public class CheckoutPage extends homePageHeader {
     @FindBy(css ="div#alert div.alert-success")
     private WebElement alert;
 
+    //Confirm Order Button
+    @FindBy(css ="#button-confirm")
+    private WebElement orderButton;
+
+    //Order Page Title
+    @FindBy(css ="div#content h1")
+    private WebElement ordertitle;
+
+    //Order Page Continue Button
+    @FindBy(css ="div.float-end a.btn-primary")
+    private WebElement orderPageBtn;
+
+    //Shipping Address Selector
+    @FindBy(css ="#shipping-existing #input-shipping-address")
+    private WebElement shippingAddressSelector;
+
     private WebDriver driver;
 
     // Constructor
@@ -86,49 +105,59 @@ public class CheckoutPage extends homePageHeader {
     public void registerCredentials(String firstName, String lastName, String address, String postcode, String city, String country, String state, String password) {
 
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        explicitWait.until(ExpectedConditions.visibilityOf(title));
-        
         String randomEmail = generateRandomEmail();
+        int MAX_ATTEMPTS = 5;
+        for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
+            try{
+                explicitWait.until(ExpectedConditions.visibilityOf(title));
+                
+                firstNameInput.sendKeys(firstName);
+                lastNameInput.sendKeys(lastName);
+                emailInput.sendKeys(randomEmail);
         
-        firstNameInput.sendKeys(firstName);
-        lastNameInput.sendKeys(lastName);
-        emailInput.sendKeys(randomEmail);
-
-        Select countries = new Select(countriesDrop);
-        countries.selectByVisibleText(country);
-
-        addressInput.sendKeys(address);
-        postcodeInput.sendKeys(postcode);
-        cityInput.sendKeys(city);
- 
-        explicitWait.until(ExpectedConditions.textToBePresentInElement(stateDrop, state));
-        Select states = new Select(stateDrop);
-        states.selectByVisibleText(state);
-
-        passwordInput.sendKeys(password);
+                Select countries = new Select(countriesDrop);
+                countries.selectByVisibleText(country);
         
-        explicitWait.until(ExpectedConditions.elementToBeClickable(policyCheckbox));
-        new Actions (driver)
-            .moveToElement(policyCheckbox)
-            .click(policyCheckbox)
-            .perform();
-
-        clickContinueBtn();
-        explicitWait.until(ExpectedConditions.visibilityOf(alert));
-
-        explicitWait.until(ExpectedConditions.elementToBeClickable(shippingMethodDropdown));
-        Select shipping = new Select(shippingMethodDropdown);
-        shipping.selectByValue("flat.flat");
-        explicitWait.until(ExpectedConditions.visibilityOf(alert));
-
-        explicitWait.until(ExpectedConditions.elementToBeClickable(paymentMethodDropdown));
-        Select payment = new Select(paymentMethodDropdown);
-        payment.selectByValue("cod");
-        explicitWait.until(ExpectedConditions.visibilityOf(alert));
-
-        WebElement selectedOption = payment.getFirstSelectedOption();
-        String selectedValue = selectedOption.getAttribute("value");
-        assertEquals(selectedValue, "cod", "Selected value is not 'cod'");
+                addressInput.sendKeys(address);
+                postcodeInput.sendKeys(postcode);
+                cityInput.sendKeys(city);
+         
+                explicitWait.until(ExpectedConditions.textToBePresentInElement(stateDrop, state));
+                Select states = new Select(stateDrop);
+                states.selectByVisibleText(state);
+        
+                passwordInput.sendKeys(password);
+                
+                explicitWait.until(ExpectedConditions.elementToBeClickable(policyCheckbox));
+                new Actions (driver)
+                    .moveToElement(policyCheckbox)
+                    .click(policyCheckbox)
+                    .perform();
+        
+                clickContinueBtn();
+                explicitWait.until(ExpectedConditions.visibilityOf(alert));
+        
+                explicitWait.until(ExpectedConditions.elementToBeClickable(shippingMethodDropdown));
+                Select shipping = new Select(shippingMethodDropdown);
+                shipping.selectByValue("flat.flat");
+                explicitWait.until(ExpectedConditions.visibilityOf(alert));
+        
+                selectPaymentMethod();
+            break;
+            } catch (Exception e){
+                System.out.println("Attempt " + (attempt + 1) + " failed");
+                driver.navigate().refresh();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+                if (attempt == MAX_ATTEMPTS - 1) {
+                    // If this was the last attempt, rethrow the exception
+                    throw e;
+                }
+            }
+        }
         
     }
 
@@ -151,11 +180,12 @@ public class CheckoutPage extends homePageHeader {
         
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
         explicitWait.until(ExpectedConditions.elementToBeClickable(continueButton));
-        int MAX_ATTEMPTS = 10;
+        int MAX_ATTEMPTS = 2;
         explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
             try{
-            continueButton.click();
+            JavascriptExecutor executor = (JavascriptExecutor) driver;
+            executor.executeScript("arguments[0].click();", continueButton);
             explicitWait.until(ExpectedConditions.visibilityOf(alert));
             try {
                 Thread.sleep(2000);
@@ -172,6 +202,89 @@ public class CheckoutPage extends homePageHeader {
             }
         }
 
+    }
+
+    public void selectPaymentMethod() {
+        
+        int MAX_ATTEMPTS = 5;
+        for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
+            try{
+            WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            explicitWait.until(ExpectedConditions.elementToBeClickable(paymentMethodDropdown));
+            Select payment = new Select(paymentMethodDropdown);
+            payment.selectByValue("cod");
+
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+
+            WebElement selectedOption = payment.getFirstSelectedOption();
+            String selectedValue = selectedOption.getAttribute("value");
+            assertEquals(selectedValue, "cod", "Selected value is not 'cod'");
+            break;
+            } catch (Exception e){
+                System.out.println("Attempt " + (attempt + 1) + " failed");
+                driver.navigate().refresh();
+
+                WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+                WebElement dropdown = explicitWait.until(ExpectedConditions.visibilityOf(shippingAddressSelector));
+                Select select = new Select(dropdown);
+                select.selectByIndex(1);
+                explicitWait.until(ExpectedConditions.visibilityOf(alert));
+
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+
+                if (attempt == MAX_ATTEMPTS - 1) {
+                    // If this was the last attempt, rethrow the exception
+                    throw e;
+                }
+            }
+        }
+    }
+
+    public void clickConfirmOrderBtn() {
+        
+        int MAX_ATTEMPTS = 5;
+        for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
+            try{
+            WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            explicitWait.until(ExpectedConditions.elementToBeClickable(orderButton));
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+            orderButton.click();
+            explicitWait.until(ExpectedConditions.visibilityOf(orderPageBtn));
+            assertEquals(ordertitle.getText(), "Your order has been placed!");
+            break;
+            } catch (Exception e){
+                System.out.println("Attempt " + (attempt + 1) + " failed");
+                driver.navigate().refresh();
+
+                WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+                WebElement dropdown = explicitWait.until(ExpectedConditions.visibilityOf(shippingAddressSelector));
+                Select select = new Select(dropdown);
+                select.selectByIndex(1);
+                explicitWait.until(ExpectedConditions.visibilityOf(alert));
+
+                explicitWait.until(ExpectedConditions.elementToBeClickable(paymentMethodDropdown));
+                Select payment = new Select(paymentMethodDropdown);
+                payment.selectByValue("cod");
+                explicitWait.until(ExpectedConditions.visibilityOf(alert));
+
+                if (attempt == MAX_ATTEMPTS - 1) {
+                    // If this was the last attempt, rethrow the exception
+                    throw e;
+                }
+            }
+        }
     }
 
 }
