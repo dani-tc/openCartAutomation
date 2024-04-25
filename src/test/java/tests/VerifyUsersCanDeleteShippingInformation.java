@@ -1,9 +1,7 @@
 package tests;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
@@ -18,7 +16,6 @@ import utilities.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class VerifyUsersCanDeleteShippingInformation {
     private WebDriver driver = null;
