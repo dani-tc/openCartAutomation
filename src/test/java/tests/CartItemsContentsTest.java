@@ -54,7 +54,7 @@ public class CartItemsContentsTest {
         final int MAX_ATTEMPTS = 20;
         Screen screen = new Screen();
         String pathYourSystem = System.getProperty("user.dir") + "\\";
-        Pattern image = new Pattern(pathYourSystem+"src\\resources\\cloudflare.png");
+        Pattern image = new Pattern(pathYourSystem + "src\\resources\\cloudflare.png");
 
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
@@ -112,7 +112,15 @@ public class CartItemsContentsTest {
     public void productImageTest() {
         cartPage = new ShoppingCartPage(driver);
 
-        Assert.assertTrue(cartPage.getImageLink().isDisplayed());
+        WebElement productImage = cartPage.getProductImage();
+
+        Assert.assertTrue(productImage.isEnabled());
+        String expectedText = "Samsung Galaxy Tab 10.1";
+        String actualAltText = productImage.getAttribute("alt");
+        Assert.assertEquals(actualAltText, expectedText);
+
+        String actualTitle = productImage.getAttribute("title");
+        Assert.assertEquals(actualTitle, expectedText);
 
         Utils.takeSnapShot(driver, "src/resources/cartItemsContentsTest/2-checkingProductImage.png");
 
@@ -122,13 +130,18 @@ public class CartItemsContentsTest {
     public void productNameTest() {
         cartPage = new ShoppingCartPage(driver);
 
-        Assert.assertTrue(cartPage.getProductName().isEnabled());
+        WebElement productNameLink = cartPage.getProductName();
+        // Not Displaying
+        Assert.assertFalse(productNameLink.isDisplayed(), "Product name link is not displayed");
+
+        String expectedProductNameLink = "https://demo.opencart.com/index.php?route=product/product&language=en-gb&product_id=49";
+        String actualProductNameLink = productNameLink.getAttribute("href");
+        Assert.assertEquals(actualProductNameLink, expectedProductNameLink);
 
         Utils.takeSnapShot(driver, "src/resources/cartItemsContentsTest/3-checkingProductName.png");
-
     }
 
-    @Test(priority = 3, description = "Verify product name is visible in the cart")
+    @Test(priority = 4, description = "Verify product name is visible in the cart")
     public void productModelTest() {
         cartPage = new ShoppingCartPage(driver);
 

@@ -24,9 +24,6 @@ public class ShoppingCartPage extends PageHeader{
     @FindBy(css = "button[data-bs-original-title='Remove']")
     private WebElement removeButton;
 
-    @FindBy(css = "a[href='https://demo.opencart.com/index.php?route=product/product&amp;language=en-gb&amp;product_id=49']>img")
-    WebElement imageLink;
-
     @FindBy(css = "#accordion.accordion")
     private WebElement accordion;
 
@@ -69,10 +66,10 @@ public class ShoppingCartPage extends PageHeader{
     @FindBy(css = "#logo")
     private WebElement logo;
 
-    @FindBy(css = "a[href='https://demo.opencart.com/index.php?route=product/product&language=en-gb&product_id=49']")
+    @FindBy(xpath = "//td[@class='text-center']//img")
     private WebElement productImage;
 
-    @FindBy(css = "a[href='https://demo.opencart.com/index.php?route=product/product&amp;language=en-gb&amp;product_id=49']")
+    @FindBy(xpath = "//td[@class='text-start']/a")
     private WebElement productName;
 
     @FindBy(xpath = "//td[@class='text-start' and contains(text(),'SAM1')]")
@@ -115,10 +112,6 @@ public class ShoppingCartPage extends PageHeader{
 
     public WebElement getRemoveButton() {
         return removeButton;
-    }
-
-    public WebElement getImageLink() {
-        return imageLink;
     }
 
     public WebElement getAccordion() {
