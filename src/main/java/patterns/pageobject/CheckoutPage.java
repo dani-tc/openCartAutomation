@@ -13,7 +13,7 @@ import org.openqa.selenium.*;
 import java.time.Duration;
 import java.util.Random;
 
-public class CheckoutPage extends homePageHeader {
+public class CheckoutPage extends PageHeader {
 
     //First Name Field
     @FindBy(css ="#checkout-register")
@@ -75,12 +75,28 @@ public class CheckoutPage extends homePageHeader {
     @FindBy(css ="div#alert div.alert-success")
     private WebElement alert;
 
+    //Existing Payment Address label
+    @FindBy(css ="#input-payment-existing + label")
+    private WebElement existingPaymentAddress;
+
+    //Existing Shipping Address Select
+    @FindBy(css ="#input-shipping-existing + label")
+    private WebElement existingShippingAddress;
+
     private WebDriver driver;
 
     // Constructor
     public CheckoutPage(WebDriver driver) {
         super(driver);
         this.driver = driver;
+    }
+
+    public WebElement getExistingPaymentAddress() {
+        return existingPaymentAddress;
+    }
+
+    public WebElement getExistingShippingAddress() {
+        return existingShippingAddress;
     }
 
     public void registerCredentials(String firstName, String lastName, String address, String postcode, String city, String country, String state, String password) {

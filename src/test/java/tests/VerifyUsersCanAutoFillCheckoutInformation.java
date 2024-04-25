@@ -1,6 +1,7 @@
 package tests;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
@@ -10,13 +11,16 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patterns.DriverManager;
-import patterns.pageobject.*;
+import patterns.pageobject.AccountPage;
+import patterns.pageobject.CheckoutPage;
+import patterns.pageobject.HomePage;
+import patterns.pageobject.AddressBookPage;
 import utilities.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class VerifyUsersCanSaveShippingInformation {
+public class VerifyUsersCanAutoFillCheckoutInformation {
     private WebDriver driver = null;
     Screen screen = new Screen();
     String pathYourSystem = System.getProperty("user.dir") + "\\";
@@ -41,23 +45,31 @@ public class VerifyUsersCanSaveShippingInformation {
 
 
     @Test
-    @Parameters({"email","password","firstName","lastName","address1","city","postalCode","countryValue","regionValue"})
-    public void UsersCanSaveShippingInformation(String email, String password,String firstName, String lastName,String address1,String city, String postalCode,String countryValue, String regionValue) throws FindFailed {
+    @Parameters({"email","password"})
+    public void UsersCanSaveShippingInformation(String email, String password) throws FindFailed {
         final int MAX_ATTEMPTS = 20;
+        boolean passedLogin = false;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
-                AddressBookPage addressBook = new AddressBookPage(driver);
-                PageFooter pageFooter = new PageFooter(driver);
-                pageFooter.clickMyAccountFooter();
-                addressBook.login(email,password);
-                Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/SaveShippingInformationResults/1-loginSuccessful.png");
-                addressBook.clickAddressBookLink();
-                int numberOfAddress = addressBook.getAllAddressesLength().size();
-                addressBook.clickCreateNewAddress();
-                addressBook.createNewAddress(firstName, lastName, address1, city, postalCode, countryValue, regionValue);
-                Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/SaveShippingInformationResults/2-createNewAddress.png");
-                int newNumberOfAddress = addressBook.getAllAddressesLength().size();
-                Assert.assertEquals(newNumberOfAddress,(numberOfAddress+1));
+                AccountPage accountPage = new AccountPage(driver);
+                HomePage homePage = new HomePage(driver);
+                CheckoutPage checkoutPage = new CheckoutPage(driver);
+                accountPage.clickNavMyAccountDropdown();
+                if(passedLogin){
+                    accountPage.clickNavMyAccountOption();
+                }else{
+                    accountPage.clickNavLogin();
+                    passedLogin = accountPage.login(email,password);
+                    Utils.takeSnapShot(driver, "src/resources/AutoFill_in_CheckoutResults/AutoFillShippingInformationResults/1-loginSuccessful.png");
+                }
+                accountPage.returnToHome();
+                homePage.addProductToCart();
+                Utils.takeSnapShot(driver, "src/resources/AutoFill_in_CheckoutResults/AutoFillShippingInformationResults/2-addProductToCart.png");
+                homePage.openCartPage();
+                Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/3-loadCheckoutPage.png");
+                Assert.assertEquals(checkoutPage.getExistingPaymentAddress().getText(),"I want to use an existing address");
+                Assert.assertEquals(checkoutPage.getExistingShippingAddress().getText(),"I want to use an existing address");
+
                 break;  // if successful, break the loop
             } catch (Exception e) {
                 System.out.println(e.getMessage());

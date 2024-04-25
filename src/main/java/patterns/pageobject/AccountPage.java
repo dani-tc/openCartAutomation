@@ -10,7 +10,7 @@ import patterns.DriverManager;
 
 import java.time.Duration;
 
-public class myAccountPage extends PageHeader {
+public class AccountPage extends PageHeader {
     //First Name
     @FindBy(id="input-firstname")
     private WebElement FirstName;
@@ -18,7 +18,7 @@ public class myAccountPage extends PageHeader {
     @FindBy(id="input-lastname")
     private WebElement LastName;
     //Email Input
-    @FindBy(name="email")
+    @FindBy(id="input-email")
     private WebElement emailInput;
     //Password Input
     @FindBy(id="input-password")
@@ -36,14 +36,16 @@ public class myAccountPage extends PageHeader {
     @FindBy(css="#content > ul:nth-of-type(1) > li:nth-of-type(3) > a")
     private WebElement addressBookLink;
 
-
+    //Retun to home
+    @FindBy(css="#account-account ul li.breadcrumb-item:nth-of-type(1) a")
+    private WebElement breadcrumbReturnToHome;
 
     private WebDriver driver;
 
     // Constructor
-    public myAccountPage(WebDriver driver) {
+    public AccountPage(WebDriver driver) {
         super(driver);
-        this.driver = DriverManager.getDriver(DriverManager.BrowserType.CHROME); // replace with desired browser (CHROME, EDGE, FIREFOX)
+        this.driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with desired browser (CHROME, EDGE, FIREFOX)
         PageFactory.initElements(driver, this);
     }
 
@@ -74,13 +76,27 @@ public class myAccountPage extends PageHeader {
         getAddressBookLink().click();
     }
     public boolean login (String email, String password){
-        emailInput.sendKeys(email);
-        passwordInput.sendKeys(password);
-        loginButton.click();
-        return true;
+        boolean passedLogin = false;
+        while(!passedLogin) {
+            try {
+                WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+                explicitWait.until(ExpectedConditions.visibilityOf(emailInput));
+                emailInput.sendKeys(email);
+                passwordInput.sendKeys(password);
+                JavascriptExecutor executor = (JavascriptExecutor) driver;
+                executor.executeScript("arguments[0].click();", loginButton);
+            } catch (Exception e) {
+                ((JavascriptExecutor) driver).executeScript("location.reload()");
+                return passedLogin;
+            }
+            passedLogin = true;
+        }
+        return passedLogin;
     }
 
     public void fillRegister (String firstName, String lastName, String email, String password){
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.visibilityOf(getFirstName()));
         getFirstName().sendKeys(firstName);
         getLastName().sendKeys(lastName);
         emailInput.sendKeys(email);
@@ -97,5 +113,7 @@ public class myAccountPage extends PageHeader {
         executor.executeScript("arguments[0].click();", getContinueButton());
         return true;
     }
-
+    public void returnToHome (){
+        breadcrumbReturnToHome.click();
+    }
 }

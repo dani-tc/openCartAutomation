@@ -10,7 +10,8 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patterns.DriverManager;
-import patterns.pageobject.addressBookPage;
+import patterns.pageobject.AddressBookPage;
+import patterns.pageobject.PageFooter;
 import utilities.Utils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +25,7 @@ public class VerifyUsersCanUpdateShippingInformation {
 
     @BeforeTest
     public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.CHROME); // replace with your desired browser
+        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
         //Login as admin to unlock functionalities
         Date today = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -44,37 +45,23 @@ public class VerifyUsersCanUpdateShippingInformation {
     @Parameters({"email","password","firstNameUpdate","lastNameUpdate","address1Update","cityUpdate","postalCodeUpdate","countryValueUpdate","regionValueUpdate"})
     public void UsersCanUpdateShippingInformation(String email, String password,String firstNameUpdate, String lastNameUpdate,String address1Update,String cityUpdate, String postalCodeUpdate,String countryValueUpdate, String regionValueUpdate) throws FindFailed {
         final int MAX_ATTEMPTS = 20;
-        boolean passedLogin = false;
-        boolean passedUpdate = false;
-        int tryRegionSelect =0;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
-                addressBookPage addressBook = new addressBookPage(driver);
-                addressBook.clickNavMyAccountDropdown();
-                if(passedLogin){
-                    addressBook.clickNavMyAccountOption();
-                }else{
-                    addressBook.clickNavLogin();
-                    passedLogin = addressBook.login(email,password);
-                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/UpdateShippingInformationResults/1-loginSuccessful.png");
-                }
-                if(passedUpdate){
-                    addressBook.clickAddressBookLink();
-                }else{
-                    addressBook.clickAddressBookLink();
-                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/UpdateShippingInformationResults/2-seeAddressBook.png");
-                    addressBook.editDefaultAddress();
-                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/UpdateShippingInformationResults/3-editDefaultAddress.png");
-                    while(!passedUpdate && tryRegionSelect<5){
-                        passedUpdate = addressBook.updateDefaultAddress(firstNameUpdate,lastNameUpdate,address1Update,cityUpdate,postalCodeUpdate,countryValueUpdate,regionValueUpdate);
-                        tryRegionSelect = tryRegionSelect+1;
-                    }
-                }
+                AddressBookPage addressBook = new AddressBookPage(driver);
+                PageFooter pageFooter = new PageFooter(driver);
+                pageFooter.clickMyAccountFooter();
+                addressBook.login(email,password);
+                Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/UpdateShippingInformationResults/1-loginSuccessful.png");
+                addressBook.clickAddressBookLink();
+                Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/UpdateShippingInformationResults/2-seeAddressBook.png");
+                addressBook.editDefaultAddress();
+                Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/UpdateShippingInformationResults/3-editDefaultAddress.png");
+                addressBook.updateDefaultAddress(firstNameUpdate,lastNameUpdate,address1Update,cityUpdate,postalCodeUpdate,countryValueUpdate,regionValueUpdate);
                 Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/UpdateShippingInformationResults/4-editedDefaultAddress.png");
                 Assert.assertEquals(addressBook.getDefaultAddress().getText(),firstNameUpdate+" "+lastNameUpdate+"\n" +
                         address1Update+"\n" +
-                        cityUpdate+", Arauca "+postalCodeUpdate+"\n" +
-                        "Colombia");
+                        cityUpdate+", Northern Territory "+postalCodeUpdate+"\n" +
+                        "Australia");
                 break;  // if successful, break the loop
             } catch (Exception e) {
                 System.out.println(e.getMessage());

@@ -1,9 +1,7 @@
 package tests;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
@@ -13,12 +11,12 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patterns.DriverManager;
-import patterns.pageobject.addressBookPage;
+import patterns.pageobject.AddressBookPage;
+import patterns.pageobject.PageFooter;
 import utilities.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class VerifyUsersCanDeleteShippingInformation {
     private WebDriver driver = null;
@@ -28,7 +26,7 @@ public class VerifyUsersCanDeleteShippingInformation {
 
     @BeforeTest
     public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.CHROME); // replace with your desired browser
+        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
         //Login as admin to unlock functionalities
         Date today = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -48,34 +46,19 @@ public class VerifyUsersCanDeleteShippingInformation {
     @Parameters({"email","password"})
     public void UsersCanDeleteShippingInformation(String email, String password) throws FindFailed {
         final int MAX_ATTEMPTS = 20;
-        boolean passedLogin = false;
-        boolean passedDelete = false;
         int numberOfAddresses = 0;
-        int tryDelete = 0;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
-                addressBookPage addressBook = new addressBookPage(driver);
-                addressBook.clickNavMyAccountDropdown();
-                if(passedLogin){
-                    addressBook.clickNavMyAccountOption();
-                }else{
-                    addressBook.clickNavLogin();
-                    passedLogin = addressBook.login(email,password);
-                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/DeleteShippingInformationResults/1-loginSuccessful.png");
-                }
-                if(passedDelete){
-                    addressBook.clickAddressBookLink();
-                }else{
-                    addressBook.clickAddressBookLink();
-                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/DeleteShippingInformationResults/2-seeAddressBook.png");
-                    numberOfAddresses = addressBook.getAllAddressesLength().size();
-                    while(!passedDelete && tryDelete<5){
-                        passedDelete = addressBook.deleteAddress();
-                        tryDelete = tryDelete + 1;
-                    }
-                    Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/DeleteShippingInformationResults/3-deleteAddress.png");
-                    addressBook.clickAddressBookLink();
-                }
+                AddressBookPage addressBook = new AddressBookPage(driver);
+                PageFooter pageFooter = new PageFooter(driver);
+                pageFooter.clickMyAccountFooter();
+                addressBook.login(email,password);
+                Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/DeleteShippingInformationResults/1-loginSuccessful.png");
+                addressBook.clickAddressBookLink();
+                Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/DeleteShippingInformationResults/2-seeAddressBook.png");
+                numberOfAddresses = addressBook.getAllAddressesLength().size();
+                addressBook.deleteAddress();
+                Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/DeleteShippingInformationResults/3-deleteAddress.png");
                 int newNumberOfAddresses = addressBook.getAllAddressesLength().size();
                 Utils.takeSnapShot(driver, "src/resources/SaveShipping_and_BillingInformationResults/DeleteShippingInformationResults/4-deletedAddress.png");
                 Assert.assertEquals(newNumberOfAddresses,(numberOfAddresses-1));

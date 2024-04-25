@@ -1,8 +1,10 @@
 package patterns.pageobject;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -150,15 +152,28 @@ public abstract class PageHeader {
 
     // Constructor
     public PageHeader(WebDriver driver){
-        this.driver = driver;
-        //this.driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with desired browser (CHROME, EDGE, FIREFOX)
+        //this.driver = driver;
+        this.driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with desired browser (CHROME, EDGE, FIREFOX)
         PageFactory.initElements(driver, this);
     }
 
     public void clickNavMyAccountDropdown(){
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        explicitWait.until(ExpectedConditions.elementToBeClickable(navMyAccountDropdown));
-        navMyAccountDropdown.click();
+        boolean found=false;
+        int tryToFound = 0;
+        while(!found && tryToFound<3){
+            try{
+                WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+                explicitWait.until(ExpectedConditions.elementToBeClickable(navMyAccountDropdown));
+                new Actions(driver)
+                        .moveToElement(navMyAccountDropdown)
+                        .click(navMyAccountDropdown)
+                        .perform();
+                found=true;
+            }catch (Exception e){
+                ((JavascriptExecutor)driver).executeScript("location.reload()");
+            }
+            tryToFound = tryToFound +1;
+        }
     }
     public void clickNavMyAccountOption(){
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
