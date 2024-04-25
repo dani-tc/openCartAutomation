@@ -44,7 +44,7 @@ public class VerifyUserAccountCreationAndSecurePassword {
     @Parameters({"firstName","lastName","email","password"})
     public void UsersCanCreateAccountWithSecurePassword(String firstName, String lastName, String email, String password) throws FindFailed {
         final int MAX_ATTEMPTS = 20;
-        addressBookPage addressBook = new addressBookPage(driver);
+        AddressBookPage addressBook = new AddressBookPage(driver);
         boolean passedCreateAccount = false;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
