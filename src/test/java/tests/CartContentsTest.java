@@ -54,8 +54,8 @@ public class CartContentsTest {
 
         final int MAX_ATTEMPTS = 20;
         Screen screen = new Screen();
-        Pattern image = new Pattern(
-                "C:\\Users\\sanrocha\\Documents\\Project\\openCartAutomation\\src\\resources\\cloudflare.png");
+        String pathYourSystem = System.getProperty("user.dir") + "\\";
+        Pattern image = new Pattern(pathYourSystem+"src\\resources\\cloudflare.png");
 
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
@@ -118,7 +118,7 @@ public class CartContentsTest {
     public void cartInformationSectionTest() {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
@@ -160,8 +160,7 @@ public class CartContentsTest {
         Assert.assertTrue(cartPage.getPostCodeInput().isDisplayed());
         cartPage.getPostCodeInput().sendKeys("1234");
         cartPage.getPostCodeInput().sendKeys(Keys.ENTER);
-        // Postal Code Input not working
-        Assert.assertNotEquals(cartPage.getPostCodeInput().getText(), "1234");
+        Assert.assertEquals(cartPage.getPostCodeInput().getAttribute("value"), "1234");
 
         Utils.takeSnapShot(driver, "src/resources/cartContentsTest/4-checkingFilledShippingAndTaxes.png");
     }
@@ -213,8 +212,7 @@ public class CartContentsTest {
 
         Assert.assertTrue(cartPage.getGiftInput().isDisplayed());
         cartPage.getGiftInput().sendKeys("Valid Gift");
-        // Coupon Input not working
-        Assert.assertFalse(cartPage.getGiftInput().getText().contains("Valid Gift"));
+        Assert.assertTrue(cartPage.getGiftInput().getAttribute("placeholder").contains("Enter your gift"));
 
         Assert.assertEquals(cartPage.getGiftLabel().getText(), "Enter your gift certificate code here");
         Utils.takeSnapShot(driver, "src/resources/cartContentsTest/8-checkingFilledGiftInput.png");

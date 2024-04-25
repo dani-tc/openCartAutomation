@@ -1,10 +1,15 @@
 package patterns.pageobject;
-//import patterns.*;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import patterns.DriverManager;
 
+import java.time.Duration;
 import java.util.List;
 
 
@@ -14,6 +19,10 @@ public abstract class PageHeader {
     //NavBar MyAccount dropdown
     @FindBy(css=".float-end ul > li:nth-of-type(2) a.dropdown-toggle")
     private WebElement navMyAccountDropdown;
+
+    //NavBar MyAccountOption
+    @FindBy(css=".float-end ul > li:nth-of-type(2) ul > li:nth-of-type(1) a")
+    private WebElement navMyAccountOption;
 
     //NavBar Register
     @FindBy(css=".float-end ul > li:nth-of-type(2) ul > li:nth-of-type(1) a")
@@ -146,12 +155,22 @@ public abstract class PageHeader {
         PageFactory.initElements(driver, this);
     }
 
-    public void clickNavRegister(){
+    public void clickNavMyAccountDropdown(){
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(navMyAccountDropdown));
         navMyAccountDropdown.click();
+    }
+    public void clickNavMyAccountOption(){
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(navMyAccountDropdown));
+        navMyAccountOption.click();
+    }
+    public void clickNavRegister(){
         navRegister.click();
     }
     public void clickNavLogin(){
-        navMyAccountDropdown.click();
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(navLogin));
         navLogin.click();
     }
     public void clickNavShoppingCart(){
@@ -261,7 +280,7 @@ public abstract class PageHeader {
     public void goToAllMP3s(){
         showAllMp3.click();
     }
-
+  
     public WebDriver getDriver(){
         return driver;
     }
