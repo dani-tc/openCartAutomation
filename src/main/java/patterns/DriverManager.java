@@ -1,4 +1,5 @@
 package patterns;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,7 +17,7 @@ public class DriverManager {
         EDGE
     }
 
-    private DriverManager() {}
+    public DriverManager() {}
 
     public static WebDriver getDriver(BrowserType type) {
         if (driver == null) {
@@ -28,7 +29,6 @@ public class DriverManager {
                     break;
                 case FIREFOX:
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
-                    firefoxOptions.addArguments("start-maximized");
                     driver = new FirefoxDriver(firefoxOptions);
                     break;
                 case EDGE:

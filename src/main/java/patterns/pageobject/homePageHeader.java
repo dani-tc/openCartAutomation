@@ -139,6 +139,18 @@ public abstract class homePageHeader {
     @FindBy(css="#narbar-menu ul.navbar-nav > li:nth-of-type(8) .dropdown-inner + a")
     private WebElement showAllMp3;
 
+    //Components option on header
+    @FindBy(css=".nav-item:nth-child(3)")
+    private WebElement components;
+
+    //Monitors options, sub menu on components.
+    @FindBy(css=".nav-item:nth-child(3) li:nth-child(2)")
+    private WebElement monitors;
+
+    //Floating label that appears when something is added to cart
+    @FindBy(css=".btn-close")
+    private WebElement closeButton;
+
     // Constructor
     public homePageHeader(WebDriver driver){
         this.driver = driver;
@@ -261,5 +273,17 @@ public abstract class homePageHeader {
     public void goToAllMP3s(){
         showAllMp3.click();
     }
+
+    public WebElement getComponents(){return components;}
+
+    public WebElement getMonitors(){return monitors;}
+
+    public WebElement getCloseButton(){return closeButton;}
+
+    public WebElement getCartDropdownButton(){return cartDropdownButton;}
+
+    public WebElement getPhonesCategory(){return phonesCategory;}
+
+    public WebElement getCamerasCategory(){return camerasCategory;}
 
 }

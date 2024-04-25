@@ -9,11 +9,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
+import patterns.DriverManager;
 import utilities.*;
 import patterns.pageobject.*;
 //import patterns.*;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.*;
 import org.testng.Assert;
@@ -25,11 +25,10 @@ public class testTemplate {
 
     @BeforeTest
     public void beforeTest(){
-        //driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
         //Login as admin to unlock functionalities
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized");
-        driver = new ChromeDriver(options);
         driver.get("https://demo.opencart.com/admin/");
         WebElement inputName = driver.findElement(By.id("input-username"));
         inputName.sendKeys("demo");
@@ -37,7 +36,6 @@ public class testTemplate {
         inputPassword.sendKeys("demo");
         WebElement login = driver.findElement(By.cssSelector(".btn"));
         login.click();
-
     }
 
     @Test
@@ -85,8 +83,7 @@ public class testTemplate {
 
     @AfterTest
     public void afterTest(){
-        driver.quit();
-        //DriverManager.quitDriver();
+        DriverManager.quitDriver();
     }
 }
 
