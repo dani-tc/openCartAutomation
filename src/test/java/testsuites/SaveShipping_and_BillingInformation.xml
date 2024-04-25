@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Save Shipping and Billing Information">
+    <parameter name="email" value="daniel4@example.com"/>
+    <parameter name="password" value="Demo"/>
+    <parameter name="firstNameUpdate" value="Edited"/>
+    <parameter name="lastNameUpdate" value="Edited"/>
+    <parameter name="address1Update" value="Street 3"/>
+    <parameter name="cityUpdate" value="Bogota"/>
+    <parameter name="postalCodeUpdate" value="25001"/>
+    <parameter name="countryValueUpdate" value="13"/>
+    <parameter name="regionValueUpdate" value="193"/>
+    <test name="Verify users can update saved Shipping Information">
+        <classes>
+            <class name="tests.VerifyUsersCanUpdateShippingInformation"/>
+        </classes>
+    </test> <!-- Test -->
+    <parameter name="email" value="daniel4@example.com"/>
+    <parameter name="password" value="Demo"/>
+    <test name="Verify users can delete saved Shipping Information">
+        <classes>
+            <class name="tests.VerifyUsersCanDeleteShippingInformation"/>
+        </classes>
+    </test> <!-- Test -->
+    <parameter name="email" value="daniel4@example.com"/>
+    <parameter name="password" value="Demo"/>
+    <parameter name="firstName" value="User2"/>
+    <parameter name="lastName" value="User3"/>
+    <parameter name="address1" value="Street 1"/>
+    <parameter name="city" value="Rio"/>
+    <parameter name="postalCode" value="9001"/>
+    <parameter name="countryValue" value="222"/>
+    <parameter name="regionValue" value="3513"/>
+    <test name="Verify users can save Shipping Information">
+        <classes>
+            <class name="tests.VerifyUsersCanSaveShippingInformation"/>
+        </classes>
+    </test> <!-- Test -->
+</suite> <!-- Suite -->

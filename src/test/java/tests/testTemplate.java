@@ -2,18 +2,16 @@ package tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
+import patterns.DriverManager;
 import utilities.*;
 import patterns.pageobject.*;
 //import patterns.*;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.*;
 import org.testng.Assert;
@@ -25,11 +23,10 @@ public class testTemplate {
 
     @BeforeTest
     public void beforeTest(){
-        //driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
         //Login as admin to unlock functionalities
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized");
-        driver = new ChromeDriver(options);
         driver.get("https://demo.opencart.com/admin/");
         WebElement inputName = driver.findElement(By.id("input-username"));
         inputName.sendKeys("demo");
@@ -37,13 +34,12 @@ public class testTemplate {
         inputPassword.sendKeys("demo");
         WebElement login = driver.findElement(By.cssSelector(".btn"));
         login.click();
-
     }
 
     @Test
     public void test1() {
         driver.get("https://demo.opencart.com/");
-        shoppingCartPage cartPage = new shoppingCartPage(driver);
+        ShoppingCartPage cartPage = new ShoppingCartPage(driver);
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(60));
         explicitWait.until(ExpectedConditions.elementToBeClickable(cartPage.getNavShoppingCart()));
         cartPage.clickNavShoppingCart();
@@ -62,10 +58,11 @@ public class testTemplate {
     @Test
     public void test2() throws FindFailed {
         driver.get("https://demo.opencart.com/");
-        shoppingCartPage cartPage = new shoppingCartPage(driver);
+        ShoppingCartPage cartPage = new ShoppingCartPage(driver);
 
         Screen screen = new Screen();
-        Pattern image = new Pattern("C:\\Users\\estcastr2\\Desktop\\OpenCart\\openCartAutomation\\src\\resources\\cloudflare.png");
+        String pathYourSystem = System.getProperty("user.dir") + "\\";
+        Pattern image = new Pattern(pathYourSystem+"src\\resources\\cloudflare.png");
 
         screen.wait(image, 5);
         screen.click(image);
@@ -85,8 +82,7 @@ public class testTemplate {
 
     @AfterTest
     public void afterTest(){
-        driver.quit();
-        //DriverManager.quitDriver();
+        DriverManager.quitDriver();
     }
 }
 

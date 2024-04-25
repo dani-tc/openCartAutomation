@@ -1,19 +1,29 @@
 package patterns.pageobject;
-//import patterns.*;
+
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import patterns.DriverManager;
 
+import java.time.Duration;
 import java.util.List;
 
 
-public abstract class homePageHeader {
+public abstract class PageHeader {
     private WebDriver driver;
 
     //NavBar MyAccount dropdown
     @FindBy(css=".float-end ul > li:nth-of-type(2) a.dropdown-toggle")
     private WebElement navMyAccountDropdown;
+
+    //NavBar MyAccountOption
+    @FindBy(css=".float-end ul > li:nth-of-type(2) ul > li:nth-of-type(1) a")
+    private WebElement navMyAccountOption;
 
     //NavBar Register
     @FindBy(css=".float-end ul > li:nth-of-type(2) ul > li:nth-of-type(1) a")
@@ -138,22 +148,61 @@ public abstract class homePageHeader {
     //MP3 show all
     @FindBy(css="#narbar-menu ul.navbar-nav > li:nth-of-type(8) .dropdown-inner + a")
     private WebElement showAllMp3;
+  
+    //Components option on header
+    @FindBy(css=".nav-item:nth-child(3)")
+    private WebElement components;
+
+    //Monitors options, sub menu on components.
+    @FindBy(css=".nav-item:nth-child(3) li:nth-child(2)")
+    private WebElement monitors;
+
+    //Floating label that appears when something is added to cart
+    @FindBy(css=".btn-close")
+    private WebElement closeButton;
 
     // Constructor
-    public homePageHeader(WebDriver driver){
-        this.driver = driver;
-        //this.driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with desired browser (CHROME, EDGE, FIREFOX)
+    public PageHeader(WebDriver driver){
+        //this.driver = driver;
+        this.driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with desired browser (CHROME, EDGE, FIREFOX)
         PageFactory.initElements(driver, this);
     }
 
+    public void clickNavMyAccountDropdown(){
+        boolean found=false;
+        int tryToFound = 0;
+        while(!found && tryToFound<3){
+            try{
+                WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+                explicitWait.until(ExpectedConditions.elementToBeClickable(navMyAccountDropdown));
+                new Actions(driver)
+                        .moveToElement(navMyAccountDropdown)
+                        .click(navMyAccountDropdown)
+                        .perform();
+                found=true;
+            }catch (Exception e){
+                ((JavascriptExecutor)driver).executeScript("location.reload()");
+            }
+            tryToFound = tryToFound +1;
+        }
+    }
+  
+    public void clickNavMyAccountOption(){
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(navMyAccountDropdown));
+        navMyAccountOption.click();
+    }
+  
     public void clickNavRegister(){
-        navMyAccountDropdown.click();
         navRegister.click();
     }
+  
     public void clickNavLogin(){
-        navMyAccountDropdown.click();
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(navLogin));
         navLogin.click();
     }
+  
     public void clickNavShoppingCart(){
         navShoppingCart.click();
     }
@@ -260,6 +309,22 @@ public abstract class homePageHeader {
 
     public void goToAllMP3s(){
         showAllMp3.click();
+    }
+  
+    public WebElement getComponents(){return components;}
+
+    public WebElement getMonitors(){return monitors;}
+
+    public WebElement getCloseButton(){return closeButton;}
+
+    public WebElement getCartDropdownButton(){return cartDropdownButton;}
+
+    public WebElement getPhonesCategory(){return phonesCategory;}
+
+    public WebElement getCamerasCategory(){return camerasCategory;}
+  
+    public WebDriver getDriver(){
+        return driver;
     }
 
 }
