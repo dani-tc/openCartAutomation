@@ -1,11 +1,6 @@
 package tests;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
@@ -19,7 +14,6 @@ import patterns.pageobject.*;
 import utilities.Utils;
 
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Date;
 
 public class VerifyUsersCanSaveShippingInformation {
