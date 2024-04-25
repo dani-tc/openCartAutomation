@@ -10,7 +10,7 @@ import patterns.DriverManager;
 
 import java.time.Duration;
 
-public class MyAccountPage extends PageHeader {
+public class AccountPage extends PageHeader {
     //First Name
     @FindBy(id="input-firstname")
     private WebElement FirstName;
@@ -41,7 +41,7 @@ public class MyAccountPage extends PageHeader {
     private WebDriver driver;
 
     // Constructor
-    public MyAccountPage(WebDriver driver) {
+    public AccountPage(WebDriver driver) {
         super(driver);
         this.driver = DriverManager.getDriver(DriverManager.BrowserType.CHROME); // replace with desired browser (CHROME, EDGE, FIREFOX)
         PageFactory.initElements(driver, this);

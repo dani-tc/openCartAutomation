@@ -10,7 +10,7 @@ import patterns.DriverManager;
 import java.time.Duration;
 import java.util.List;
 
-public class AddressBookPage extends MyAccountPage {
+public class AddressBookPage extends AccountPage {
     //Create new address
     @FindBy(css=".d-inline-block .float-end a")
     private WebElement createNewAddressButton;
