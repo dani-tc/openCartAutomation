@@ -9,6 +9,11 @@
     <parameter name="country" value="United Kingdom"/>
     <parameter name="state" value="Cardiff"/>
     <parameter name="password" value="12345678"/>
+    <test name="PaymentMethodFieldIsDisplayed">
+        <classes>
+            <class name="tests.VerifyPaymentMethodFieldDisplayed"/>
+        </classes>
+    </test>
     <test name="CheckoutSupportsCashOnDelivery">
         <classes>
           <class name="tests.VerifyCheckoutSupportsCashOnDeliveryPayment"/>
