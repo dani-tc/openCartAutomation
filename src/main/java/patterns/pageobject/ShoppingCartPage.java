@@ -77,11 +77,27 @@ public class ShoppingCartPage extends PageHeader{
 
     @FindBy(css = "input[name='quantity'].form-control")
     private WebElement productQuantity;
+    
+    //Shopping Cart link
+    @FindBy(css="a[title=\"Shopping Cart\"]")
+    private WebElement shoppingCartLink;
 
+    //Name of product displayed on shopping cart
+    @FindBy(css=".img-thumbnail")
+    private WebElement productName;
+
+    //Name of product displayed on shopping cart
+    @FindBy(css="input[name=\"quantity\"]")
+    private WebElement quantityInput;
+  
     public ShoppingCartPage(WebDriver driver) {
         super(driver);
     }
-
+  
+    public WebElement getShoppingCartLink(){return shoppingCartLink;}
+    public WebElement getProductName(){return productName;}
+    public WebElement getQuantityInput(){return quantityInput;}
+  
     public String getCartPageTitleText() {
         return shoppingCartTitle.getText();
     }
@@ -185,7 +201,4 @@ public class ShoppingCartPage extends PageHeader{
     public WebElement getProductQuantity() {
         return productQuantity;
     }
-
-    
-    
 }

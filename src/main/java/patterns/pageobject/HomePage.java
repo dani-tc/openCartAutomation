@@ -36,6 +36,18 @@ public class HomePage extends PageHeader {
     //Cart Dropdown
     @FindBy(css ="div.d-grid ul.dropdown-menu-right")
     private WebElement cartDropdown;
+  
+    @FindBy(css=".row:nth-child(4) .col:nth-child(1) button:nth-child(1)")
+    private WebElement addToCartButtonMacbook;
+
+    @FindBy(css=".row:nth-child(4) .col:nth-child(2) button:nth-child(1)")
+    private WebElement addToCartButtonIphone;
+
+    @FindBy(css=".row:nth-child(4) .col:nth-child(3) button:nth-child(1)")
+    private WebElement addToCartButtonCinema;
+
+    @FindBy(css=".row:nth-child(4) .col:nth-child(4) button:nth-child(1)")
+    private WebElement addToCartButtonCanon;
 
     private WebDriver driver;
 
@@ -44,6 +56,11 @@ public class HomePage extends PageHeader {
         super(driver);
         this.driver = driver;
     }
+  
+    public WebElement getAddToCartButtonMacbook(){return addToCartButtonMacbook;}
+    public WebElement getAddToCartButtonIphone(){return addToCartButtonIphone;}
+    public WebElement getAddToCartButtonCinema(){return addToCartButtonCinema;}
+    public WebElement getAddToCartButtonCanon(){return addToCartButtonCanon;}
 
     public void addProductToCart() {
         
@@ -106,5 +123,4 @@ public class HomePage extends PageHeader {
         }
 
     }
-
 }
