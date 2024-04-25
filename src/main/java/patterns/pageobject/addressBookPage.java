@@ -11,7 +11,7 @@ import patterns.DriverManager;
 import java.time.Duration;
 import java.util.List;
 
-public class addressBookPage extends myAccountPage {
+public class AddressBookPage extends AccountPage {
     //Create new address
     @FindBy(css=".d-inline-block .float-end a")
     private WebElement createNewAddressButton;
@@ -60,7 +60,7 @@ public class addressBookPage extends myAccountPage {
     private WebDriver driver;
 
     // Constructor
-    public addressBookPage(WebDriver driver) {
+    public AddressBookPage(WebDriver driver) {
         super(driver);
         this.driver = DriverManager.getDriver(DriverManager.BrowserType.CHROME); // replace with desired browser (CHROME, EDGE, FIREFOX)
         PageFactory.initElements(driver, this);

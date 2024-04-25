@@ -8,8 +8,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import dev.failsafe.internal.util.Assert;
-
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.*;
 
