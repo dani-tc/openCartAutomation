@@ -31,8 +31,9 @@ public class CartItemsContentsTest {
     private ShoppingCartPage cartPage;
 
     @BeforeTest
-    public void beforeTest() {
-        driver = DriverManager.getDriver(BrowserType.EDGE);
+    @Parameters("browserType")
+    public void beforeTest(String browserType) {
+        driver = DriverManager.getDriver(BrowserType.valueOf(browserType));
         productsPage = new ProductsPage(driver);
 
         Date today = new Date();
@@ -49,7 +50,7 @@ public class CartItemsContentsTest {
                 "zJ9wxfXGd6JiMI3czkXFs4.kzRi6IqvPGPR1BaphLjM-1713852454-1.0.1.1-XKiVE5CVgEaZJ6pwxaPFZvAbzObkzBLWVzgfCCZoPHgWbHPgp6V.HROlod2Rr0jRzg2O5vNoDLVqbRP0JC8Gnw"));
         driver.manage().addCookie(new Cookie("currency", "USD"));
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         final int MAX_ATTEMPTS = 20;
         Screen screen = new Screen();
@@ -109,57 +110,59 @@ public class CartItemsContentsTest {
     }
 
     @Test(priority = 2, description = "Verify product image is visible in the cart")
-    public void productImageTest() {
+    @Parameters("productName")
+    public void productImageTest(String productName) {
         cartPage = new ShoppingCartPage(driver);
 
         WebElement productImage = cartPage.getProductImage();
 
         Assert.assertTrue(productImage.isEnabled());
-        String expectedText = "Samsung Galaxy Tab 10.1";
         String actualAltText = productImage.getAttribute("alt");
-        Assert.assertEquals(actualAltText, expectedText);
+        Assert.assertEquals(actualAltText, productName);
 
         String actualTitle = productImage.getAttribute("title");
-        Assert.assertEquals(actualTitle, expectedText);
+        Assert.assertEquals(actualTitle, productName);
 
         Utils.takeSnapShot(driver, "src/resources/cartItemsContentsTest/2-checkingProductImage.png");
 
     }
 
     @Test(priority = 3, description = "Verify product name is visible in the cart")
-    public void productNameTest() {
+    @Parameters("productRef")
+    public void productNameTest(String productRef) {
         cartPage = new ShoppingCartPage(driver);
 
         WebElement productNameLink = cartPage.getProductName();
         // Not Displaying
         Assert.assertFalse(productNameLink.isDisplayed(), "Product name link is not displayed");
 
-        String expectedProductNameLink = "https://demo.opencart.com/index.php?route=product/product&language=en-gb&product_id=49";
         String actualProductNameLink = productNameLink.getAttribute("href");
-        Assert.assertEquals(actualProductNameLink, expectedProductNameLink);
+        Assert.assertEquals(actualProductNameLink, productRef);
 
         Utils.takeSnapShot(driver, "src/resources/cartItemsContentsTest/3-checkingProductName.png");
     }
 
     @Test(priority = 4, description = "Verify product name is visible in the cart")
-    public void productModelTest() {
+    @Parameters("productModel")
+    public void productModelTest(String productModel) {
         cartPage = new ShoppingCartPage(driver);
 
         Assert.assertTrue(cartPage.getProductModel().isDisplayed());
-        Assert.assertEquals(cartPage.getProductModel().getText(), "SAM1");
+        Assert.assertEquals(cartPage.getProductModel().getText(), productModel);
 
         Utils.takeSnapShot(driver, "src/resources/cartItemsContentsTest/4-checkingProductModel.png");
 
     }
 
     @Test(priority = 5, description = "Verify product quantity is visible in the cart")
-    public void productQuantityTest() {
+    @Parameters("productQuantity")
+    public void productQuantityTest(String productQuantity) {
         cartPage = new ShoppingCartPage(driver);
 
         Assert.assertTrue(cartPage.getUpdateButton().isDisplayed());
         Assert.assertTrue(cartPage.getRemoveButton().isEnabled());
         Assert.assertTrue(cartPage.getProductQuantity().isDisplayed());
-        Assert.assertEquals(cartPage.getProductQuantity().getAttribute("value"), "1");
+        Assert.assertEquals(cartPage.getProductQuantity().getAttribute("value"), productQuantity);
 
         Utils.takeSnapShot(driver, "src/resources/cartItemsContentsTest/5-checkingProductQuantity.png");
 
