@@ -10,7 +10,6 @@ import patterns.DriverManager;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class AddressBookPage extends AccountPage {
     //Create new address
@@ -183,4 +182,3 @@ public class AddressBookPage extends AccountPage {
         }
     }
 }
-
