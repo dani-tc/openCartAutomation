@@ -163,7 +163,7 @@ public class CartContentsTest {
         Assert.assertTrue(cartPage.getPostCodeInput().isDisplayed());
         cartPage.getPostCodeInput().sendKeys(postalCode);
         cartPage.getPostCodeInput().sendKeys(Keys.ENTER);
-        Assert.assertEquals(cartPage.getPostCodeInput().getAttribute(postalCode), postalCode);
+        Assert.assertEquals(cartPage.getPostCodeInput().getAttribute("value"), postalCode);
 
         Utils.takeSnapShot(driver, "src/resources/cartContentsTest/4-checkingFilledShippingAndTaxes.png");
     }
