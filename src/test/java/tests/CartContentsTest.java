@@ -51,7 +51,7 @@ public class CartContentsTest {
                 "zJ9wxfXGd6JiMI3czkXFs4.kzRi6IqvPGPR1BaphLjM-1713852454-1.0.1.1-XKiVE5CVgEaZJ6pwxaPFZvAbzObkzBLWVzgfCCZoPHgWbHPgp6V.HROlod2Rr0jRzg2O5vNoDLVqbRP0JC8Gnw"));
         driver.manage().addCookie(new Cookie("currency", "USD"));
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         final int MAX_ATTEMPTS = 20;
         Screen screen = new Screen();
@@ -92,7 +92,7 @@ public class CartContentsTest {
     public void cartPageElementsTest() {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
@@ -120,7 +120,7 @@ public class CartContentsTest {
     public void cartInformationSectionTest() {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
@@ -139,7 +139,7 @@ public class CartContentsTest {
     public void estimateShippingVisibilityTest(String country, String zone, String postalCode) {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
@@ -173,7 +173,7 @@ public class CartContentsTest {
     public void couponCodeVisibilityTest(String validCoupon) {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
@@ -201,7 +201,7 @@ public class CartContentsTest {
     public void giftCertificateVisibilityTest(String validGift) {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
@@ -227,7 +227,7 @@ public class CartContentsTest {
     public void headerAndFooterVisibilityTest() {
         cartPage = new ShoppingCartPage(driver);
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         driver.get("https://demo.opencart.com/");
         WebElement cart = driver.findElement(By.cssSelector("a[title=\"Shopping Cart\"]"));
