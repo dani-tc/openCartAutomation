@@ -11,11 +11,6 @@ import java.util.List;
 
 
 public class HomePage extends PageHeader {
-    
-
-    /* //MacBook product
-    @FindBy(css ="div.product-thumb button[aria-label='Add to Cart']")
-    private WebElement macBook; */
 
     //MacBook product
     @FindBy(css ="div.product-thumb button[aria-label='Add to Cart']")
