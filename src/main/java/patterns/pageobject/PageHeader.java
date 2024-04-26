@@ -259,6 +259,7 @@ public abstract class PageHeader {
     }
 
     public void goToAllLaptops(){
+        laptopsCategory.click();
         showAllLaptops.click();
     }
 
@@ -299,6 +300,8 @@ public abstract class PageHeader {
         phonesCategory.click();
     }
     public void goToCamerasCategory(){
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(camerasCategory));
         camerasCategory.click();
     }
 
