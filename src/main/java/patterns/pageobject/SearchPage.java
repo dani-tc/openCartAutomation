@@ -30,6 +30,14 @@ public class SearchPage extends PageHeader {
         this.driver = driver;
     }
 
+    public WebElement getTitle() {
+        return title;
+    }
+
+    public WebElement getFilterSelect() {
+        return filterSelect;
+    }
+
     public void openSearchPage() {
         
         int MAX_ATTEMPTS = 5;
@@ -38,7 +46,6 @@ public class SearchPage extends PageHeader {
             try{
                 clickSearchBarButton();
                 explicitWait.until(ExpectedConditions.visibilityOf(title));
-                Assert.assertEquals(title.getText(), "Search");
             break;
             } catch (Exception e){
                 System.out.println("Attempt " + (attempt + 1) + " failed");

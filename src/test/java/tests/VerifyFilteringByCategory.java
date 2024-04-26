@@ -10,9 +10,11 @@ import patterns.pageobject.*;
 import patterns.*;
 import patterns.DriverManager.*;
 
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.Select;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -58,6 +60,7 @@ public class VerifyFilteringByCategory {
                 SearchPage searchPage = new SearchPage(driver);
                 
                 searchPage.openSearchPage();
+                Assert.assertEquals(searchPage.getTitle().getText(), "Search");
                 Utils.takeSnapShot(driver, "src/resources/VerifyFilteringByCategory/1-OpenSearchPage.png");
 
                 searchPage.clickFilterCategory();
@@ -67,13 +70,19 @@ public class VerifyFilteringByCategory {
                 searchPage.clickFilterCategory();
 
                 int index = 3;
+                Select categorySelected = new Select(searchPage.getFilterSelect());
                 for (String category : categories) {
                     searchPage.selectDesktopsCategory(category);
+                    WebElement selectedOption = categorySelected.getFirstSelectedOption();
+                    String selectedText = selectedOption.getText();
+
+                    Assert.assertEquals(selectedText, category, "Selected category is not '"+ category +"'");
                     Utils.takeSnapShot(driver, "src/resources/VerifyFilteringByCategory/" + index + "-Select" + category + "Category.png");
+                    
                     index++;
                 }
                 long endTime = System.currentTimeMillis();
-                double timeTakenSeconds = (endTime - startTime) / 1000.0; // time taken in seconds
+                double timeTakenSeconds = (endTime - startTime) / 1000.0;
                 System.out.println("Time taken to execute the test: " + timeTakenSeconds + " seconds");
 
                 break;
