@@ -2,7 +2,6 @@ package patterns.pageobject;
 
 import java.time.Duration;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -10,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import org.testng.Assert;
 
 public class SearchPage extends PageHeader {
@@ -18,6 +18,7 @@ public class SearchPage extends PageHeader {
     @FindBy(css ="div#content h1")
     private WebElement title;
 
+    //Filter category dropdown
     @FindBy(css="select#input-category")
     private WebElement filterSelect;
 

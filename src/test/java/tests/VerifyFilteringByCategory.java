@@ -12,8 +12,6 @@ import patterns.DriverManager.*;
 
 import org.testng.annotations.*;
 
-import static org.testng.Assert.assertTrue;
-
 import org.openqa.selenium.*;
 
 import java.text.SimpleDateFormat;
@@ -92,6 +90,7 @@ public class VerifyFilteringByCategory {
             }
 
         }
+        
     }
 
     @AfterTest
