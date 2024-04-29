@@ -9,10 +9,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import patterns.DriverManager;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ComparisonPage extends PageHeader {
+
+    //Comparison Page Header
+    @FindBy(css = "h1")
+    private WebElement productComparisonHeader;
+
+    @FindBy(css = "p")
+    private WebElement productComparisonDescription;
 
     //Comparison tool table
     @FindBy(css="#content table")
@@ -75,4 +81,38 @@ public class ComparisonPage extends PageHeader {
         }
         return featuresContentSecondProduct;
     }
+
+    public WebElement getProductComparisonHeader() {
+        return productComparisonHeader;
+    }
+
+    public WebElement getProductComparisonDescription() {
+        return productComparisonDescription;
+    }
+
+    public WebElement getComparisonToolTable() {
+        return comparisonToolTable;
+    }
+
+    public List<WebElement> getComparisonToolProductTitles() {
+        return comparisonToolProductTitles;
+    }
+
+    public List<WebElement> getComparisonToolFeaturesTitles() {
+        return comparisonToolFeaturesTitles;
+    }
+
+    public List<WebElement> getComparisonToolFeaturesContentFirstProduct() {
+        return comparisonToolFeaturesContentFirstProduct;
+    }
+
+    public List<WebElement> getComparisonToolFeaturesContentSecondProduct() {
+        return comparisonToolFeaturesContentSecondProduct;
+    }
+
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    
 }
