@@ -53,7 +53,6 @@ public class VerifyFilterItemsAreDisplayedAndAccessible {
     @Test(priority = 1, description = "Verify can access to the Filters page")
     public void VerifyAccessFilterPage() throws FindFailed {
 
-        long startTime = System.currentTimeMillis();
         final int MAX_ATTEMPTS = 5;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
@@ -67,10 +66,6 @@ public class VerifyFilterItemsAreDisplayedAndAccessible {
                 filtersPage.clickShowAllDesktops();
                 Assert.assertTrue(filtersPage.getFiltersMenu().isDisplayed(), "The Filters menu is not displayed");
                 Utils.takeSnapShot(driver, "src/resources/VerifyFilterItemsAreDisplayed/2-FiltersMenuIsDisplayed.png");
-
-                long endTime = System.currentTimeMillis();
-                double timeTakenSeconds = (endTime - startTime) / 1000.0;
-                System.out.println("Time taken to execute the test: " + timeTakenSeconds + " seconds");
 
                 break;
             } catch (Exception e) {
@@ -96,7 +91,6 @@ public class VerifyFilterItemsAreDisplayedAndAccessible {
     @Test(priority = 2, description = "Verify the filters by category are displayed")
     public void VerifyFiltersByCategoryDisplayed() throws FindFailed {
 
-        long startTime = System.currentTimeMillis();
         final int MAX_ATTEMPTS = 5;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
@@ -106,10 +100,6 @@ public class VerifyFilterItemsAreDisplayedAndAccessible {
                 for (WebElement category : filtersPage.getFiltersCategories()) {
                     Assert.assertTrue(category.isDisplayed(), "The category named '" + category.getText() + "' is not visible.");
                 }
-
-                long endTime = System.currentTimeMillis();
-                double timeTakenSeconds = (endTime - startTime) / 1000.0;
-                System.out.println("Time taken to execute the test: " + timeTakenSeconds + " seconds");
 
                 break;
             } catch (Exception e) {
@@ -135,7 +125,6 @@ public class VerifyFilterItemsAreDisplayedAndAccessible {
     @Test(priority = 3, description = "Verify the filters by category are accessible")
     public void VerifyFiltersByCategoryAccessible() throws FindFailed {
 
-        long startTime = System.currentTimeMillis();
         final int MAX_ATTEMPTS = 5;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
@@ -162,7 +151,7 @@ public class VerifyFilterItemsAreDisplayedAndAccessible {
                         } catch (InterruptedException e) {
                         e.printStackTrace();
                         }
-                        
+
                     explicitWait.until(ExpectedConditions.attributeContains(By.cssSelector("aside#column-left a[href='"+ href +"']"), "class", "active"));
                     Utils.takeSnapShot(driver, "src/resources/VerifyFilterItemsAreAccessible/" + i +"-CategoryIsAccessible.png");
 
@@ -172,10 +161,6 @@ public class VerifyFilterItemsAreDisplayedAndAccessible {
                     explicitWait.until(ExpectedConditions.attributeContains(categories.get(0), "class", "active"));
 
                 }
-
-                long endTime = System.currentTimeMillis();
-                double timeTakenSeconds = (endTime - startTime) / 1000.0;
-                System.out.println("Time taken to execute the test: " + timeTakenSeconds + " seconds");
 
                 break;
             } catch (Exception e) {
