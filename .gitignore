@@ -4,6 +4,7 @@ target/
 !**/src/test/**/target/
 logs
 logs/
+.html
 
 ### IntelliJ IDEA ###
 .idea
