@@ -43,7 +43,7 @@ public class CartContentsTest {
         report.setupReport(browserName,"CartContentsTest","Verify cart content is visible", "Verify relevant cart elements are ");
 
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
-/
+
         final int MAX_ATTEMPTS = 20;
         Screen screen = new Screen();
         String pathYourSystem = System.getProperty("user.dir") + "\\";
