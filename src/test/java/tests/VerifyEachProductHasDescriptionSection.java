@@ -149,6 +149,6 @@ public class VerifyEachProductHasDescriptionSection {
 
     @AfterTest
     public void afterTest(){
-        //DriverManager.quitDriver();
+        DriverManager.quitDriver();
     }
 }

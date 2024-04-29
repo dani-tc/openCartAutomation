@@ -8,12 +8,15 @@ import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import patterns.DriverManager;
 import patterns.pageobject.MonitorsPage;
 import patterns.pageobject.ShoppingCartPage;
+import reports.ReportMethods;
 import utilities.Utils;
 
 import java.text.SimpleDateFormat;
@@ -23,23 +26,14 @@ import java.util.Date;
 public class VerifyShoppingCartIconUpdatesItemCount {
 
     private WebDriver driver = null;
+    ReportMethods report = new ReportMethods();
 
     @BeforeTest
     public void beforeTest(){
         driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+        String browserName = driver.getClass().getSimpleName();
+        report.setupReport(browserName,"VerifyShoppingCartIconUpdatesItemCount.html","Verify cart item count updates", "Verify that the cart item count is updated when adding an item to the cart.");
 
-        Date today = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-        String formatedDate = format.format(today);
-
-        driver.get("https://demo.opencart.com/index.php");
-        driver.manage().addCookie(new Cookie("OCSESSID","11c0f931cf"+formatedDate+"ec"));
-        driver.manage().addCookie(new Cookie("_ga","GA1.1.2123778129.1713796835"));
-        driver.manage().addCookie(new Cookie("_ga_X8G0BRFSDF","GS1.1.1713796835.1.0.1713796835.0.0.0"));
-        driver.manage().addCookie(new Cookie("_gcl_au","1.1.534898992.1713796834"));
-        driver.manage().addCookie(new Cookie("_gid","GA1.2.438931849.1713796835"));
-        driver.manage().addCookie(new Cookie("cf_clearance","zJ9wxfXGd6JiMI3czkXFs4.kzRi6IqvPGPR1BaphLjM-1713852454-1.0.1.1-XKiVE5CVgEaZJ6pwxaPFZvAbzObkzBLWVzgfCCZoPHgWbHPgp6V.HROlod2Rr0jRzg2O5vNoDLVqbRP0JC8Gnw"));
-        driver.manage().addCookie(new Cookie("currency","USD"));
     }
 
     @Test
@@ -113,8 +107,14 @@ public class VerifyShoppingCartIconUpdatesItemCount {
         }
     }
 
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        report.afterMethodReport(result);
+    }
+
     @AfterTest
     public void afterTest(){
+        report.writeReport();
         DriverManager.quitDriver();
     }
 }
