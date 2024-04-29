@@ -15,6 +15,9 @@ public class PhonesPage extends PageHeader {
     @FindBy(css="#content .col:nth-child(3) button:nth-child(1)")
     private WebElement addToCartButtonPalm;
 
+    @FindBy(css="#product-list img")
+    private WebElement phoneDesktopImg;
+
     public PhonesPage(WebDriver driver){
         super(driver);
     }
@@ -22,4 +25,5 @@ public class PhonesPage extends PageHeader {
     public WebElement getAddToCartButtonHtc(){return addToCartButtonHtc;}
     public WebElement getAddToCartButtonIphone(){return addToCartButtonIphone;}
     public WebElement getAddToCartButtonPalm(){return addToCartButtonPalm;}
+    public WebElement getPhoneDesktopImg(){return phoneDesktopImg;}
 }

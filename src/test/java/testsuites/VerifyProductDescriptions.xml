@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Verify product description" verbose="1" >
+    <parameter name="browser" value="EDGE"/>
+    <test name="Each product has a description">
+        <classes>
+            <class name="tests.VerifyEachProductHasDescriptionSection"/>
+        </classes>
+    </test>
+</suite>

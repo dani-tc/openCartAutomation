@@ -10,8 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class ProductsPage{
-    private WebDriver driver;
+public class ProductsPage extends PageHeader{
     
     @FindBy(className = "col-12")
     private WebElement productItem;
@@ -31,13 +30,14 @@ public class ProductsPage{
     @FindBy(className = "alert-success")
     private WebElement confirmProductAdded;
 
-    public ProductsPage(WebDriver driver){
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-    }
+    @FindBy(css = ".nav-tabs li:nth-child(1) a")
+    private WebElement descriptionTab;
 
-    public WebDriver getDriver(){
-        return driver;
+    @FindBy(id = "tab-description")
+    private WebElement descriptionText;
+
+    public ProductsPage(WebDriver driver){
+        super(driver);
     }
 
     public void openProduct(){
@@ -46,7 +46,7 @@ public class ProductsPage{
 
     public void addProductToCart(){
 
-        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait explicitWait = new WebDriverWait(this.getDriver(), Duration.ofSeconds(10));
         
         int MAX_ATTEMPTS = 10;
         for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
@@ -86,5 +86,9 @@ public class ProductsPage{
 
     public WebElement getConfirmProductAdded() {
         return confirmProductAdded;
-    }    
+    }
+
+    public WebElement getDescriptionTab(){return descriptionTab;}
+
+    public WebElement getDescriptionText(){return descriptionText;}
 }
