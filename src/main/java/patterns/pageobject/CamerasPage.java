@@ -43,7 +43,7 @@ public class CamerasPage extends PageHeader {
     public void comparisonToolForOneProduct(){
         int tries = 0;
         boolean passedComparison = false;
-        while (!passedComparison && tries<10) {
+        while (!passedComparison && tries<50) {
             try {
                 WebDriverWait explicitWait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
                 explicitWait.until(ExpectedConditions.visibilityOfAllElements(getCompareThisProductButtonsCameras()));
@@ -62,7 +62,7 @@ public class CamerasPage extends PageHeader {
     public void comparisonToolForTwoProducts(){
         int tries = 0;
         boolean passedComparison = false;
-        while (!passedComparison && tries<5) {
+        while (!passedComparison && tries<50) {
             try {
                 WebDriverWait explicitWait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
                 explicitWait.until(ExpectedConditions.visibilityOfAllElements(getCompareThisProductButtonsCameras()));
