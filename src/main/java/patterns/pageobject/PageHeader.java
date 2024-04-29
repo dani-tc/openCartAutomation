@@ -326,8 +326,27 @@ public abstract class PageHeader {
 
     public WebElement getCamerasCategory(){return camerasCategory;}
   
+    public WebElement getDesktopsCategory(){
+        
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        explicitWait.until(ExpectedConditions.visibilityOf(desktopsCategory));
+        return desktopsCategory;
+    
+    }
+
+    public WebElement getShowAllDesktops(){
+
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        explicitWait.until(ExpectedConditions.visibilityOf(showAllDesktops));
+        return showAllDesktops;
+
+    }
+
     public WebDriver getDriver(){
         return driver;
     }
+
+
+    public WebElement getMacSubcategory(){return macSubcategory;}
 
 }
