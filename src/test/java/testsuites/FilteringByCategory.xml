@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Filtering By Category" verbose="1" >
+    <parameter name="category1" value="Desktops"/>
+    <parameter name="category2" value="Components"/>
+    <parameter name="category3" value="Tablets"/>
+    <parameter name="category4" value="Software"/>
+    <parameter name="category5" value="Cameras"/>
+    <test name="FilterByCategoryIsDisplayed">
+        <classes>
+            <class name="tests.VerifyFilteringByCategory"/>
+        </classes>
+    </test>
+</suite>
