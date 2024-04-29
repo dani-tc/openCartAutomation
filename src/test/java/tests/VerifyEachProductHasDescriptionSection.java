@@ -8,12 +8,11 @@ import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 import patterns.DriverManager;
 import patterns.pageobject.*;
+import reports.ReportMethods;
 import utilities.Utils;
 
 import java.text.SimpleDateFormat;
@@ -23,24 +22,14 @@ import java.util.Date;
 public class VerifyEachProductHasDescriptionSection {
 
     private WebDriver driver = null;
+    ReportMethods report = new ReportMethods();
 
     @BeforeTest
     @Parameters({"browser"})
     public void beforeTest(String browser){
         driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browser));
-
-        Date today = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-        String formatedDate = format.format(today);
-
-        driver.get("https://demo.opencart.com/index.php");
-        driver.manage().addCookie(new Cookie("OCSESSID","11c0f931cf"+formatedDate+"ec"));
-        driver.manage().addCookie(new Cookie("_ga","GA1.1.2123778129.1713796835"));
-        driver.manage().addCookie(new Cookie("_ga_X8G0BRFSDF","GS1.1.1713796835.1.0.1713796835.0.0.0"));
-        driver.manage().addCookie(new Cookie("_gcl_au","1.1.534898992.1713796834"));
-        driver.manage().addCookie(new Cookie("_gid","GA1.2.438931849.1713796835"));
-        driver.manage().addCookie(new Cookie("cf_clearance","zJ9wxfXGd6JiMI3czkXFs4.kzRi6IqvPGPR1BaphLjM-1713852454-1.0.1.1-XKiVE5CVgEaZJ6pwxaPFZvAbzObkzBLWVzgfCCZoPHgWbHPgp6V.HROlod2Rr0jRzg2O5vNoDLVqbRP0JC8Gnw"));
-        driver.manage().addCookie(new Cookie("currency","USD"));
+        String browserName = driver.getClass().getSimpleName();
+        report.setupReport(browserName,"VerifyEachProductHasDescriptionSection.html","Verify each product has a description", "Verify that each product has a description with relevant information");
     }
 
     @Test
@@ -147,8 +136,15 @@ public class VerifyEachProductHasDescriptionSection {
         }
     }
 
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        report.afterMethodReport(result);
+    }
+
     @AfterTest
     public void afterTest(){
+        // Writing everything to report
+        report.writeReport();
         DriverManager.quitDriver();
     }
 }
