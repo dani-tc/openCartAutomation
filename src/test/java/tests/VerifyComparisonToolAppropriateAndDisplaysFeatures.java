@@ -2,25 +2,20 @@ package tests;
 
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patterns.DriverManager;
-import patterns.pageobject.AddressBookPage;
 import patterns.pageobject.CamerasPage;
 import patterns.pageobject.ComparisonPage;
 import utilities.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Random;
 
 public class VerifyComparisonToolAppropriateAndDisplaysFeatures {
     private WebDriver driver = null;
@@ -49,7 +44,6 @@ public class VerifyComparisonToolAppropriateAndDisplaysFeatures {
     public void ComparisonToolIsAppropriateAndDisplayKeyFeatures() throws FindFailed {
         long startTime = System.currentTimeMillis();
         final int MAX_ATTEMPTS = 20;
-        AddressBookPage addressBook = new AddressBookPage(driver);
 
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
