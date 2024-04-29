@@ -9,7 +9,7 @@
         <parameter name="productTwoName" value="Nikon D300"/>
         <parameter name="productTwoFeatures" value="Nikon D300  $98.00 Product 4  In Stock Engineered with pro-level"/>
         <classes>
-            <class name="tests.ComparisonPageExistence"/>
+            <class name="tests.ComparisonPageExistenceTest"/>
         </classes>
     </test>
 </suite>
