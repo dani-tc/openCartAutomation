@@ -37,8 +37,6 @@ public class ComparisonPage extends PageHeader {
     private WebDriver driver;
     public ComparisonPage(WebDriver driver) {
         super(driver);
-        this.driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with desired browser (CHROME, EDGE, FIREFOX)
-        PageFactory.initElements(driver, this);
     }
 
     public boolean isComparisonToolTableDisplayed() {
