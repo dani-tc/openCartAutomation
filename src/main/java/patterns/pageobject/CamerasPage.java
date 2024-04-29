@@ -40,6 +40,25 @@ public class CamerasPage extends PageHeader {
         return compareThisProductButtonsCameras;
     }
 
+    public void comparisonToolForOneProduct(){
+        int tries = 0;
+        boolean passedComparison = false;
+        while (!passedComparison && tries<10) {
+            try {
+                WebDriverWait explicitWait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
+                explicitWait.until(ExpectedConditions.visibilityOfAllElements(getCompareThisProductButtonsCameras()));
+                getCompareThisProductButtonsCameras().get(0).click();
+                explicitWait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
+                explicitWait.until(ExpectedConditions.invisibilityOf(comparisonAlertPopUp));
+                passedComparison = true;
+            } catch (Exception e) {
+                System.out.println("error:" + e);
+                tries = tries + 1;
+                ((JavascriptExecutor) getDriver()).executeScript("location.reload()");
+            }
+        }
+    }
+
     public void comparisonToolForTwoProducts(){
         int tries = 0;
         boolean passedComparison = false;

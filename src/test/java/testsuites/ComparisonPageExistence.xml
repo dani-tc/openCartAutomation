@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Cart Contents Test Suite" verbose="1">
+    <test name="CartContentsTest">
+        <parameter name="browserType" value="EDGE"/>
+        <parameter name="productsFeatures" value="Product Image Price Model Brand Availability Summary Weight Dimensions (L x W x H)  "/>
+        <parameter name="productOneName" value="Canon EOS 5D"/>
+        <parameter name="productOneFeatures" value="Canon EOS 5D  $98.00 $122.00 Product 3 Canon In Stock Canon's press"/>
+        <parameter name="productTwoName" value="Nikon D300"/>
+        <parameter name="productTwoFeatures" value="Nikon D300  $98.00 Product 4  In Stock Engineered with pro-level"/>
+        <classes>
+            <class name="tests.ComparisonPageExistence"/>
+        </classes>
+    </test>
+</suite>
