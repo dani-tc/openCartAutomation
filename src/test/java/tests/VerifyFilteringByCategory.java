@@ -51,7 +51,6 @@ public class VerifyFilteringByCategory {
     @Parameters({ "category1", "category2", "category3", "category4", "category5" })
     public void FilterByCategoryDisplayed(String category1, String category2, String category3, String category4, String category5) throws FindFailed {
 
-        long startTime = System.currentTimeMillis();
         final int MAX_ATTEMPTS = 5;
         List<String> categories = Arrays.asList(category1, category2, category3, category4, category5);
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
@@ -81,9 +80,6 @@ public class VerifyFilteringByCategory {
                     
                     index++;
                 }
-                long endTime = System.currentTimeMillis();
-                double timeTakenSeconds = (endTime - startTime) / 1000.0;
-                System.out.println("Time taken to execute the test: " + timeTakenSeconds + " seconds");
 
                 break;
             } catch (Exception e) {
