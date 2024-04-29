@@ -327,4 +327,8 @@ public abstract class PageHeader {
         return driver;
     }
 
+    public WebElement getDesktopsCategory(){return desktopsCategory;}
+
+    public WebElement getMacSubcategory(){return macSubcategory;}
+
 }
