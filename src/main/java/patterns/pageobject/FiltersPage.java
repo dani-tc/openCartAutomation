@@ -18,6 +18,9 @@ public class FiltersPage extends PageHeader {
     @FindBy(css="aside#column-left a.list-group-item")
     private List<WebElement> filtersCategories;
 
+    @FindBy(css="div#content h2")
+    private WebElement title;
+
     private WebDriver driver;
 
     // Constructor
@@ -55,6 +58,14 @@ public class FiltersPage extends PageHeader {
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
         explicitWait.until(ExpectedConditions.visibilityOf(filtersMenu));
         return filtersMenu;
+    }
+
+    public WebElement getFiltersTitle(){
+
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        explicitWait.until(ExpectedConditions.visibilityOf(title));
+        return title;
+        
     }
 
     public List<WebElement> getFiltersCategories(){return filtersCategories;}

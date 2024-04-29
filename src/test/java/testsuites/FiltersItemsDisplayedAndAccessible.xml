@@ -3,7 +3,7 @@
 <suite name="Filter Items Suite" verbose="1" >
     <test name="FilterItemsDisplayed">
         <classes>
-            <class name="tests.VerifyFilterItemsAreDisplayed"/>
+            <class name="tests.VerifyFilterItemsAreDisplayedAndAccessible"/>
         </classes>
     </test>
 </suite>
