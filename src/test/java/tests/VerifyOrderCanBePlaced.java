@@ -29,9 +29,10 @@ public class VerifyOrderCanBePlaced {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest(){
+    @Parameters("browserType")
+    public void beforeTest(String browserType) {
 
-        driver = DriverManager.getDriver(BrowserType.EDGE);
+        driver = DriverManager.getDriver(BrowserType.valueOf(browserType));
 
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyOrderCanBePlace.html","Verify a user can place an order", "Verify the user can add to their cart, complete checkout and place an order");

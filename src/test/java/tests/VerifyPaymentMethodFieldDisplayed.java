@@ -23,9 +23,11 @@ public class VerifyPaymentMethodFieldDisplayed {
     Pattern image = new Pattern(pathYourSystem+"src\\resources\\cloudflare.png");
     ReportMethods report = new ReportMethods();
     @BeforeTest
-    public void beforeTest(){
+    @Parameters("browserType")
+    public void beforeTest(String browserType) {
 
-        driver = DriverManager.getDriver(BrowserType.EDGE);
+        driver = DriverManager.getDriver(BrowserType.valueOf(browserType));
+
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyPaymentMethodFieldDisplayed.html","Verify payment method field is displayed", "Verify the user can see the payment method field displayed");
 
