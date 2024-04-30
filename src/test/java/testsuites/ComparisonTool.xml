@@ -2,6 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Comparison Tool">
     <test name="Verify comparison tool table is appropriate and displays key specification and features">
+        <parameter name="browserType" value="EDGE"/>
         <classes>
             <class name="tests.VerifyComparisonToolAppropriateAndDisplaysFeatures"/>
         </classes>
