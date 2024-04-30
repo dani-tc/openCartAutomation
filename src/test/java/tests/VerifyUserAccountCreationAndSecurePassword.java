@@ -2,7 +2,6 @@ package tests;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -15,8 +14,6 @@ import patterns.pageobject.AddressBookPage;
 import reports.ReportMethods;
 import utilities.Utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Random;
 
 public class VerifyUserAccountCreationAndSecurePassword {

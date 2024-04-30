@@ -1,7 +1,6 @@
 package tests;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,8 +20,6 @@ import reports.ReportMethods;
 import utilities.Utils;
 
 import java.time.Duration;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class VerifyUserCanAddProductsToShoppingCart {
 
