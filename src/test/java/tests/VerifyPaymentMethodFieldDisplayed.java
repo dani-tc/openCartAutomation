@@ -15,13 +15,6 @@ import patterns.DriverManager.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
-import static org.testng.Assert.assertTrue;
-
-import org.openqa.selenium.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class VerifyPaymentMethodFieldDisplayed {
     
     private WebDriver driver = null;
@@ -53,7 +46,7 @@ public class VerifyPaymentMethodFieldDisplayed {
                 Utils.takeSnapShot(driver, "src/resources/PaymentMethodFieldDisplayed/1-AddProductToCart.png");
 
                 homePage.openCartPage();
-                assertTrue(checkoutPage.getpaymentMethodDropdown().isDisplayed(), "The paymentMethodDropdown element is not displayed");
+                Assert.assertTrue(checkoutPage.getpaymentMethodDropdown().isDisplayed(), "The paymentMethodDropdown element is not displayed");
                 Utils.takeSnapShot(driver, "src/resources/PaymentMethodFieldDisplayed/2-PaymentFieldDisplayed.png");
 
                 break;

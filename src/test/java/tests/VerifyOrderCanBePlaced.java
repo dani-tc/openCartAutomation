@@ -18,9 +18,6 @@ import org.testng.annotations.*;
 
 import org.openqa.selenium.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import static org.testng.Assert.assertEquals;
 
 public class VerifyOrderCanBePlaced {
@@ -70,7 +67,7 @@ public class VerifyOrderCanBePlaced {
                 Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/3-CheckoutFilledValidation.png");
 
                 checkoutPage.clickConfirmOrderBtn();
-                assertEquals(checkoutPage.getOrderTitle().getText(), "Your order has been placed!");
+                Assert.assertEquals(checkoutPage.getOrderTitle().getText(), "Your order has been placed!");
                 Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/4-OrderPlacedValidation.png");
 
                 break;
