@@ -49,6 +49,7 @@ public class DriverManager {
                 case FIREFOX:
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
                     driver = new FirefoxDriver(firefoxOptions);
+                    driver.manage().window().maximize();
                     //Login as admin to unlock functionalities
                     Date todayFirefox = new Date();
                     SimpleDateFormat formatFirefox = new SimpleDateFormat("yyyyMMddHHmmss");
