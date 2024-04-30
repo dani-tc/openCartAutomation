@@ -10,8 +10,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class ProductsPage extends PageHeader{
-    
+public class ProductsPage extends PageHeader {
+
     @FindBy(className = "col-12")
     private WebElement productItem;
 
@@ -36,25 +36,32 @@ public class ProductsPage extends PageHeader{
     @FindBy(id = "tab-description")
     private WebElement descriptionText;
 
-    public ProductsPage(WebDriver driver){
+    @FindBy(css = "#tab-description h3:first-of-type")
+    private WebElement featureInDescription;
+
+    @FindBy(css = "#tab-description h3:nth-child(9)")
+    private WebElement specificationsInDescription;
+
+
+    public ProductsPage(WebDriver driver) {
         super(driver);
     }
 
-    public void openProduct(){
+    public void openProduct() {
         productItem.click();
     }
 
-    public void addProductToCart(){
+    public void addProductToCart() {
 
         WebDriverWait explicitWait = new WebDriverWait(this.getDriver(), Duration.ofSeconds(10));
-        
+
         int MAX_ATTEMPTS = 10;
-        for(int attempt = 0; attempt < MAX_ATTEMPTS; attempt++){
-            try{
+        for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+            try {
                 addToCart.click();
                 explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.className("alert-success")));
                 break;
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Attempt " + (attempt + 1) + " failed");
                 if (attempt == MAX_ATTEMPTS - 1) {
                     // If this was the last attempt, rethrow the exception
@@ -88,7 +95,19 @@ public class ProductsPage extends PageHeader{
         return confirmProductAdded;
     }
 
-    public WebElement getDescriptionTab(){return descriptionTab;}
+    public WebElement getDescriptionTab() {
+        return descriptionTab;
+    }
 
-    public WebElement getDescriptionText(){return descriptionText;}
+    public WebElement getDescriptionText() {
+        return descriptionText;
+    }
+
+    public WebElement getFeatureInDescription() {
+        return featureInDescription;
+    }
+
+    public WebElement getSpecificationsInDescription() {
+        return specificationsInDescription;
+    }
 }

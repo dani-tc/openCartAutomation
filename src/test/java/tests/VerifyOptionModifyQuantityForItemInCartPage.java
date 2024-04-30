@@ -9,10 +9,7 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 import org.testng.Assert;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import patterns.DriverManager;
 import patterns.pageobject.HomePage;
 import patterns.pageobject.ShoppingCartPage;
@@ -29,10 +26,13 @@ public class VerifyOptionModifyQuantityForItemInCartPage {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest(){
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+    @Parameters({"browser"})
+    public void beforeTest(String browser){
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browser));
         String browserName = driver.getClass().getSimpleName();
-        report.setupReport(browserName,"VerifyOptionModifyQuantityForItemInCartPage.html","Verify user can modify item quantity", "Verify the user can modify the item's quantity in the cart page");
+        report.setupReport(browserName,"VerifyOptionModifyQuantityForItemInCartPage.html",
+                "Verify user can modify item quantity",
+                "Verify the user can modify the item's quantity in the cart page");
 
     }
 
@@ -76,10 +76,7 @@ public class VerifyOptionModifyQuantityForItemInCartPage {
         Assert.assertTrue(quantityInput.isEnabled());
 
         Utils.takeSnapShot(driver, "src/resources/VerifyOptionModifyQuantityForItemInCartPage/eclat_303.png");
-
-
     }
-
 
     public void manageCaptcha(){
         boolean pass = true;

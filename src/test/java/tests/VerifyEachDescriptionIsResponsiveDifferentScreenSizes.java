@@ -1,6 +1,7 @@
 package tests;
 
 import org.openqa.selenium.*;
+
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -11,15 +12,15 @@ import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import patterns.DriverManager;
-import patterns.pageobject.MonitorsPage;
-import patterns.pageobject.ShoppingCartPage;
+import patterns.pageobject.HomePage;
+import patterns.pageobject.ProductsPage;
 import reports.ReportMethods;
 import utilities.Utils;
+
 import java.time.Duration;
 
 
-public class VerifyShoppingCartIconUpdatesItemCount {
-
+public class VerifyEachDescriptionIsResponsiveDifferentScreenSizes {
     private WebDriver driver = null;
     ReportMethods report = new ReportMethods();
 
@@ -28,58 +29,56 @@ public class VerifyShoppingCartIconUpdatesItemCount {
     public void beforeTest(String browser){
         driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browser));
         String browserName = driver.getClass().getSimpleName();
-        report.setupReport(browserName,"VerifyShoppingCartIconUpdatesItemCount.html",
-                "Verify cart item count updates",
-                "Verify that the cart item count is updated when adding an item to the cart.");
-
+        report.setupReport(browserName,"VerifyEachDescriptionIsResponsiveDifferentScreenSizes.html",
+                "Verify each product has a description with responsive design",
+                "Verify that each product has a description section which responsively changes to different " +
+                        "screen sizes");
     }
 
     @Test
-    public void eclat_275() {
+    public void eclat_269() {
+        driver.manage().window().setSize(new Dimension(390,800));      //Simulate cellphone
+        HomePage home = new HomePage(driver);
+        ProductsPage product = new ProductsPage(driver);
+
+        //Refresh and manage captcha
         manageCaptcha();
         driver.navigate().refresh();
         manageCaptcha();
 
-        ShoppingCartPage header = new ShoppingCartPage(driver);
-        MonitorsPage monitorsPage = new MonitorsPage(driver);
-        WebElement components = header.getComponents();
-        WebElement monitors = header.getMonitors();
-        WebElement addToCartButton = monitorsPage.getAddToCartButton();
-        WebElement itemsButton = header.getCartDropdownButton();
-
-        new Actions(driver)                     //hover to components menu on header
-                .moveToElement(components)
+        //Move to element and click on it
+        WebElement appleCinemaImg = home.getImageAppleCinema();
+        new Actions(driver)
+                .moveToElement(appleCinemaImg)
                 .perform();
-
-        monitors.click();
-
+        appleCinemaImg.click();
         manageCaptcha();
 
-        new Actions(driver)
-                .moveToElement(addToCartButton)
-                .perform();
-        addToCartButton.sendKeys(Keys.ENTER);              //Simulate click on "add to cart" button
+        //Move to element
+        WebElement description = product.getDescriptionText();
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, arguments[0]-window.innerHeight/2);", description.getLocation().getY());
 
-        sleep(1000);
+        //Assertions
+        Assert.assertTrue(description.isEnabled());
+        boolean smaller = description.getSize().getWidth() < 1000;             //Width of element must be smaller
+        Assert.assertTrue(smaller);
+        sleep(1500);
+        Utils.takeSnapShot(driver, "src/resources/VerifyEachDescriptionIsResponsiveDifferentScreenSizes/eclat_269.png");
 
-        Assert.assertEquals("1",itemsButton.getText().charAt(0)+"");
-
-        Utils.takeSnapShot(driver, "src/resources/VerifyShoppingCartIconUpdatesItemCount/eclat_275.png");
 
     }
 
     public void manageCaptcha(){
         boolean pass = true;
         String title = null;
+        String pathYourSystem = System.getProperty("user.dir") + "\\";
+        Pattern image = new Pattern(pathYourSystem + "src\\resources\\cloudflare.png");
+        Screen screen = new Screen();
         do {
             try {
                 sleep(2000);
                 title = driver.getTitle();
                 if(title.contains("moment")) {
-                    Screen screen = new Screen();
-                    String pathYourSystem = System.getProperty("user.dir") + "\\";
-                    Pattern image = new Pattern(pathYourSystem + "src\\resources\\cloudflare.png");
-
                     screen.wait(image, 5);
                     screen.click(image);
                     try {
@@ -93,7 +92,6 @@ public class VerifyShoppingCartIconUpdatesItemCount {
                 }
 
             } catch (FindFailed e) {
-                //pass = false;
             }
         }while(pass);
     }
@@ -112,6 +110,7 @@ public class VerifyShoppingCartIconUpdatesItemCount {
 
     @AfterTest
     public void afterTest(){
+        // Writing everything to report
         report.writeReport();
         DriverManager.quitDriver();
     }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Verify users can add items to cart and manage quantities" verbose="1" >
+    <parameter name="browser" value="EDGE"/>
+    <test name="Verify Users Can Add Products To ShoppingCart">
+        <classes>
+            <class name="tests.VerifyUserCanAddProductsToShoppingCart"/>
+        </classes>
+    </test>
+    <test name="Verify shopping cart icon updates item count on button(header)">
+        <classes>
+            <class name="tests.VerifyShoppingCartIconUpdatesItemCount"/>
+        </classes>
+    </test>
+    <test name="Verify option to modify quantity for items in cart page">
+        <classes>
+            <class name="tests.VerifyOptionModifyQuantityForItemInCartPage"/>
+        </classes>
+    </test>
+    <test name="Verify each product has an 'add-to-cart' button">
+        <classes>
+            <class name="tests.VerifyEachProductHasAddToCartButton"/>
+        </classes>
+    </test>
+</suite>

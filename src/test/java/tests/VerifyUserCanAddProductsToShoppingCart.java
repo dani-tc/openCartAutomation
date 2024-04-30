@@ -1,7 +1,6 @@
 package tests;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,19 +9,13 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 import org.testng.Assert;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import patterns.DriverManager;
-
 import patterns.pageobject.*;
 import reports.ReportMethods;
 import utilities.Utils;
-
 import java.time.Duration;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 public class VerifyUserCanAddProductsToShoppingCart {
 
@@ -30,10 +23,13 @@ public class VerifyUserCanAddProductsToShoppingCart {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest(){
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+    @Parameters({"browser"})
+    public void beforeTest(String browser){
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browser));
         String browserName = driver.getClass().getSimpleName();
-        report.setupReport(browserName,"VerifyUserCanAddProductsToShoppingCart.html","Verify users can add products to the shopping cart", "Verify that users can add products to the shopping cart when clicking on the add to cart button.");
+        report.setupReport(browserName,"VerifyUserCanAddProductsToShoppingCart.html",
+                "Verify users can add products to the shopping cart",
+                "Verify that users can add products to the shopping cart when clicking on the add to cart button.");
 
     }
 

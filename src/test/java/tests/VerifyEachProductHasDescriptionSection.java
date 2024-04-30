@@ -14,10 +14,8 @@ import patterns.DriverManager;
 import patterns.pageobject.*;
 import reports.ReportMethods;
 import utilities.Utils;
-
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Date;
+
 
 public class VerifyEachProductHasDescriptionSection {
 
@@ -29,7 +27,9 @@ public class VerifyEachProductHasDescriptionSection {
     public void beforeTest(String browser){
         driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browser));
         String browserName = driver.getClass().getSimpleName();
-        report.setupReport(browserName,"VerifyEachProductHasDescriptionSection.html","Verify each product has a description", "Verify that each product has a description with relevant information");
+        report.setupReport(browserName,"VerifyEachProductHasDescriptionSection.html",
+                "Verify each product has a description",
+                "Verify that each product has a description with relevant information");
     }
 
     @Test
