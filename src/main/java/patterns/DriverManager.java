@@ -29,6 +29,9 @@ public class DriverManager {
                 case CHROME:
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("start-maximized");
+                    chromeOptions.addArguments("--disable-extensions");
+                    chromeOptions.addArguments("--disable-popup-blocking");
+                    chromeOptions.addArguments("--disable-notifications");
                     driver = new ChromeDriver(chromeOptions);
                     //Login as admin to unlock functionalities
                     Date todayChrome = new Date();
