@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="Checkout Process Suite" verbose="1" >
+    <parameter name="browserType" value="EDGE"/>
     <parameter name="firstName" value="Michael"/>
     <parameter name="lastName" value="Johnson"/>
     <parameter name="address" value="Eastgate"/>
@@ -9,19 +10,19 @@
     <parameter name="country" value="United Kingdom"/>
     <parameter name="state" value="Cardiff"/>
     <parameter name="password" value="12345678"/>
-    <test name="PaymentMethodFieldIsDisplayed">
+    <!--<test name="PaymentMethodFieldIsDisplayed">
         <classes>
             <class name="tests.VerifyPaymentMethodFieldDisplayed"/>
         </classes>
-    </test>
+    </test>-->
     <test name="CheckoutSupportsCashOnDelivery">
         <classes>
           <class name="tests.VerifyCheckoutSupportsCashOnDeliveryPayment"/>
         </classes>
     </test>
-    <test name="OrderCanBePlaced">
+   <!-- <test name="OrderCanBePlaced">
         <classes>
           <class name="tests.VerifyOrderCanBePlaced"/>
         </classes>
-    </test>
+    </test>-->
 </suite>

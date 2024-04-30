@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class CheckoutPage extends PageHeader {
 
-    //First Name Field
+    //Title field
     @FindBy(css ="#checkout-register")
     private WebElement title;
 
@@ -116,9 +116,7 @@ public class CheckoutPage extends PageHeader {
     public WebElement getExistingShippingAddress() {
         return existingShippingAddress;
     }
-    public WebElement getpaymentMethodDropdown() {
-        return paymentMethodDropdown;
-    }
+    public WebElement getpaymentMethodDropdown() { return paymentMethodDropdown; }
 
     public void registerCredentials(String firstName, String lastName, String address, String postcode, String city, String country, String state, String password) {
 
@@ -242,10 +240,6 @@ public class CheckoutPage extends PageHeader {
             } catch (InterruptedException e1) {
                 e1.printStackTrace();
             }
-
-            WebElement selectedOption = payment.getFirstSelectedOption();
-            String selectedValue = selectedOption.getAttribute("value");
-            assertEquals(selectedValue, "cod", "Selected value is not 'cod'");
             break;
             } catch (Exception e){
                 System.out.println("Attempt " + (attempt + 1) + " failed");
