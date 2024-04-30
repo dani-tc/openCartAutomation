@@ -1,5 +1,6 @@
 package tests;
 
+import org.testng.Assert;
 import org.testng.ITestResult;
 import reports.ReportMethods;
 import utilities.Utils;
@@ -48,6 +49,7 @@ public class VerifyPaymentMethodFieldDisplayed {
                 CheckoutPage checkoutPage = new CheckoutPage(driver);
                 
                 homePage.addProductToCart();
+                Assert.assertTrue(homePage.getAlertMessage().isDisplayed());
                 Utils.takeSnapShot(driver, "src/resources/PaymentMethodFieldDisplayed/1-AddProductToCart.png");
 
                 homePage.openCartPage();
