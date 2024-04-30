@@ -15,14 +15,14 @@
             <class name="tests.VerifyPaymentMethodFieldDisplayed"/>
         </classes>
     </test>
-    <!--<test name="CheckoutSupportsCashOnDelivery">
+    <test name="CheckoutSupportsCashOnDelivery">
         <classes>
           <class name="tests.VerifyCheckoutSupportsCashOnDeliveryPayment"/>
         </classes>
-    </test>-->
-   <!-- <test name="OrderCanBePlaced">
+    </test>
+    <test name="OrderCanBePlaced">
         <classes>
           <class name="tests.VerifyOrderCanBePlaced"/>
         </classes>
-    </test>-->
+    </test>
 </suite>

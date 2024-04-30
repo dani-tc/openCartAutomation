@@ -1,7 +1,5 @@
 package patterns.pageobject;
 
-import static org.testng.Assert.assertEquals;
-
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -117,6 +115,7 @@ public class CheckoutPage extends PageHeader {
         return existingShippingAddress;
     }
     public WebElement getpaymentMethodDropdown() { return paymentMethodDropdown; }
+    public WebElement getOrderTitle() { return ordertitle; }
 
     public void registerCredentials(String firstName, String lastName, String address, String postcode, String city, String country, String state, String password) {
 
@@ -279,7 +278,6 @@ public class CheckoutPage extends PageHeader {
             }
             orderButton.click();
             explicitWait.until(ExpectedConditions.visibilityOf(orderPageBtn));
-            assertEquals(ordertitle.getText(), "Your order has been placed!");
             break;
             } catch (Exception e){
                 System.out.println("Attempt " + (attempt + 1) + " failed");

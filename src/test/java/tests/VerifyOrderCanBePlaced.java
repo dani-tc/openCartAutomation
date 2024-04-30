@@ -1,5 +1,7 @@
 package tests;
 
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import reports.ReportMethods;
 import utilities.Utils;
@@ -18,6 +20,8 @@ import org.openqa.selenium.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static org.testng.Assert.assertEquals;
 
 public class VerifyOrderCanBePlaced {
     
@@ -49,15 +53,24 @@ public class VerifyOrderCanBePlaced {
                 CheckoutPage checkoutPage = new CheckoutPage(driver);
                 
                 homePage.addProductToCart();
+                Assert.assertTrue(homePage.getAlertMessage().isDisplayed());
                 Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/1-AddProductToCart.png");
 
                 homePage.openCartPage();
+                Assert.assertEquals(homePage.getTitle().getText(), "Checkout");
                 Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/2-LoadCheckoutPage.png");
                 
                 checkoutPage.registerCredentials(firstName, lastName, address, postcode, city, country, state, password);
+
+                Select payment = new Select(checkoutPage.getpaymentMethodDropdown());
+                WebElement selectedOption = payment.getFirstSelectedOption();
+                String selectedValue = selectedOption.getAttribute("value");
+                assertEquals(selectedValue, "cod", "Selected value is not 'cod'");
+
                 Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/3-CheckoutFilledValidation.png");
 
                 checkoutPage.clickConfirmOrderBtn();
+                assertEquals(checkoutPage.getOrderTitle().getText(), "Your order has been placed!");
                 Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/4-OrderPlacedValidation.png");
 
                 break;
