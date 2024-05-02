@@ -5,10 +5,7 @@ import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import patterns.DriverManager;
 import patterns.pageobject.CamerasPage;
 import patterns.pageobject.ComparisonPage;
@@ -27,8 +24,9 @@ public class VerifyComparisonToolAppropriateAndDisplaysFeatures {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+    @Parameters("browserType")
+    public void beforeTest(String browserType) throws FindFailed{
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browserType)); // replace with your desired browser
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyComparisonToolAppropriateAndDisplaysFeatures.html","Verify comparison tool table is appropriate", "The comparison tool side-by-side table should be appropriate and displays key specific features");
     }

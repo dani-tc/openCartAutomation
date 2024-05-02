@@ -2,7 +2,6 @@ package tests;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -17,9 +16,6 @@ import patterns.pageobject.HomePage;
 import reports.ReportMethods;
 import utilities.Utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class VerifyUsersCanAutoFillCheckoutInformation {
     private WebDriver driver = null;
     Screen screen = new Screen();
@@ -28,8 +24,9 @@ public class VerifyUsersCanAutoFillCheckoutInformation {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+    @Parameters("browserType")
+    public void beforeTest(String browserType) throws FindFailed{
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browserType)); // replace with your desired browser
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyUsersCanAutoFillCheckoutInformation.html","Verify users can auto-fill checkout information", "Verify user can auto-fill checkout fields with relevant information");
 

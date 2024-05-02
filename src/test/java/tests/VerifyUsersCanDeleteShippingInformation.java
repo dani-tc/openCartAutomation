@@ -2,7 +2,6 @@ package tests;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -16,9 +15,6 @@ import patterns.pageobject.PageFooter;
 import reports.ReportMethods;
 import utilities.Utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class VerifyUsersCanDeleteShippingInformation {
     private WebDriver driver = null;
     Screen screen = new Screen();
@@ -27,8 +23,9 @@ public class VerifyUsersCanDeleteShippingInformation {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+    @Parameters("browserType")
+    public void beforeTest(String browserType) throws FindFailed{
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browserType)); // replace with your desired browser
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyUsersCanDeleteShippingInformation.html","Verify users can delete shipping information", "Verify that the users can delete shipping information saved in their account");
     }

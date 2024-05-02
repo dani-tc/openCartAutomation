@@ -29,6 +29,9 @@ public class DriverManager {
                 case CHROME:
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("start-maximized");
+                    chromeOptions.addArguments("--disable-extensions");
+                    chromeOptions.addArguments("--disable-popup-blocking");
+                    chromeOptions.addArguments("--disable-notifications");
                     driver = new ChromeDriver(chromeOptions);
                     //Login as admin to unlock functionalities
                     Date todayChrome = new Date();
@@ -46,6 +49,7 @@ public class DriverManager {
                 case FIREFOX:
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
                     driver = new FirefoxDriver(firefoxOptions);
+                    driver.manage().window().maximize();
                     //Login as admin to unlock functionalities
                     Date todayFirefox = new Date();
                     SimpleDateFormat formatFirefox = new SimpleDateFormat("yyyyMMddHHmmss");

@@ -2,7 +2,6 @@ package tests;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -15,8 +14,6 @@ import patterns.pageobject.AddressBookPage;
 import reports.ReportMethods;
 import utilities.Utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Random;
 
 public class VerifyUserAccountCreationAndSecurePassword {
@@ -27,8 +24,9 @@ public class VerifyUserAccountCreationAndSecurePassword {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+    @Parameters("browserType")
+    public void beforeTest(String browserType) throws FindFailed{
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browserType)); // replace with your desired browser
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyUserAccountCreationAndSecurePassword.html","Verify user can create account with secure password", "Verify the user can create and account and while creating the password it is not shown.");
 

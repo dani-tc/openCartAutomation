@@ -20,7 +20,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.*;
 
@@ -34,9 +33,11 @@ public class VerifyFilterItemsAreDisplayedAndAccessible {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest(){
+    @Parameters("browserType")
+    public void beforeTest(String browserType) {
+        
+        driver = DriverManager.getDriver(BrowserType.valueOf(browserType));
 
-        driver = DriverManager.getDriver(BrowserType.EDGE);
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyFilterItemsAreDisplayedAndAccessible.html","Verify that filter options are displayed and accessible", "Verify that filter options are displayed.");
 

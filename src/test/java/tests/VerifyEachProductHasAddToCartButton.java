@@ -18,7 +18,6 @@ import reports.ReportMethods;
 import utilities.Utils;
 import java.time.Duration;
 
-
 public class VerifyEachProductHasAddToCartButton {
 
     private WebDriver driver = null;

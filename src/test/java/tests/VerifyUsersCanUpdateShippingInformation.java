@@ -14,9 +14,6 @@ import patterns.pageobject.AddressBookPage;
 import patterns.pageobject.PageFooter;
 import reports.ReportMethods;
 import utilities.Utils;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 
 public class VerifyUsersCanUpdateShippingInformation {
     private WebDriver driver = null;
@@ -26,8 +23,9 @@ public class VerifyUsersCanUpdateShippingInformation {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+    @Parameters("browserType")
+    public void beforeTest(String browserType) throws FindFailed{
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browserType)); // replace with your desired browser
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyUsersCanUpdateShippingInformation.html","Verify users can update shipping information", "Verify that the users can update shipping information for future checkouts.");
 

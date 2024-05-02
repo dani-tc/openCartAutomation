@@ -16,7 +16,6 @@ import reports.ReportMethods;
 import utilities.Utils;
 import java.time.Duration;
 
-
 public class VerifyUserCanAddProductsToShoppingCart {
 
     private WebDriver driver = null;

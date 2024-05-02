@@ -18,7 +18,6 @@ import org.testng.annotations.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class VerifyFilteringByCategory {
@@ -31,9 +30,11 @@ public class VerifyFilteringByCategory {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest(){
+    @Parameters("browserType")
+    public void beforeTest(String browserType) {
+        
+        driver = DriverManager.getDriver(BrowserType.valueOf(browserType));
 
-        driver = DriverManager.getDriver(BrowserType.EDGE);
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyFilteringByCategory.html","Verify filtering by category is available", "Verify that the users have the option to choose filtering options");
 

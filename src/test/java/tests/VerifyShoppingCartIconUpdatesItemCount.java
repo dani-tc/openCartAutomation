@@ -17,7 +17,6 @@ import reports.ReportMethods;
 import utilities.Utils;
 import java.time.Duration;
 
-
 public class VerifyShoppingCartIconUpdatesItemCount {
 
     private WebDriver driver = null;
