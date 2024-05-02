@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Saved Information Auto Fills in Checkout">
+    <parameter name="browserType" value="EDGE"/>
     <parameter name="email" value="daniel4@example.com"/>
     <parameter name="password" value="Demo"/>
     <test name="Verify user can auto fill checkout field with saved information">

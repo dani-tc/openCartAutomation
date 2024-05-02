@@ -23,8 +23,9 @@ public class VerifyUsersCanDeleteShippingInformation {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+    @Parameters("browserType")
+    public void beforeTest(String browserType) throws FindFailed{
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browserType)); // replace with your desired browser
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyUsersCanDeleteShippingInformation.html","Verify users can delete shipping information", "Verify that the users can delete shipping information saved in their account");
     }

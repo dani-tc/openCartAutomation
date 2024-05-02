@@ -24,8 +24,9 @@ public class VerifyUsersCanAutoFillCheckoutInformation {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+    @Parameters("browserType")
+    public void beforeTest(String browserType) throws FindFailed{
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browserType)); // replace with your desired browser
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyUsersCanAutoFillCheckoutInformation.html","Verify users can auto-fill checkout information", "Verify user can auto-fill checkout fields with relevant information");
 

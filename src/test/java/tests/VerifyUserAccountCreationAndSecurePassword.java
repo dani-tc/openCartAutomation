@@ -24,8 +24,9 @@ public class VerifyUserAccountCreationAndSecurePassword {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+    @Parameters("browserType")
+    public void beforeTest(String browserType) throws FindFailed{
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browserType)); // replace with your desired browser
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyUserAccountCreationAndSecurePassword.html","Verify user can create account with secure password", "Verify the user can create and account and while creating the password it is not shown.");
 
