@@ -1,6 +1,9 @@
 package tests;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -11,12 +14,14 @@ import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import patterns.DriverManager;
-import patterns.pageobject.*;
+import patterns.pageobject.HomePage;
+import patterns.pageobject.ProductsPage;
 import reports.ReportMethods;
 import utilities.Utils;
+
 import java.time.Duration;
 
-public class VerifyEachProductHasDescriptionSection {
+public class VerifyEachProductHighlightsKeyFeatures{
 
     private WebDriver driver = null;
     ReportMethods report = new ReportMethods();
@@ -26,16 +31,14 @@ public class VerifyEachProductHasDescriptionSection {
     public void beforeTest(String browser){
         driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browser));
         String browserName = driver.getClass().getSimpleName();
-        report.setupReport(browserName,"VerifyEachProductHasDescriptionSection.html",
-                "Verify each product has a description",
-                "Verify that each product has a description with relevant information");
+        report.setupReport(browserName,"VerifyEachProductHighlightsKeyFeatures.html",
+                "Verify each product description highlights key features",
+                "Verify that each product has a description with key features for costumers");
     }
 
     @Test
-    public void eclat_265() {
+    public void eclat_266() {
         HomePage home = new HomePage(driver);
-        MacDesktopPage macDesktop = new MacDesktopPage(driver);
-        PhonesPage phonesSection = new PhonesPage(driver);
         ProductsPage product = new ProductsPage(driver);
 
         //Refresh and manage captcha
@@ -43,61 +46,18 @@ public class VerifyEachProductHasDescriptionSection {
         driver.navigate().refresh();
         manageCaptcha();
 
-        //Hover element
-        WebElement desktopsCategory = home.getDesktopsCategory();
+        //Move to element and click on it
+        WebElement appleCinemaImg = home.getImageAppleCinema();
         new Actions(driver)
-                .moveToElement(desktopsCategory)
+                .moveToElement(appleCinemaImg)
                 .perform();
-
-        //Let's go to Desktops Mac section
-        WebElement macOption = home.getMacSubcategory();
-        macOption.click();
+        appleCinemaImg.click();
         manageCaptcha();
 
-        //click on first element
-        WebElement productImage = macDesktop.getMacDesktopImg();
-        productImage.click();
-        manageCaptcha();
+        WebElement featuresSection = product.getFeatureInDescription();
+        Assert.assertEquals(featuresSection.getText(),"Features:");
 
-        //Let's find the description of item
-        WebElement descriptionTab = product.getDescriptionTab();
-        Assert.assertEquals(descriptionTab.getText(),"Description");
-        new Actions(driver)
-                .moveToElement(descriptionTab)
-                .perform();
-        descriptionTab.click();                               //Click on element in case it is not selected.
-
-        WebElement descriptionText = product.getDescriptionText();
-        Assert.assertTrue(descriptionText.isDisplayed());
-
-        // -----------------------------
-
-        //Let's go to phones section
-        WebElement phones = product.getPhonesCategory();
-        new Actions(driver)
-                .moveToElement(phones)
-                .perform();
-        phones.click();
-        manageCaptcha();
-
-        //Click on first element
-        WebElement productImage2 = phonesSection.getPhoneDesktopImg();
-        productImage2.click();
-        manageCaptcha();
-
-        //Let's find the description of item
-        WebElement descriptionTab2 = product.getDescriptionTab();
-        Assert.assertEquals(descriptionTab2.getText(),"Description");
-        new Actions(driver)
-                .moveToElement(descriptionTab2)
-                .perform();
-        descriptionTab.click();                                 //Click on element in case it is not selected.
-
-        WebElement descriptionText2 = product.getDescriptionText();
-        Assert.assertTrue(descriptionText2.isDisplayed());
-
-        Utils.takeSnapShot(driver, "src/resources/VerifyEachProductHasDescriptionSection/eclat_265.png");
-
+        Utils.takeSnapShot(driver, "src/resources/VerifyEachProductHighlightsKeyFeatures/eclat_266.png");
     }
 
     public void manageCaptcha(){

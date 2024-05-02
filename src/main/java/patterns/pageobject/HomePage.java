@@ -48,6 +48,10 @@ public class HomePage extends PageHeader {
     @FindBy(css=".row:nth-child(4) .col:nth-child(4) button:nth-child(1)")
     private WebElement addToCartButtonCanon;
 
+    @FindBy(css=".row:nth-child(4) .col:nth-child(3) img")
+    private WebElement imageAppleCinema;
+
+
     private WebDriver driver;
 
     // Constructor
@@ -60,6 +64,7 @@ public class HomePage extends PageHeader {
     public WebElement getAddToCartButtonIphone(){return addToCartButtonIphone;}
     public WebElement getAddToCartButtonCinema(){return addToCartButtonCinema;}
     public WebElement getAddToCartButtonCanon(){return addToCartButtonCanon;}
+    public WebElement getImageAppleCinema(){return imageAppleCinema;}
     public WebElement getAlertMessage(){return alert;}
     public WebElement getTitle(){return title;}
 

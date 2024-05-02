@@ -9,18 +9,13 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 import org.testng.Assert;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import patterns.DriverManager;
 import patterns.pageobject.CamerasPage;
 import patterns.pageobject.HomePage;
 import patterns.pageobject.PhonesPage;
 import reports.ReportMethods;
 import utilities.Utils;
-
-
 import java.time.Duration;
 
 public class VerifyEachProductHasAddToCartButton {
@@ -29,11 +24,13 @@ public class VerifyEachProductHasAddToCartButton {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest(){
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+    @Parameters({"browser"})
+    public void beforeTest(String browser){
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browser));
         String browserName = driver.getClass().getSimpleName();
-        report.setupReport(browserName,"VerifyEachProductHasAddToCartButton.html","Verify each product has add to cart button", "Verify each product has a add to cart button");
-
+        report.setupReport(browserName,"VerifyEachProductHasAddToCartButton.html",
+                "Verify each product has add to cart button",
+                "Verify each product has a add to cart button");
     }
 
     @Test

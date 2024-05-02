@@ -9,16 +9,12 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 import org.testng.Assert;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import patterns.DriverManager;
 import patterns.pageobject.MonitorsPage;
 import patterns.pageobject.ShoppingCartPage;
 import reports.ReportMethods;
 import utilities.Utils;
-
 import java.time.Duration;
 
 public class VerifyShoppingCartIconUpdatesItemCount {
@@ -27,10 +23,13 @@ public class VerifyShoppingCartIconUpdatesItemCount {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest(){
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
+    @Parameters({"browser"})
+    public void beforeTest(String browser){
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browser));
         String browserName = driver.getClass().getSimpleName();
-        report.setupReport(browserName,"VerifyShoppingCartIconUpdatesItemCount.html","Verify cart item count updates", "Verify that the cart item count is updated when adding an item to the cart.");
+        report.setupReport(browserName,"VerifyShoppingCartIconUpdatesItemCount.html",
+                "Verify cart item count updates",
+                "Verify that the cart item count is updated when adding an item to the cart.");
 
     }
 

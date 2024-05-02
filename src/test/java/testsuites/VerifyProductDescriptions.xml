@@ -7,4 +7,19 @@
             <class name="tests.VerifyEachProductHasDescriptionSection"/>
         </classes>
     </test>
+    <test name="Each product has a description with key features of item">
+        <classes>
+            <class name="tests.VerifyEachProductHighlightsKeyFeatures"/>
+        </classes>
+    </test>
+    <test name="Each product has a description with relevant specifications">
+        <classes>
+            <class name="tests.VerifyEachProductHasRelevantSpecifications"/>
+        </classes>
+    </test>
+    <test name="Each product has a description with responsive design">
+        <classes>
+            <class name="tests.VerifyEachDescriptionIsResponsiveDifferentScreenSizes"/>
+        </classes>
+    </test>
 </suite>
