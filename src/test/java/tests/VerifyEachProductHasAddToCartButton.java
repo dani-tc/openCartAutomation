@@ -21,9 +21,7 @@ import reports.ReportMethods;
 import utilities.Utils;
 
 
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Date;
 
 public class VerifyEachProductHasAddToCartButton {
 

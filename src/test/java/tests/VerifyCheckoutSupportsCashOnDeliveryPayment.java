@@ -1,5 +1,7 @@
 package tests;
 
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import reports.ReportMethods;
 import utilities.Utils;
@@ -16,8 +18,7 @@ import org.testng.annotations.*;
 
 import org.openqa.selenium.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import static org.testng.Assert.assertEquals;
 
 public class VerifyCheckoutSupportsCashOnDeliveryPayment {
     
@@ -28,9 +29,11 @@ public class VerifyCheckoutSupportsCashOnDeliveryPayment {
     ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest(){
+    @Parameters("browserType")
+    public void beforeTest(String browserType) {
 
-        driver = DriverManager.getDriver(BrowserType.EDGE);
+        driver = DriverManager.getDriver(BrowserType.valueOf(browserType));
+
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyCheckoutSupportsCashOnDeliveryPayment.html","Verify there is Cash On Delivery option", "Verify the user can select the cash on delivery option during checkout.");
 
@@ -48,12 +51,20 @@ public class VerifyCheckoutSupportsCashOnDeliveryPayment {
                 CheckoutPage checkoutPage = new CheckoutPage(driver);
                 
                 homePage.addProductToCart();
+                Assert.assertTrue(homePage.getAlertMessage().isDisplayed());
                 Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/1-addProductToCart.png");
 
                 homePage.openCartPage();
+                Assert.assertEquals(homePage.getTitle().getText(), "Checkout");
                 Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/2-loadCheckoutPage.png");
                 
                 checkoutPage.registerCredentials(firstName, lastName, address, postcode, city, country, state, password);
+
+                Select payment = new Select(checkoutPage.getpaymentMethodDropdown());
+                WebElement selectedOption = payment.getFirstSelectedOption();
+                String selectedValue = selectedOption.getAttribute("value");
+                assertEquals(selectedValue, "cod", "Selected value is not 'cod'");
+
                 Utils.takeSnapShot(driver, "src/resources/checkoutCashOnValidationTest/3-cashOnValidation.png");
 
                 break;

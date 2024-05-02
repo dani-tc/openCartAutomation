@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="Filter Items Suite" verbose="1" >
+    <parameter name="browserType" value="EDGE"/>
     <test name="FilterItemsDisplayed">
         <classes>
             <class name="tests.VerifyFilterItemsAreDisplayedAndAccessible"/>

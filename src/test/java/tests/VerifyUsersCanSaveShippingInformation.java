@@ -14,9 +14,6 @@ import patterns.pageobject.*;
 import reports.ReportMethods;
 import utilities.Utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class VerifyUsersCanSaveShippingInformation {
     private WebDriver driver = null;
     Screen screen = new Screen();

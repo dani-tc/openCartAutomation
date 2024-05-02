@@ -14,9 +14,6 @@ import patterns.pageobject.AddressBookPage;
 import patterns.pageobject.PageFooter;
 import reports.ReportMethods;
 import utilities.Utils;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 
 public class VerifyUsersCanUpdateShippingInformation {
     private WebDriver driver = null;

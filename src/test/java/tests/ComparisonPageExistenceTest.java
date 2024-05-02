@@ -6,12 +6,9 @@ import patterns.DriverManager.BrowserType;
 import reports.ReportMethods;
 import utilities.Utils;
 
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Date;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;

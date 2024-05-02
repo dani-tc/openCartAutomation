@@ -1,5 +1,6 @@
 package tests;
 
+import org.testng.Assert;
 import org.testng.ITestResult;
 import reports.ReportMethods;
 import utilities.Utils;
@@ -14,13 +15,6 @@ import patterns.DriverManager.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
-import static org.testng.Assert.assertTrue;
-
-import org.openqa.selenium.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class VerifyPaymentMethodFieldDisplayed {
     
     private WebDriver driver = null;
@@ -29,9 +23,11 @@ public class VerifyPaymentMethodFieldDisplayed {
     Pattern image = new Pattern(pathYourSystem+"src\\resources\\cloudflare.png");
     ReportMethods report = new ReportMethods();
     @BeforeTest
-    public void beforeTest(){
+    @Parameters("browserType")
+    public void beforeTest(String browserType) {
 
-        driver = DriverManager.getDriver(BrowserType.EDGE);
+        driver = DriverManager.getDriver(BrowserType.valueOf(browserType));
+
         String browserName = driver.getClass().getSimpleName();
         report.setupReport(browserName,"VerifyPaymentMethodFieldDisplayed.html","Verify payment method field is displayed", "Verify the user can see the payment method field displayed");
 
@@ -48,10 +44,11 @@ public class VerifyPaymentMethodFieldDisplayed {
                 CheckoutPage checkoutPage = new CheckoutPage(driver);
                 
                 homePage.addProductToCart();
+                Assert.assertTrue(homePage.getAlertMessage().isDisplayed());
                 Utils.takeSnapShot(driver, "src/resources/PaymentMethodFieldDisplayed/1-AddProductToCart.png");
 
                 homePage.openCartPage();
-                assertTrue(checkoutPage.getpaymentMethodDropdown().isDisplayed(), "The paymentMethodDropdown element is not displayed");
+                Assert.assertTrue(checkoutPage.getpaymentMethodDropdown().isDisplayed(), "The paymentMethodDropdown element is not displayed");
                 Utils.takeSnapShot(driver, "src/resources/PaymentMethodFieldDisplayed/2-PaymentFieldDisplayed.png");
 
                 break;

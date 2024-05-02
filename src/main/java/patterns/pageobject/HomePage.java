@@ -12,6 +12,10 @@ import java.util.List;
 
 public class HomePage extends PageHeader {
 
+    //Title field
+    @FindBy(css ="div#content h1")
+    private WebElement title;
+
     //MacBook product
     @FindBy(css ="div.product-thumb button[aria-label='Add to Cart']")
     private List<WebElement> products;
@@ -56,6 +60,8 @@ public class HomePage extends PageHeader {
     public WebElement getAddToCartButtonIphone(){return addToCartButtonIphone;}
     public WebElement getAddToCartButtonCinema(){return addToCartButtonCinema;}
     public WebElement getAddToCartButtonCanon(){return addToCartButtonCanon;}
+    public WebElement getAlertMessage(){return alert;}
+    public WebElement getTitle(){return title;}
 
     public void addProductToCart() {
         
@@ -68,11 +74,6 @@ public class HomePage extends PageHeader {
             JavascriptExecutor executor = (JavascriptExecutor) driver;
             executor.executeScript("arguments[0].click();", products.get(1));
             explicitWait.until(ExpectedConditions.visibilityOf(alert));
-                try {
-                Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                e.printStackTrace();
-                }
             break;
             } catch (Exception e){
                 System.out.println("Attempt " + (attempt + 1) + " failed");
