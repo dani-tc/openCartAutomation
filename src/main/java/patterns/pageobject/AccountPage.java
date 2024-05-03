@@ -46,7 +46,6 @@ public class AccountPage extends PageHeader {
     public AccountPage(WebDriver driver) {
         super(driver);
         this.driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with desired browser (CHROME, EDGE, FIREFOX)
-        PageFactory.initElements(driver, this);
     }
 
     public WebElement getFirstName() {
@@ -114,6 +113,8 @@ public class AccountPage extends PageHeader {
         return true;
     }
     public void returnToHome (){
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        explicitWait.until(ExpectedConditions.elementToBeClickable(breadcrumbReturnToHome));
         breadcrumbReturnToHome.click();
     }
 }
