@@ -11,11 +11,10 @@ import java.util.List;
 
 
 public class HomePage extends PageHeader {
-    
 
-    /* //MacBook product
-    @FindBy(css ="div.product-thumb button[aria-label='Add to Cart']")
-    private WebElement macBook; */
+    //Title field
+    @FindBy(css ="div#content h1")
+    private WebElement title;
 
     //MacBook product
     @FindBy(css ="div.product-thumb button[aria-label='Add to Cart']")
@@ -49,6 +48,10 @@ public class HomePage extends PageHeader {
     @FindBy(css=".row:nth-child(4) .col:nth-child(4) button:nth-child(1)")
     private WebElement addToCartButtonCanon;
 
+    @FindBy(css=".row:nth-child(4) .col:nth-child(3) img")
+    private WebElement imageAppleCinema;
+
+
     private WebDriver driver;
 
     // Constructor
@@ -61,6 +64,9 @@ public class HomePage extends PageHeader {
     public WebElement getAddToCartButtonIphone(){return addToCartButtonIphone;}
     public WebElement getAddToCartButtonCinema(){return addToCartButtonCinema;}
     public WebElement getAddToCartButtonCanon(){return addToCartButtonCanon;}
+    public WebElement getImageAppleCinema(){return imageAppleCinema;}
+    public WebElement getAlertMessage(){return alert;}
+    public WebElement getTitle(){return title;}
 
     public void addProductToCart() {
         
@@ -73,11 +79,6 @@ public class HomePage extends PageHeader {
             JavascriptExecutor executor = (JavascriptExecutor) driver;
             executor.executeScript("arguments[0].click();", products.get(1));
             explicitWait.until(ExpectedConditions.visibilityOf(alert));
-                try {
-                Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                e.printStackTrace();
-                }
             break;
             } catch (Exception e){
                 System.out.println("Attempt " + (attempt + 1) + " failed");

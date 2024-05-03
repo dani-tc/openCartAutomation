@@ -1,5 +1,9 @@
 package tests;
 
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.ITestResult;
+import reports.ReportMethods;
 import utilities.Utils;
 
 import org.sikuli.script.FindFailed;
@@ -14,8 +18,7 @@ import org.testng.annotations.*;
 
 import org.openqa.selenium.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import static org.testng.Assert.assertEquals;
 
 public class VerifyOrderCanBePlaced {
     
@@ -23,24 +26,16 @@ public class VerifyOrderCanBePlaced {
     Screen screen = new Screen();
     String pathYourSystem = System.getProperty("user.dir") + "\\";
     Pattern image = new Pattern(pathYourSystem+"src\\resources\\cloudflare.png");
+    ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest(){
+    @Parameters("browserType")
+    public void beforeTest(String browserType) {
 
-        driver = DriverManager.getDriver(BrowserType.EDGE);
-  
-        Date today = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-        String formatedDate = format.format(today);
+        driver = DriverManager.getDriver(BrowserType.valueOf(browserType));
 
-        driver.get("https://demo.opencart.com/index.php");
-        driver.manage().addCookie(new Cookie("OCSESSID","11c0f931cf"+formatedDate+"ec"));
-        driver.manage().addCookie(new Cookie("_ga","GA1.1.2123778129.1713796835"));
-        driver.manage().addCookie(new Cookie("_ga_X8G0BRFSDF","GS1.1.1713796835.1.0.1713796835.0.0.0"));
-        driver.manage().addCookie(new Cookie("_gcl_au","1.1.534898992.1713796834"));
-        driver.manage().addCookie(new Cookie("_gid","GA1.2.438931849.1713796835"));
-        driver.manage().addCookie(new Cookie("cf_clearance","zJ9wxfXGd6JiMI3czkXFs4.kzRi6IqvPGPR1BaphLjM-1713852454-1.0.1.1-XKiVE5CVgEaZJ6pwxaPFZvAbzObkzBLWVzgfCCZoPHgWbHPgp6V.HROlod2Rr0jRzg2O5vNoDLVqbRP0JC8Gnw"));
-        driver.manage().addCookie(new Cookie("currency","USD"));
+        String browserName = driver.getClass().getSimpleName();
+        report.setupReport(browserName,"VerifyOrderCanBePlace.html","Verify a user can place an order", "Verify the user can add to their cart, complete checkout and place an order");
 
     }
 
@@ -56,15 +51,24 @@ public class VerifyOrderCanBePlaced {
                 CheckoutPage checkoutPage = new CheckoutPage(driver);
                 
                 homePage.addProductToCart();
+                Assert.assertTrue(homePage.getAlertMessage().isDisplayed());
                 Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/1-AddProductToCart.png");
 
                 homePage.openCartPage();
+                Assert.assertEquals(homePage.getTitle().getText(), "Checkout");
                 Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/2-LoadCheckoutPage.png");
                 
                 checkoutPage.registerCredentials(firstName, lastName, address, postcode, city, country, state, password);
+
+                Select payment = new Select(checkoutPage.getpaymentMethodDropdown());
+                WebElement selectedOption = payment.getFirstSelectedOption();
+                String selectedValue = selectedOption.getAttribute("value");
+                assertEquals(selectedValue, "cod", "Selected value is not 'cod'");
+
                 Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/3-CheckoutFilledValidation.png");
 
                 checkoutPage.clickConfirmOrderBtn();
+                Assert.assertEquals(checkoutPage.getOrderTitle().getText(), "Your order has been placed!");
                 Utils.takeSnapShot(driver, "src/resources/OrderCanBePlacedTest/4-OrderPlacedValidation.png");
 
                 break;
@@ -87,9 +91,15 @@ public class VerifyOrderCanBePlaced {
         }
     }
 
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        report.afterMethodReport(result);
+    }
+
     @AfterTest
     public void afterTest(){
-
+        // Writing everything to report
+        report.writeReport();
         DriverManager.quitDriver();
 
     }

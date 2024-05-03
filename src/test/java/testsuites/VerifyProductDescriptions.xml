@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Verify product description" verbose="1" >
+    <parameter name="browser" value="EDGE"/>
+    <test name="Each product has a description">
+        <classes>
+            <class name="tests.VerifyEachProductHasDescriptionSection"/>
+        </classes>
+    </test>
+    <test name="Each product has a description with key features of item">
+        <classes>
+            <class name="tests.VerifyEachProductHighlightsKeyFeatures"/>
+        </classes>
+    </test>
+    <test name="Each product has a description with relevant specifications">
+        <classes>
+            <class name="tests.VerifyEachProductHasRelevantSpecifications"/>
+        </classes>
+    </test>
+    <test name="Each product has a description with responsive design">
+        <classes>
+            <class name="tests.VerifyEachDescriptionIsResponsiveDifferentScreenSizes"/>
+        </classes>
+    </test>
+</suite>

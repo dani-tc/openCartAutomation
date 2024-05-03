@@ -1,51 +1,43 @@
 package tests;
 
-import org.openqa.selenium.Cookie;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import org.openqa.selenium.WebDriver;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 import patterns.DriverManager;
 import patterns.pageobject.AccountPage;
 import patterns.pageobject.CheckoutPage;
 import patterns.pageobject.HomePage;
+import reports.ReportMethods;
 import utilities.Utils;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class VerifyUsersCanAutoFillCheckoutInformation {
     private WebDriver driver = null;
     Screen screen = new Screen();
     String pathYourSystem = System.getProperty("user.dir") + "\\";
     Pattern image = new Pattern(pathYourSystem+"src\\resources\\cloudflare.png");
+    ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
-        //Login as admin to unlock functionalities
-        Date today = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-        String formatedDate = format.format(today);
-        driver.get("https://demo.opencart.com/index.php");
-        driver.manage().addCookie(new Cookie("OCSESSID","11c0f931cf"+formatedDate+"ec"));
-        driver.manage().addCookie(new Cookie("_ga","GA1.1.2123778129.1713796835"));
-        driver.manage().addCookie(new Cookie("_ga_X8G0BRFSDF","GS1.1.1713796835.1.0.1713796835.0.0.0"));
-        driver.manage().addCookie(new Cookie("_gcl_au","1.1.534898992.1713796834"));
-        driver.manage().addCookie(new Cookie("_gid","GA1.2.438931849.1713796835"));
-        driver.manage().addCookie(new Cookie("cf_clearance","zJ9wxfXGd6JiMI3czkXFs4.kzRi6IqvPGPR1BaphLjM-1713852454-1.0.1.1-XKiVE5CVgEaZJ6pwxaPFZvAbzObkzBLWVzgfCCZoPHgWbHPgp6V.HROlod2Rr0jRzg2O5vNoDLVqbRP0JC8Gnw"));
-        driver.manage().addCookie(new Cookie("currency","USD"));
+    @Parameters("browserType")
+    public void beforeTest(String browserType) throws FindFailed{
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browserType)); // replace with your desired browser
+        String browserName = driver.getClass().getSimpleName();
+        report.setupReport(browserName,"VerifyUsersCanAutoFillCheckoutInformation.html","Verify users can auto-fill checkout information", "Verify user can auto-fill checkout fields with relevant information");
+
+
     }
 
 
     @Test
     @Parameters({"email","password"})
     public void UsersCanSaveShippingInformation(String email, String password) throws FindFailed {
+        ExtentTest test = report.getTest();
         final int MAX_ATTEMPTS = 20;
         boolean passedLogin = false;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
@@ -54,17 +46,24 @@ public class VerifyUsersCanAutoFillCheckoutInformation {
                 HomePage homePage = new HomePage(driver);
                 CheckoutPage checkoutPage = new CheckoutPage(driver);
                 accountPage.clickNavMyAccountDropdown();
+                test.log(Status.INFO, "Click My Account link");
                 if(passedLogin){
                     accountPage.clickNavMyAccountOption();
+                    test.log(Status.INFO, "Click My Account link");
                 }else{
                     accountPage.clickNavLogin();
+                    test.log(Status.INFO, "Click Login link");
                     passedLogin = accountPage.login(email,password);
+                    test.log(Status.INFO, "Login");
                     Utils.takeSnapShot(driver, "src/resources/AutoFill_in_CheckoutResults/AutoFill_InformationResults/1-loginSuccessful.png");
                 }
                 accountPage.returnToHome();
+                test.log(Status.INFO, "Return to home");
                 homePage.addProductToCart();
+                test.log(Status.INFO, "Add product");
                 Utils.takeSnapShot(driver, "src/resources/AutoFill_in_CheckoutResults/AutoFill_InformationResults/2-addProductToCart.png");
                 homePage.openCartPage();
+                test.log(Status.INFO, "Open Cart and checkout");
                 Utils.takeSnapShot(driver, "src/resources/AutoFill_in_CheckoutResults/AutoFill_InformationResults/3-loadCheckoutPage.png");
                 Assert.assertEquals(checkoutPage.getExistingPaymentAddress().getText(),"I want to use an existing address");
                 Assert.assertEquals(checkoutPage.getExistingShippingAddress().getText(),"I want to use an existing address");
@@ -82,9 +81,15 @@ public class VerifyUsersCanAutoFillCheckoutInformation {
             }
         }
     }
+
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        report.afterMethodReport(result);
+    }
+
     @AfterTest
     public void afterTest(){
-        //driver.quit();
+        report.writeReport();
         DriverManager.quitDriver();
     }
 }

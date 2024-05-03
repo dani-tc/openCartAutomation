@@ -1,7 +1,6 @@
 package tests;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -9,40 +8,28 @@ import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 import patterns.DriverManager;
-
 import patterns.pageobject.*;
+import reports.ReportMethods;
 import utilities.Utils;
-
 import java.time.Duration;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class VerifyUserCanAddProductsToShoppingCart {
 
     private WebDriver driver = null;
+    ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest(){
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("start-maximized");
+    @Parameters({"browser"})
+    public void beforeTest(String browser){
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browser));
+        String browserName = driver.getClass().getSimpleName();
+        report.setupReport(browserName,"VerifyUserCanAddProductsToShoppingCart.html",
+                "Verify users can add products to the shopping cart",
+                "Verify that users can add products to the shopping cart when clicking on the add to cart button.");
 
-        Date today = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-        String formatedDate = format.format(today);
-
-        driver.get("https://demo.opencart.com/index.php");
-        driver.manage().addCookie(new Cookie("OCSESSID","11c0f931cf"+formatedDate+"ec"));
-        driver.manage().addCookie(new Cookie("_ga","GA1.1.2123778129.1713796835"));
-        driver.manage().addCookie(new Cookie("_ga_X8G0BRFSDF","GS1.1.1713796835.1.0.1713796835.0.0.0"));
-        driver.manage().addCookie(new Cookie("_gcl_au","1.1.534898992.1713796834"));
-        driver.manage().addCookie(new Cookie("_gid","GA1.2.438931849.1713796835"));
-        driver.manage().addCookie(new Cookie("cf_clearance","zJ9wxfXGd6JiMI3czkXFs4.kzRi6IqvPGPR1BaphLjM-1713852454-1.0.1.1-XKiVE5CVgEaZJ6pwxaPFZvAbzObkzBLWVzgfCCZoPHgWbHPgp6V.HROlod2Rr0jRzg2O5vNoDLVqbRP0JC8Gnw"));
-        driver.manage().addCookie(new Cookie("currency","USD"));
     }
 
     @Test
@@ -133,8 +120,15 @@ public class VerifyUserCanAddProductsToShoppingCart {
         }
     }
 
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        report.afterMethodReport(result);
+    }
+
     @AfterTest
     public void afterTest(){
+        // Writing everything to report
+        report.writeReport();
         DriverManager.quitDriver();
     }
 }

@@ -66,12 +66,11 @@ public class AddressBookPage extends AccountPage {
     public AddressBookPage(WebDriver driver) {
         super(driver);
         this.driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with desired browser (CHROME, EDGE, FIREFOX)
-        PageFactory.initElements(driver, this);
     }
 
     public WebElement getAccountCreatedMessage() {
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        explicitWait.until(ExpectedConditions.visibilityOf(accountCreatedMessage));
+        explicitWait.until(ExpectedConditions.textToBePresentInElement(accountCreatedMessage,"Your Account Has Been Created!"));
         return accountCreatedMessage;
     }
 

@@ -1,5 +1,8 @@
 package tests;
 
+import org.testng.Assert;
+import org.testng.ITestResult;
+import reports.ReportMethods;
 import utilities.Utils;
 
 import org.sikuli.script.FindFailed;
@@ -12,37 +15,21 @@ import patterns.DriverManager.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
-import static org.testng.Assert.assertTrue;
-
-import org.openqa.selenium.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class VerifyPaymentMethodFieldDisplayed {
     
     private WebDriver driver = null;
     Screen screen = new Screen();
     String pathYourSystem = System.getProperty("user.dir") + "\\";
     Pattern image = new Pattern(pathYourSystem+"src\\resources\\cloudflare.png");
-
+    ReportMethods report = new ReportMethods();
     @BeforeTest
-    public void beforeTest(){
+    @Parameters("browserType")
+    public void beforeTest(String browserType) {
 
-        driver = DriverManager.getDriver(BrowserType.EDGE);
-  
-        Date today = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-        String formatedDate = format.format(today);
+        driver = DriverManager.getDriver(BrowserType.valueOf(browserType));
 
-        driver.get("https://demo.opencart.com/index.php");
-        driver.manage().addCookie(new Cookie("OCSESSID","11c0f931cf"+formatedDate+"ec"));
-        driver.manage().addCookie(new Cookie("_ga","GA1.1.2123778129.1713796835"));
-        driver.manage().addCookie(new Cookie("_ga_X8G0BRFSDF","GS1.1.1713796835.1.0.1713796835.0.0.0"));
-        driver.manage().addCookie(new Cookie("_gcl_au","1.1.534898992.1713796834"));
-        driver.manage().addCookie(new Cookie("_gid","GA1.2.438931849.1713796835"));
-        driver.manage().addCookie(new Cookie("cf_clearance","zJ9wxfXGd6JiMI3czkXFs4.kzRi6IqvPGPR1BaphLjM-1713852454-1.0.1.1-XKiVE5CVgEaZJ6pwxaPFZvAbzObkzBLWVzgfCCZoPHgWbHPgp6V.HROlod2Rr0jRzg2O5vNoDLVqbRP0JC8Gnw"));
-        driver.manage().addCookie(new Cookie("currency","USD"));
+        String browserName = driver.getClass().getSimpleName();
+        report.setupReport(browserName,"VerifyPaymentMethodFieldDisplayed.html","Verify payment method field is displayed", "Verify the user can see the payment method field displayed");
 
     }
 
@@ -57,10 +44,11 @@ public class VerifyPaymentMethodFieldDisplayed {
                 CheckoutPage checkoutPage = new CheckoutPage(driver);
                 
                 homePage.addProductToCart();
+                Assert.assertTrue(homePage.getAlertMessage().isDisplayed());
                 Utils.takeSnapShot(driver, "src/resources/PaymentMethodFieldDisplayed/1-AddProductToCart.png");
 
                 homePage.openCartPage();
-                assertTrue(checkoutPage.getpaymentMethodDropdown().isDisplayed(), "The paymentMethodDropdown element is not displayed");
+                Assert.assertTrue(checkoutPage.getpaymentMethodDropdown().isDisplayed(), "The paymentMethodDropdown element is not displayed");
                 Utils.takeSnapShot(driver, "src/resources/PaymentMethodFieldDisplayed/2-PaymentFieldDisplayed.png");
 
                 break;
@@ -83,9 +71,15 @@ public class VerifyPaymentMethodFieldDisplayed {
         }
     }
 
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        report.afterMethodReport(result);
+    }
+
     @AfterTest
     public void afterTest(){
-
+        // Writing everything to report
+        report.writeReport();
         DriverManager.quitDriver();
 
     }

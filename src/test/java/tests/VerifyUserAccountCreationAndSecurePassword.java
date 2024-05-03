@@ -1,21 +1,19 @@
 package tests;
 
-import org.openqa.selenium.Cookie;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import org.openqa.selenium.WebDriver;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 import patterns.DriverManager;
 import patterns.pageobject.AddressBookPage;
+import reports.ReportMethods;
 import utilities.Utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Random;
 
 public class VerifyUserAccountCreationAndSecurePassword {
@@ -23,42 +21,40 @@ public class VerifyUserAccountCreationAndSecurePassword {
     Screen screen = new Screen();
     String pathYourSystem = System.getProperty("user.dir") + "\\";
     Pattern image = new Pattern(pathYourSystem+"src\\resources\\cloudflare.png");
+    ReportMethods report = new ReportMethods();
 
     @BeforeTest
-    public void beforeTest() throws FindFailed{
-        driver = DriverManager.getDriver(DriverManager.BrowserType.EDGE); // replace with your desired browser
-        //Login as admin to unlock functionalities
-        Date today = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-        String formatedDate = format.format(today);
-        driver.get("https://demo.opencart.com/");
-        driver.manage().addCookie(new Cookie("OCSESSID","11c0f931cf"+formatedDate+"ec"));
-        driver.manage().addCookie(new Cookie("_ga","GA1.1.2123778129.1713796835"));
-        driver.manage().addCookie(new Cookie("_ga_X8G0BRFSDF","GS1.1.1713796835.1.0.1713796835.0.0.0"));
-        driver.manage().addCookie(new Cookie("_gcl_au","1.1.534898992.1713796834"));
-        driver.manage().addCookie(new Cookie("_gid","GA1.2.438931849.1713796835"));
-        driver.manage().addCookie(new Cookie("cf_clearance","zJ9wxfXGd6JiMI3czkXFs4.kzRi6IqvPGPR1BaphLjM-1713852454-1.0.1.1-XKiVE5CVgEaZJ6pwxaPFZvAbzObkzBLWVzgfCCZoPHgWbHPgp6V.HROlod2Rr0jRzg2O5vNoDLVqbRP0JC8Gnw"));
-        driver.manage().addCookie(new Cookie("currency","USD"));
+    @Parameters("browserType")
+    public void beforeTest(String browserType) throws FindFailed{
+        driver = DriverManager.getDriver(DriverManager.BrowserType.valueOf(browserType)); // replace with your desired browser
+        String browserName = driver.getClass().getSimpleName();
+        report.setupReport(browserName,"VerifyUserAccountCreationAndSecurePassword.html","Verify user can create account with secure password", "Verify the user can create and account and while creating the password it is not shown.");
+
     }
 
     @Test
     @Parameters({"firstName","lastName","email","password"})
     public void UsersCanCreateAccountWithSecurePassword(String firstName, String lastName, String email, String password) throws FindFailed {
+        ExtentTest test = report.getTest();
         final int MAX_ATTEMPTS = 20;
         AddressBookPage addressBook = new AddressBookPage(driver);
         boolean passedCreateAccount = false;
         Random rand = new Random();
-        int randomNumberEmail = rand.nextInt(100);
+        int randomNumberEmail = rand.nextInt(1000);
         String randomEmail = randomNumberEmail+email+randomNumberEmail;
         for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             try {
                 if(!passedCreateAccount){
                     addressBook.clickNavMyAccountDropdown();
+                    test.log(Status.INFO, "Click My Account link");
                     addressBook.clickNavRegister();
+                    test.log(Status.INFO, "Click Register link");
                     addressBook.fillRegister(firstName,lastName,randomEmail,password);
+                    test.log(Status.INFO, "Fill register");
                     Assert.assertEquals(addressBook.getPasswordInput().getText(),"");
                     Utils.takeSnapShot(driver, "src/resources/AccountCreation_and_SecurePassword/1-registerData.png");
                     passedCreateAccount = addressBook.register();
+                    test.log(Status.INFO, "Register account");
                     Utils.takeSnapShot(driver, "src/resources/AccountCreation_and_SecurePassword/2-accountCreated.png");
                 }
                 Assert.assertEquals(addressBook.getAccountCreatedMessage().getText(),"Your Account Has Been Created!");
@@ -75,10 +71,14 @@ public class VerifyUserAccountCreationAndSecurePassword {
             }
         }
     }
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        report.afterMethodReport(result);
+    }
 
     @AfterTest
     public void afterTest(){
-        //driver.quit();
+        report.writeReport();
         DriverManager.quitDriver();
     }
 }

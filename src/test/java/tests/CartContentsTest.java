@@ -1,14 +1,12 @@
 package tests;
 
+import org.testng.ITestResult;
 import patterns.DriverManager;
 import patterns.DriverManager.BrowserType;
+import reports.ReportMethods;
 import utilities.Utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -30,26 +28,15 @@ public class CartContentsTest {
     private WebDriver driver;
     private ProductsPage productsPage;
     private ShoppingCartPage cartPage;
+    ReportMethods report = new ReportMethods();
 
     @BeforeTest
     @Parameters("browserType")
     public void beforeTest(String browserType) {
         driver = DriverManager.getDriver(BrowserType.valueOf(browserType));
         productsPage = new ProductsPage(driver);
-
-        Date today = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-        String formatedDate = format.format(today);
-
-        driver.get("https://demo.opencart.com/index.php");
-        driver.manage().addCookie(new Cookie("OCSESSID", "11c0f931cf" + formatedDate + "ec"));
-        driver.manage().addCookie(new Cookie("_ga", "GA1.1.2123778129.1713796835"));
-        driver.manage().addCookie(new Cookie("_ga_X8G0BRFSDF", "GS1.1.1713796835.1.0.1713796835.0.0.0"));
-        driver.manage().addCookie(new Cookie("_gcl_au", "1.1.534898992.1713796834"));
-        driver.manage().addCookie(new Cookie("_gid", "GA1.2.438931849.1713796835"));
-        driver.manage().addCookie(new Cookie("cf_clearance",
-                "zJ9wxfXGd6JiMI3czkXFs4.kzRi6IqvPGPR1BaphLjM-1713852454-1.0.1.1-XKiVE5CVgEaZJ6pwxaPFZvAbzObkzBLWVzgfCCZoPHgWbHPgp6V.HROlod2Rr0jRzg2O5vNoDLVqbRP0JC8Gnw"));
-        driver.manage().addCookie(new Cookie("currency", "USD"));
+        String browserName = driver.getClass().getSimpleName();
+        report.setupReport(browserName,"CartContentsTest","Verify cart content is visible", "Verify relevant cart elements are ");
 
         WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
@@ -248,8 +235,14 @@ public class CartContentsTest {
 
     }
 
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        report.afterMethodReport(result);
+    }
+
     @AfterTest
     public void afterTest() {
+        report.writeReport();
         DriverManager.quitDriver();
     }
 }
